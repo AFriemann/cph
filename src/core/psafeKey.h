@@ -7,6 +7,9 @@
 
 // TODO: make createKey password typeindifferent
 int createKey(char* buffer, const char *profile, const char *password, const int keySize);
-int writeStringToIntArray(const char* string, int* array);
+int writeStringToIntArray(const char* string, int* array, const int arraySize);
+int writeIntArrayToString(const int *array, char *string, const int arraySize);
+int multiplicateArrayElements(int* array1, const int* array2, const int arraySize);
+int moduloArray(int* array, const int arraySize);
 
 #endif
