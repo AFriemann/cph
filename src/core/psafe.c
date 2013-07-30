@@ -85,7 +85,7 @@ int main(int argc, char **argv) {
 
   // allocate space for key and set it
   char *keyBuffer = (char*)calloc(keySize, sizeof(char));
-  createKey(keyBuffer, profile, password);
+  createKey(keyBuffer, profile, password, keySize);
 
   // delete password and free space
   memset(password, 0, maxParamSize*sizeof(char));
