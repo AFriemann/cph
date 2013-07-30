@@ -3,9 +3,9 @@
 int createKey(char* buffer, const char *profile, const char *password, const int keySize) {
  
   // create array with size keysize for profile and password
+  // TODO: move intProfile to buffer
   int *intProfile = (int*)malloc(keySize*sizeof(int));
   int *intPassword = (int*)malloc(keySize*sizeof(int));
-
   // for given profile abc and keysize 5 produce array like 
   //    [a,b,c,a,b]
   // for given profile abcdefgh and keysize 5 produce array like
