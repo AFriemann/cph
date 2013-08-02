@@ -11,14 +11,14 @@ int createKey(char* buffer, const char *profile, const char *password, const int
   // for given profile abcdefgh and keysize 5 produce array like
   //    [a+f,b+g,c+h,d,e]
   writeStringToIntArray(profile, intProfile, keySize);
-  //moduloArray(intProfile, keySize);
+  moduloArray(intProfile, keySize);
   writeStringToIntArray(password, intPassword, keySize);
-  //moduloArray(intPassword, keySize);
+  moduloArray(intPassword, keySize);
   // multiply profile array with password array as in 
   //    [pr1*pw1,pr2*pw2,pr3*pw3,...]
   multiplicateArrayElements(intProfile, intPassword, keySize);
   addArrayElements(intProfile, intPassword, keySize);
-  //moduloArray(intProfile, keySize);
+  moduloArray(intProfile, keySize);
   // multiply profile array elements with their index as in
   //    [pr1*1,pr2*2,pr3*3,..]
   arrayElementIndexMultiplication(intProfile, keySize);
@@ -81,6 +81,7 @@ int writeStringToIntArray(const char* string, int* array, const int arraySize) {
   int index = 0;
   int maxIndex = arraySize;
   int stringIndex = 0;
+
   while (index <= maxIndex) {
     if (stringIndex == stringLength) {
       stringIndex = 0;

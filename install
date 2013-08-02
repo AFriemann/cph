@@ -1,0 +1,34 @@
+#!/bin/sh
+
+CC=gcc
+CFLAGS="-Wall -o"
+LDFLAGS=
+
+LIBS=
+
+MAINFOLDER="src/core"
+TESTFOLDER="src/test"
+
+MAINBIN="psafe"
+TESTBIN="test"
+
+BIN=
+SOURCES=
+
+case "$1" in
+  test )
+    BIN=$TESTBIN
+    SOURCES="$TESTFOLDER/psafeKeyTest.c $MAINFOLDER/psafeKey.c"
+    LIBS="`pkg-config --libs cunit`"
+    ;;
+  clean )
+    rm -f $MAINBIN $TESTBIN
+    exit 0
+    ;;
+  * )
+    BIN=$MAINBIN
+    SOURCES="$MAINFOLDER/psafe.c $MAINFOLDER/psafeKey.c"
+    ;;
+esac
+
+($CC $CFLAGS $BIN $SOURCES $LIBS)

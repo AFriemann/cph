@@ -16,6 +16,8 @@ int main(int argc, char **argv) {
   while (1) {
     /* getopt_long stores the option index here. */
     int option_index = 0;
+    
+     
 
     arg = getopt_long (argc, argv, "cf:hp",
                     long_options, &option_index);
