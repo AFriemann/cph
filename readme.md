@@ -43,6 +43,7 @@ Todo
 
 - clipboard (only --print-key working yet)
 - clipboard deletion
+  -> http://www.jwz.org/doc/x-cut-and-paste.html
 - better key algorithm
 - config wizard
 - file reading and handling

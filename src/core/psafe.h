@@ -35,6 +35,7 @@ static struct option long_options[] = {
   {"stored-pass",     no_argument,  &FLAG_PWDFROMFILE, 1}, // also p
   /* These options don't set a flag.
     We distinguish them by their indices. */
+  //{"print-key",        no_argument,   0, 'p'},
   {"help",        no_argument,        0, 'h'},
   {"configure",   no_argument,        0, 'c'},
   {"file",        required_argument,  0, 'f'},
