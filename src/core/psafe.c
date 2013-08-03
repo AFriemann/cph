@@ -44,10 +44,6 @@ int main(int argc, char **argv) {
         fprintf(stdout, "%s", helpMsg);
         return 0;
 
-      case 'p':
-        FLAG_PWDFROMFILE = 1;
-        break;
-
       case '?':
         /* getopt_long already printed an error message. */
         break;
