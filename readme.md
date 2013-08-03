@@ -44,6 +44,7 @@ Todo
 - clipboard (only --print-key working yet)
 - clipboard deletion
   -> http://www.jwz.org/doc/x-cut-and-paste.html
+  -> http://tronche.com/gui/x/xlib/
 - better key algorithm
 - config wizard
 - file reading and handling

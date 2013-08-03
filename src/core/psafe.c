@@ -120,6 +120,15 @@ char* readPassFromFile(FILE *file) {
 
 void keyToClipboard(char* key) {
   // TODO
+  if (FLAG_WINDOWS) {
+    //
+  } else {
+    // X11
+  }
+}
+
+void deleteSelection(void) {
+
 }
 
 void configWizard(void) {

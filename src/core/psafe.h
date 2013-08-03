@@ -1,6 +1,16 @@
 #ifndef PSAFE
 #define PSAFE
 
+#ifdef _WIN32
+static int FLAG_WINDOWS = 1;
+#include <windows.h>
+#endif
+
+#ifdef linux
+static int FLAG_WINDOWS = 0;
+#include <X11/Xlib.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,8 +18,6 @@
 #include <getopt.h>
 #include <ctype.h>
 #include "psafeKey.h"
-
-
 
 static int FLAG_PRINT = 0;
 static int FLAG_PWDFROMFILE = 0;
