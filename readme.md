@@ -44,3 +44,6 @@ Todo
 - clipboard (only --print-key working yet)
 - clipboard deletion
 - better key algorithm
+- config wizard
+- file reading and handling
+- more input strings
