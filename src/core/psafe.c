@@ -93,7 +93,7 @@ int main(int argc, char **argv) {
 
   // output of key
   if (FLAG_PRINT)
-    printf("%s\n", keyBuffer);
+    printf("Your Key: %s\n", keyBuffer);
   else
     keyToClipboard(keyBuffer);
 

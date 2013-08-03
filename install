@@ -1,7 +1,7 @@
 #!/bin/sh
 
 CC=gcc
-CFLAGS="-Wall -o"
+CFLAGS="-g -Wall -o"
 LDFLAGS=
 
 LIBS=
@@ -9,26 +9,41 @@ LIBS=
 MAINFOLDER="src/core"
 TESTFOLDER="src/test"
 
-MAINBIN="psafe"
-TESTBIN="test"
-
 BIN=
 SOURCES=
 
+function compile {
+  ($CC $CFLAGS $BIN $SOURCES $LIBS)
+  return $?
+}
+
+function setMainSources {
+  BIN="psafe"
+  SOURCES="$MAINFOLDER/psafe.c $MAINFOLDER/psafeKey.c $MAINFOLDER/literalOperations.c"
+  return $?   
+}
+
+function setTestSources {
+  BIN="test"
+  SOURCES="$TESTFOLDER/psafeTestSuite.c $TESTFOLDER/psafeKeyTests.c $TESTFOLDER/literalOperationsTests.c $MAINFOLDER/psafeKey.c $MAINFOLDER/literalOperations.c"
+  LIBS="`pkg-config --libs cunit`"
+  return 0
+}
+
 case "$1" in
   test )
-    BIN=$TESTBIN
-    SOURCES="$TESTFOLDER/psafeKeyTest.c $MAINFOLDER/psafeKey.c"
-    LIBS="`pkg-config --libs cunit`"
+    setTestSources
+    compile
+    exit $?
     ;;
   clean )
     rm -f $MAINBIN $TESTBIN
     exit 0
     ;;
   * )
-    BIN=$MAINBIN
-    SOURCES="$MAINFOLDER/psafe.c $MAINFOLDER/psafeKey.c"
+    setMainSources
+    compile
+    exit $?
     ;;
 esac
 
-($CC $CFLAGS $BIN $SOURCES $LIBS)

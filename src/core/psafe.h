@@ -6,6 +6,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <getopt.h>
+#include <ctype.h>
 #include "psafeKey.h"
 
 
