@@ -7,6 +7,7 @@
 #include <CUnit/Basic.h>
 
 #include "literalOperationsTests.h"
+#include "arrayOperationsTests.h"
 #include "psafeKeyTests.h"
 
 int init_suite1(void);

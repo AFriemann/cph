@@ -22,11 +22,7 @@ int main() {
    /* NOTE - ORDER IS IMPORTANT - MUST TEST fread() AFTER fprintf() */
    if (   (NULL == CU_add_test(pSuite, "createKey() length should match given argument", keyLengthTestWrapper))
        || (NULL == CU_add_test(pSuite, "createKey() should return the same key for the same input", createKeySameInputTestWrapper))
-       || (NULL == CU_add_test(pSuite, "createKey() should return different keys for different input", createKeyDifferentInputTestWrapper))
-       || (NULL == CU_add_test(pSuite, "addArrayElements() should return the correct results", addArrayElementsTest))
-       || (NULL == CU_add_test(pSuite, "multiplicateArrayElements should return the correct results", multiplicateArrayElementsTest))
-       || (NULL == CU_add_test(pSuite, "arrayElementIndexMultiplication() should return the correct results", arrayElementIndexMultiplicationTest))
-       )
+       || (NULL == CU_add_test(pSuite, "createKey() should return different keys for different input", createKeyDifferentInputTestWrapper)))
    {
       CU_cleanup_registry();
       return CU_get_error();
@@ -43,9 +39,23 @@ int main() {
    if (   (NULL == CU_add_test(pSuite, "literalAddition() should return a value between 33 and 126", literalAdditionTest))
        || (NULL == CU_add_test(pSuite, "literalMultiplication() should return a value between 33 and 126", literalMultiplicationTest))
        || (NULL == CU_add_test(pSuite, "writeStringToIntArray() should return the correct array", writeStringToIntArrayTest))
-       || (NULL == CU_add_test(pSuite, "writeIntArrayToString should return the correct string", writeIntArrayToStringTest))
+       || (NULL == CU_add_test(pSuite, "writeIntArrayToString should return the correct string", writeIntArrayToStringTest)))
+   {
+      CU_cleanup_registry();
+      return CU_get_error();
+   }
 
-       )
+   pSuite = CU_add_suite("arrayOperations Suite", init_suite1, clean_suite1);
+   if (NULL == pSuite) {
+      CU_cleanup_registry();
+      return CU_get_error();
+   }
+
+   /* add the tests to the suite */
+   /* NOTE - ORDER IS IMPORTANT - MUST TEST fread() AFTER fprintf() */
+   if (   (NULL == CU_add_test(pSuite, "addArrayElements() should return the correct results", addArrayElementsTest))
+       || (NULL == CU_add_test(pSuite, "multiplicateArrayElements should return the correct results", multiplicateArrayElementsTest))
+       || (NULL == CU_add_test(pSuite, "arrayElementIndexMultiplication() should return the correct results", arrayElementIndexMultiplicationTest)) )
    {
       CU_cleanup_registry();
       return CU_get_error();

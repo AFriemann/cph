@@ -23,9 +23,4 @@ void createKeySameInputTestWrapper(void);
 int inputLongerThanOutputTest(char **stringBuffer);
 void inputLongerThanOutputTestWrapper(void);
 
-// Array modification tests
-void addArrayElementsTest(void); 
-void multiplicateArrayElementsTest(void); 
-void arrayElementIndexMultiplicationTest(void); 
-
 #endif

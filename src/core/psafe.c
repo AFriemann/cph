@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
 
   if (remainingParams < 2) {
     FILE* file = fopen(configFile, "r");
-    keySize = readKeySizeFromFile(file);
+    keySize = 12; // readKeySizeFromFile(file); // TODO
     profile = (remainingParams == 0) ? readProfileFromFile(file) : argv[optind];
   } else {
     profile = argv[optind];
@@ -90,8 +90,11 @@ int main(int argc, char **argv) {
   // output of key
   if (FLAG_PRINT)
     printf("Your Key: %s\n", keyBuffer);
-  else
+  else {
+    // TODO TODO !!!
+    printf("Your Key: %s\n", keyBuffer);
     keyToClipboard(keyBuffer);
+  }
 
   // delete key and free space
   memset(keyBuffer, 0, keySize*sizeof(char));
@@ -116,7 +119,7 @@ char* readPassFromFile(FILE *file) {
 }
 
 void keyToClipboard(char* key) {
-  printf("nothing yet");
+  // TODO
 }
 
 void configWizard(void) {

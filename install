@@ -9,6 +9,9 @@ LIBS=
 MAINFOLDER="src/core"
 TESTFOLDER="src/test"
 
+MAINSOURCE="$MAINFOLDER/psafe.c"
+SUPPSOURCES="$MAINFOLDER/psafeKey.c $MAINFOLDER/literalOperations.c $MAINFOLDER/arrayOperations.c"
+
 BIN=
 SOURCES=
 
@@ -19,13 +22,13 @@ function compile {
 
 function setMainSources {
   BIN="psafe"
-  SOURCES="$MAINFOLDER/psafe.c $MAINFOLDER/psafeKey.c $MAINFOLDER/literalOperations.c"
+  SOURCES="$MAINSOURCE $SUPPSOURCES"
   return $?   
 }
 
 function setTestSources {
   BIN="test"
-  SOURCES="$TESTFOLDER/psafeTestSuite.c $TESTFOLDER/psafeKeyTests.c $TESTFOLDER/literalOperationsTests.c $MAINFOLDER/psafeKey.c $MAINFOLDER/literalOperations.c"
+  SOURCES="$TESTFOLDER/psafeTestSuite.c $TESTFOLDER/psafeKeyTests.c $TESTFOLDER/arrayOperationsTests.c $TESTFOLDER/literalOperationsTests.c $SUPPSOURCES"
   LIBS="`pkg-config --libs cunit`"
   return 0
 }
