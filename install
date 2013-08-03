@@ -31,7 +31,7 @@ function setMainSources {
 
 function setTestSources {
   BIN=$TESTBIN
-  SOURCES="$TESTFOLDER/psafeTestSuite.c $TESTFOLDER/psafeKeyTests.c $TESTFOLDER/arrayOperationsTests.c $TESTFOLDER/literalOperationsTests.c $SUPPSOURCES"
+  SOURCES="$TESTFOLDER/psafeTests.c $TESTFOLDER/psafeKeyTests.c $TESTFOLDER/arrayOperationsTests.c $TESTFOLDER/literalOperationsTests.c $SUPPSOURCES"
   LIBS="`pkg-config --libs cunit`"
   return 0
 }
