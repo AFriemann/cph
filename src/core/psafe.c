@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
     /* getopt_long stores the option index here. */
     int option_index = 0;
 
-    arg = getopt_long (argc, argv, "cf:hp",
+    arg = getopt_long (argc, argv, "cf:hlt:",
                     long_options, &option_index);
 
     /* Detect the end of the options. */
@@ -43,6 +43,18 @@ int main(int argc, char **argv) {
       case 'h':
         fprintf(stdout, "%s", helpMsg);
         return 0;
+
+      case 'l':
+        FLAG_WRAPPER = 1;
+        break;
+
+      case 't': 
+        clipboardTimeout = strtoimax(optarg, NULL, 10);
+        if (clipboardTimeout == INTMAX_MAX && errno == ERANGE) {
+          fprintf(stderr, "Expected an integer value between 1 and 64 for --timeout argument, but was %s\n", optarg); 
+          return(1);
+        }
+        break;
 
       case '?':
         /* getopt_long already printed an error message. */
@@ -89,11 +101,18 @@ int main(int argc, char **argv) {
 
   // output of key
   if (FLAG_PRINT)
-    printf("Your Key: %s\n", keyBuffer);
+    fprintf(stdout, "%s\n", keyBuffer);
   else {
-    // TODO TODO !!!
-    printf("Your Key: %s\n", keyBuffer);
-    keyToClipboard(keyBuffer);
+    if (FLAG_WIN) {
+      writeStringToClipboard(keyBuffer);
+      handleSelectionRequest(clipboardTimeout);
+      clearClipboard();
+    } else {
+      // not going to implement X11 clipboard handling, no thanks
+      if (!FLAG_WRAPPER)
+        fprintf(stderr, "Clipboard management not implemented for linux, please use the provided python wrapper!\n");
+      fprintf(stdout, "%s\n", keyBuffer);
+    }
   }
 
   // delete key and free space
@@ -103,7 +122,7 @@ int main(int argc, char **argv) {
   if (file != NULL) 
     fclose(file);
 
-  return 0;
+  return FLAG_ERROR;
 }
 
 int readKeySizeFromFile(FILE *file) {
@@ -118,21 +137,8 @@ char* readPassFromFile(FILE *file) {
   return NULL;
 }
 
-void keyToClipboard(char* key) {
-  // TODO
-  if (FLAG_WINDOWS) {
-    //
-  } else {
-    // X11
-  }
-}
-
-void deleteSelection(void) {
-
-}
-
 void configWizard(void) {
-  printf("This will guide you through the configuration process and create a new config file in your home folder.\n\
+  fprintf(stdout, "This will guide you through the configuration process and create a new config file in your home folder.\n\
       There is, however, a config file available with this binary and you could also use that for manual configuration,\n\
       would you like to use that instead? [y]/n");
   if(tolower(getchar()) == 'y') {
