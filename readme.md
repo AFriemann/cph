@@ -41,11 +41,11 @@ same profile, password and key length will always result in the same key.
 Todo
 ====
 
-- clipboard (only --print-key working yet)
-- clipboard deletion  
-  -> http://www.jwz.org/doc/x-cut-and-paste.html  
-  -> http://tronche.com/gui/x/xlib/  
+- clipboard (only --print-key working yet) [done with python wrapper -> pysafe.py]
+- clipboard deletion [done! pysafe.py : FUCK ICCCM!] 
 - better key algorithm
 - config wizard
 - file reading and handling
-- more input strings
+- more input strings (increase entropy)
+- windows compatibility
+- not-in-shell mode for password
