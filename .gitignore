@@ -1,3 +1,4 @@
 *.o
 /psafe
 /test
+/*/log
