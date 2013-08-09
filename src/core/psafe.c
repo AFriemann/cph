@@ -104,9 +104,8 @@ int main(int argc, char **argv) {
     fprintf(stdout, "%s\n", keyBuffer);
   else {
     if (FLAG_WIN) {
-      writeStringToClipboard(keyBuffer);
-      handleSelectionRequest(clipboardTimeout);
-      clearClipboard();
+      //writeStringToClipboard(keyBuffer);
+      //clearClipboard();
     } else {
       // not going to implement X11 clipboard handling, no thanks
       if (!FLAG_WRAPPER)

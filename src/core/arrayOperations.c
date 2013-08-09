@@ -27,3 +27,12 @@ int arrayElementIndexMultiplication(int* array, const int arraySize) {
   return 0;
 }
 
+int reverseArrayElementIndexMultiplication(int* array, const int arraySize) {
+  int index = 0;
+  while (index++ < arraySize) {
+    *array = literalMultiplication(*array , (arraySize-index));
+    array++;
+  }
+  return 0;
+}
+

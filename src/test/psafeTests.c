@@ -22,7 +22,8 @@ int main() {
    /* NOTE - ORDER IS IMPORTANT - MUST TEST fread() AFTER fprintf() */
    if (   (NULL == CU_add_test(pSuite, "createKey() length should match given argument", keyLengthTestWrapper))
        || (NULL == CU_add_test(pSuite, "createKey() should return the same key for the same input", createKeySameInputTestWrapper))
-       || (NULL == CU_add_test(pSuite, "createKey() should return different keys for different input", createKeyDifferentInputTestWrapper)))
+       || (NULL == CU_add_test(pSuite, "createKey() should return different keys for different input", createKeyDifferentInputTestWrapper))
+       || (NULL == CU_add_test(pSuite, "createKey() should work for inputs that are longer than the output key", inputLongerThanOutputTestWrapper)))
    {
       CU_cleanup_registry();
       return CU_get_error();

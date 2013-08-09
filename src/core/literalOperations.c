@@ -28,8 +28,8 @@ void writeStringToIntArray(int* array, const char* string, const int arraySize) 
     }
 
     if (index == arraySize) {
-      index = 0; 
-      maxIndex = (stringLength-1) - (stringIndex-1);
+      //index = 0; 
+      maxIndex += (stringLength-1) - (stringIndex-1);
       array -= arraySize;
     }
 
@@ -39,7 +39,7 @@ void writeStringToIntArray(int* array, const char* string, const int arraySize) 
       *array = (int)*string;
     }
 
-    //printf("\t%c\t%i\n", *string, *array);
+    printf("\t%c\t%i\n", *string, *array);
     string++; array++; stringIndex++; index++;
   }
 }

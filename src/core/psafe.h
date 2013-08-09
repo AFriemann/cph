@@ -20,7 +20,6 @@ static const int FLAG_WIN=0;
 #include <errno.h>
 
 #include "psafeKey.h"
-#include "clipboardHandler.h"
 
 static int FLAG_PRINT = 0;
 static int FLAG_PWDFROMFILE = 0;

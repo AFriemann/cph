@@ -47,5 +47,5 @@ Todo
 - config wizard
 - file reading and handling
 - more input strings (increase entropy)
-- windows compatibility
+- windows compatibility (maybe use pyperclip for wrapper)
 - not-in-shell mode for password
