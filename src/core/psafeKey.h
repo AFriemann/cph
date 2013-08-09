@@ -7,7 +7,8 @@
 #include "arrayOperations.h"
 
 // TODO: make createKey password typeindifferent
-int createKey(char* buffer, const char *profile, const char *password, const int keySize);
+void createKey(char* buffer, const char *profile, const char *password, const int keySize);
 //int createKey(char* buffer, const char **keyFactors, const int factorCount, const int keySize);
+void createIntArrayFromString(int *array, const char* string, const int keySize);
 
 #endif

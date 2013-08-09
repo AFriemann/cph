@@ -6,43 +6,20 @@ int createKey(char* buffer, const char **keyFactors, const int factorCount, cons
 }
 */
 
-int createKey(char* buffer, const char *profile, const char *password, const int keySize) {
- 
-  // create array with size keysize for profile and password
-  // TODO: move intProfile to buffer
+void createKey(char* buffer, const char *profile, const char *password, const int keySize) {
+
+  // create array with size keysize for profile
   int *intProfile = (int*)calloc(keySize,sizeof(int));
+  createIntArrayFromString(intProfile, profile, keySize);
+  
+  // create array with size keysize for password
   int *intPassword = (int*)calloc(keySize,sizeof(int));
+  createIntArrayFromString(intPassword, password, keySize);
 
-  writeStringToIntArray(intProfile, profile, keySize);
-  writeStringToIntArray(intPassword, password, keySize);
-
-  //printf("foo1\n");
-
-  arrayElementIndexMultiplication(intProfile, keySize);
-  reverseArrayElementIndexMultiplication(intProfile, keySize);
-
-  //printf("foo2\n");
-
-  arrayElementIndexMultiplication(intPassword, keySize);
-  reverseArrayElementIndexMultiplication(intPassword, keySize);
-
-  //printf("foo3\n");
-
-  // for given profile abc and keysize 5 produce array like 
-  //    [a,b,c,a,b]
-  // for given profile abcdefgh and keysize 5 produce array like
-  //    [a+f,b+g,c+h,d,e]
-    // multiply profile array with password array as in 
-  //    [pr1*pw1,pr2*pw2,pr3*pw3,...]
+  // calculate key
   multiplicateArrayElements(intProfile, intPassword, keySize);
   addArrayElements(intProfile, intPassword, keySize);
-
-  //printf("foo4\n");
-  // multiply profile array elements with their index as in
-  //    [pr1*1,pr2*2,pr3*3,..]
-  // modulo 126 for every element: element % 126
-  // if element < 33 -> element=element+33
-
+ 
   // write result to buffer String
   writeIntArrayToString(buffer, intProfile, keySize);
  
@@ -50,7 +27,11 @@ int createKey(char* buffer, const char *profile, const char *password, const int
 
   free(intProfile);
   free(intPassword);
+}
 
-  return 0;
+void createIntArrayFromString(int *array, const char* string, const int arrayLength) {
+  writeStringToIntArray(array, string, arrayLength);
+  arrayElementIndexMultiplication(array, arrayLength);
+  reverseArrayElementIndexMultiplication(array, arrayLength);
 }
 
