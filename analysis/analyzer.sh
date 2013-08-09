@@ -7,7 +7,7 @@ echo -e "\n" >> ./log
 
 for i in `seq 1 10`
 do
-  ./psafe wat 12 >> ./log
+  ../psafe wat 12 >> ./log
 done
 
 # vi: 
