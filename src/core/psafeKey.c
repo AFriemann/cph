@@ -16,11 +16,18 @@ int createKey(char* buffer, const char *profile, const char *password, const int
   writeStringToIntArray(intProfile, profile, keySize);
   writeStringToIntArray(intPassword, password, keySize);
 
+  //printf("foo1\n");
+
   arrayElementIndexMultiplication(intProfile, keySize);
   reverseArrayElementIndexMultiplication(intProfile, keySize);
 
+  //printf("foo2\n");
+
   arrayElementIndexMultiplication(intPassword, keySize);
   reverseArrayElementIndexMultiplication(intPassword, keySize);
+
+  //printf("foo3\n");
+
   // for given profile abc and keysize 5 produce array like 
   //    [a,b,c,a,b]
   // for given profile abcdefgh and keysize 5 produce array like
@@ -29,6 +36,8 @@ int createKey(char* buffer, const char *profile, const char *password, const int
   //    [pr1*pw1,pr2*pw2,pr3*pw3,...]
   multiplicateArrayElements(intProfile, intPassword, keySize);
   addArrayElements(intProfile, intPassword, keySize);
+
+  //printf("foo4\n");
   // multiply profile array elements with their index as in
   //    [pr1*1,pr2*2,pr3*3,..]
   // modulo 126 for every element: element % 126
@@ -37,6 +46,8 @@ int createKey(char* buffer, const char *profile, const char *password, const int
   // write result to buffer String
   writeIntArrayToString(buffer, intProfile, keySize);
  
+  //printf("foo5\n");
+
   free(intProfile);
   free(intPassword);
 
