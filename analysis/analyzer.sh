@@ -3,11 +3,15 @@
 # @Last Change: 24-Dez-2004.
 # @Revision:    0.0
 
-echo -e "\n" >> ./log
+if [ -n ../psafe ]; then
+  cd ..
+  ./install
+  cd analysis
+fi
 
 for i in `seq 1 10`
 do
-  ../psafe wat 12 >> ./log
+  ./../psafe wat 12 >> ./log
 done
 
 # vi: 
