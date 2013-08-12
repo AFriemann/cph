@@ -6,6 +6,7 @@
 #include <string.h>
 
 int literalAddition(const int a, const int b);
+int literalSubtraction(const int a, const int b);
 int literalMultiplication(const int a, const int b);
 
 void writeStringToIntArray(int *buffer, const char *string, const int arraySize);

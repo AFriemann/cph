@@ -44,3 +44,20 @@ int reverseArrayElementIndexMultiplication(int* array, const int arraySize) {
   return 0;
 }
 
+void shiftArrayCentre(int* array, const int arraySize) {
+  if (arraySize % 2 == 0) {
+    // arraySize ist gerade
+    int rightSideElement = array[(arraySize/2)+1];
+    int leftSideElement = array[arraySize/2];
+    array[arraySize/2] = literalAddition(rightSideElement,leftSideElement);
+    array[(arraySize/2)+1] = literalSubtraction(leftSideElement, rightSideElement);
+  } else {
+    int rightSideElement = array[(arraySize/2)+2];
+    //int middleElement = array[(arraySize/2)+1];
+    int leftSideElement = array[arraySize/2];
+    array[arraySize/2] = literalAddition(leftSideElement, rightSideElement);
+    array[(arraySize/2)+2] = literalSubtraction(rightSideElement, leftSideElement);
+    array[(arraySize/2)+1] = literalMultiplication(array[arraySize/2], array[(arraySize/2)+2]);
+  }
+}
+

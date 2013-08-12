@@ -43,7 +43,7 @@ Todo
 
 - clipboard (only --print-key working yet) [done with python wrapper -> pysafe.py]
 - clipboard deletion [done! pysafe.py : FUCK ICCCM!] 
-- better key algorithm
+- better key algorithm (bits & bytes ftw!)
 - config wizard
 - file reading and handling
 - more input strings (increase entropy)

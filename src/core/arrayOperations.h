@@ -8,6 +8,6 @@ int multiplicateArrayElements(int* array1, const int* array2, const int arraySiz
 int arrayElementIndexMultiplication(int* array, const int arraySize);
 int reverseArrayElementIndexMultiplication(int* array, const int arraySize);
 int addArrayElements(int* array1, const int* array2, const int arraySize);
-int splitAndSwapArrayAtHalf(int* array, const int arraySize);
+void shiftArrayCentre(int* array, const int arraySize);
 
 #endif

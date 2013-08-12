@@ -31,6 +31,7 @@ void createKey(char* buffer, const char *profile, const char *password, const in
 
 void createIntArrayFromString(int *array, const char* string, const int arrayLength) {
   writeStringToIntArray(array, string, arrayLength);
+  shiftArrayCentre(array, arrayLength);
   arrayElementIndexMultiplication(array, arrayLength);
   reverseArrayElementIndexMultiplication(array, arrayLength);
 }

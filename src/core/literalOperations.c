@@ -8,6 +8,14 @@ int literalAddition(const int a, const int b) {
   return result;
 }
 
+int literalSubtraction(const int a, const int b) {
+  int result = (a - b) % 126;
+  if (result < 33)
+    result += 33;
+  //printf("\t\t%i + %i = %i\n", a, b, result);
+  return result;
+}
+
 int literalMultiplication(const int a, const int b) {
   int result = (a * b) % 126;
   if (result < 33)
