@@ -49,7 +49,7 @@ profile=foobar, keySize=5
 foobar -> 102,111,111,98,97,114 -> [102+114,111,111,98,97]
 ```
 
-The results get then warped by multiplicating each element with its index
+The results then gets warped by multiplicating each element with its index
 ```[216,111,111,98,97]-> [216*1,111*2,111*3,98*4,97*5] -> [216,222,333,392,485]```
 
 And the reverse:
