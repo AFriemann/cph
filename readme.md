@@ -42,7 +42,7 @@ Key Algorithm
 Currently the profile name and password get converted to int arrays like so:
 
 ```
-profile=foobar, keySize=5
+profile=foobar, keySize=5   
 
 foobar -> 102,111,111,98,97,114 -> [102+114,111,111,98,97]
 ```
