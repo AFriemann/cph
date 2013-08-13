@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
     /* getopt_long stores the option index here. */
     int option_index = 0;
 
-    arg = getopt_long (argc, argv, "cf:hlt:",
+    arg = getopt_long (argc, argv, "h",
                     long_options, &option_index);
 
     /* Detect the end of the options. */
@@ -32,29 +32,9 @@ int main(int argc, char **argv) {
         //if (optarg)
         //  break;
 
-      case 'c':
-        configWizard();
-        return 0;
-
-      case 'f':
-        configFile = optarg; // TODO wird hier global hoch gezählt? Funktioniert das so?
-        break;
-
       case 'h':
         fprintf(stdout, "%s", helpMsg);
         return 0;
-
-      case 'l':
-        FLAG_WRAPPER = 1;
-        break;
-
-      case 't': 
-        clipboardTimeout = strtoimax(optarg, NULL, 10);
-        if (clipboardTimeout == INTMAX_MAX && errno == ERANGE) {
-          fprintf(stderr, "Expected an integer value between 1 and 64 for --timeout argument, but was %s\n", optarg); 
-          return(1);
-        }
-        break;
 
       case '?':
         /* getopt_long already printed an error message. */
@@ -72,81 +52,40 @@ int main(int argc, char **argv) {
     return(1);
   }
 
-  if (remainingParams < 2) {
-    FILE* file = fopen(configFile, "r");
-    keySize = 12; // readKeySizeFromFile(file); // TODO
-    profile = (remainingParams == 0) ? readProfileFromFile(file) : argv[optind];
+  profile = argv[optind++];
+
+  if (argv[optind] == NULL) {
+    keySize = defaultKeySize;
   } else {
-    profile = argv[optind];
-    keySize = atoi(argv[optind+1]);
+    char* tmp;
+    int keySizeParam = strtol(argv[optind], &tmp, 10);
+    // check for possible error 
+    if (tmp == argv[optind] || keySizeParam > 1024) {
+      fprintf(stderr, "Invalid input given for key size: %s! Setting to default (%i)\n", argv[optind], defaultKeySize);
+      keySize = defaultKeySize;
+    } else
+      keySize = keySizeParam;
   }
 
   // allocate space for password and set it
-  char* password = (char*)calloc(maxParamSize, sizeof(char));
-
-  if (FLAG_PWDFROMFILE) {
-    if (file == NULL)
-      file = fopen(configFile, "r");
-    password = readPassFromFile(file);
-  } else 
-    password = getpass(passwordPrompt);
+  char* password = (char*)calloc(maxPwdSize, sizeof(char));
+  password = getpass(passwordPrompt);
 
   // allocate space for key and set it
   char *keyBuffer = (char*)calloc(keySize, sizeof(char));
   createKey(keyBuffer, profile, password, keySize);
 
   // delete password and free space
-  memset(password, 0, maxParamSize*sizeof(char));
+  memset(password, 0, maxPwdSize*sizeof(char));
   free(password);
 
-  // output of key
-  if (FLAG_PRINT)
-    fprintf(stdout, "%s\n", keyBuffer);
-  else {
-    if (FLAG_WIN) {
-      //writeStringToClipboard(keyBuffer);
-      //clearClipboard();
-    } else {
-      // not going to implement X11 clipboard handling, no thanks
-      if (!FLAG_WRAPPER)
-        fprintf(stderr, "Clipboard management not implemented for linux, please use the provided python wrapper!\n");
-      fprintf(stdout, "%s\n", keyBuffer);
-    }
-  }
+  // output result
+  fprintf(stdout, "%s\n", keyBuffer);
 
   // delete key and free space
   memset(keyBuffer, 0, keySize*sizeof(char));
   free(keyBuffer);
-
-  if (file != NULL) 
-    fclose(file);
-
+  
   return FLAG_ERROR;
-}
-
-int readKeySizeFromFile(FILE *file) {
-  return -1;
-}
-
-char* readProfileFromFile(FILE *file) {
-  return NULL;
-}
-
-char* readPassFromFile(FILE *file) {
-  return NULL;
-}
-
-void configWizard(void) {
-  fprintf(stdout, "This will guide you through the configuration process and create a new config file in your home folder.\n\
-      There is, however, a config file available with this binary and you could also use that for manual configuration,\n\
-      would you like to use that instead? [y]/n");
-  if(tolower(getchar()) == 'y') {
-    fprintf(stdout, "Copying config file to %s\n", configFile);
-    // TODO
-  }
-
-  // TODO (standard key size, standard password)
-  // additional factors for key creation
-  printf("nothing else yet");
 }
 

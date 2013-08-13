@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/env python
+"""Wrapper for psafe to pass passwords to the clipboard."""
 
 from subprocess import Popen, PIPE
 import sys
@@ -6,12 +7,14 @@ import os
 import time
 
 def text_to_clipboard(text):
+    """Parse text to clipboard."""
     Popen(['xsel', '-pi'], stdin=PIPE).communicate(text)
 
 def clear_clipboard():
+    """Delete clipboard contents."""
     Popen(['xsel', '-d'])
 
-PSAFE_ARGS = ['-l'] + sys.argv[1::2] # ignore first argument (namely pysafe)
+PSAFE_ARGS = sys.argv[1::2] # ignore first argument (namely pysafe)
 PSAFE_CALL = ['./psafe'] + PSAFE_ARGS # regular psafe call syntax! yay!
 
 # run psafe and save output
