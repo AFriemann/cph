@@ -4,10 +4,10 @@
 #include <stdio.h>
 #include "literalOperations.h"
 
-int multiplicateArrayElements(int* array1, const int* array2, const int arraySize);
-int arrayElementIndexMultiplication(int* array, const int arraySize);
-int reverseArrayElementIndexMultiplication(int* array, const int arraySize);
-int addArrayElements(int* array1, const int* array2, const int arraySize);
-void shiftArrayCentre(int* array, const int arraySize);
+void multiplicateArrayElements(const int* array1, const int* array2, const int arraySize);
+void arrayElementIndexMultiplication(const int* array, const int arraySize);
+void reverseArrayElementIndexMultiplication(const int* array, const int arraySize);
+void addArrayElements(const int* array1, const int* array2, const int arraySize);
+void shiftArrayCentre(const int* array, const int arraySize);
 
 #endif
