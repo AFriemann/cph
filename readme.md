@@ -41,7 +41,7 @@ same profile, password and key length will always result in the same key.
 Key Algorithm
 =============
 
-Currently the profile name and password get converted to int arrays like so:   
+Currently the profile name and password get converted to int arrays like so:
 
 ```
 profile=foobar, keySize=5   
@@ -49,19 +49,19 @@ profile=foobar, keySize=5
 foobar -> 102,111,111,98,97,114 -> [102+114,111,111,98,97]
 ```
 
-The results get then warped by multiplicating each element with its index   
+The results get then warped by multiplicating each element with its index
 ```[216,111,111,98,97]-> [216*1,111*2,111*3,98*4,97*5] -> [216,222,333,392,485]```
 
-And the reverse:   
+And the reverse:
 ```[216,222,333,392,485] -> [216*5,222*4,333*3,392*2,485*1] ->  [1080,888,999,784,485]```
 
 And a centre shift:
 ```[1080,888,999,784,485] -> [1080,888+784,999+(888*784),784-888,485] -> [1080,1672,697191,-104,485]```
 All arithmetic operations modulo 126 with a minimum value of 33, so the
-resulting array would be   
+resulting array would be
 ```[72,34,33,55,107]```
 The two calculated arrays will then be multiplicated and added, so with a
-hypothetical password result ```[1,1,1,1,1]``` the end result would be:   
+hypothetical password result ```[1,1,1,1,1]``` the end result would be:
 ```[73,35,34,56,108] -> I#"8l```   
 
 
