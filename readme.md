@@ -23,12 +23,10 @@ Usage
 =====
 
 ```
-usage: psafe [OPTION] [profile] [key size]
-          -c, --config: run configuration wizard
-          -f, --file: provide non-standard config file
-          -h, --help: show this help message
-          --print-key: print key instead of writing it to the clipboard
-          --stored-pass: load password from file (TODO)
+psafe returns a password for any given profile and password.
+profile should be an easy to remember name for your password, the key size is optional; the current default is 12.
+	usage: psafe <profile> [key size]
+	-h, --help: show this help message
 ```
 
 A typical call would look like this:   
