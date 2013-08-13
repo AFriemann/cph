@@ -14,7 +14,7 @@ def clear_clipboard():
     """Delete clipboard contents."""
     Popen(['xsel', '-d'])
 
-PSAFE_ARGS = sys.argv[1::2] # ignore first argument (namely pysafe)
+PSAFE_ARGS = sys.argv[1:] # ignore first argument (namely pysafe)
 PSAFE_CALL = ['./psafe'] + PSAFE_ARGS # regular psafe call syntax! yay!
 
 # run psafe and save output
@@ -27,7 +27,7 @@ OUT, ERR = PROCESS.communicate()
 if not ERR:
     text_to_clipboard(OUT)
 else:
-    print(ERR)
+    print(ERR.decode("utf-8"))
     sys.exit(1)
 
 # now fork and sleep!

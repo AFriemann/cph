@@ -21,17 +21,16 @@ static const int maxPwdSize = 32;
 
 static const char *passwordPrompt = "Please enter your password: ";
 static const char *errorMsg = "not enough arguments given! Try --help\n";
-static const char *helpMsg = "psafe returns a password for any two given profile and password.\
-                              Current default key size is 12.\
-                                  usage: psafe <profile> [key size]\n\
-                                    \t-h, --help: show this help message";
+static const char *helpMsg = "psafe returns a password for any given profile and password.\n"
+                              "profile should be an easy to remember name for your password, the key size is optional; the current default is 12.\n"
+                              "\tusage: psafe <profile> [key size]\n"
+                              "\t-h, --help: show this help message\n";
 
 static struct option long_options[] = {
   /* These options set a flag. */
   //{"print-key",       no_argument,  &FLAG_PRINT, 1},
   /* These options don't set a flag.
     We distinguish them by their indices. */
-  //{"print-key",        no_argument,   0, 'p'},
   {"help",        no_argument,        0, 'h'},
   {0, 0, 0, 0}
 };

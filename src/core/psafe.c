@@ -33,7 +33,7 @@ int main(int argc, char **argv) {
         //  break;
 
       case 'h':
-        fprintf(stdout, "%s", helpMsg);
+        fprintf(stderr, "%s", helpMsg);
         return 0;
 
       case '?':
@@ -80,7 +80,7 @@ int main(int argc, char **argv) {
   free(password);
 
   // output result
-  fprintf(stdout, "%s\n", keyBuffer);
+  fprintf(stdout, "%s", keyBuffer);
 
   // delete key and free space
   memset(keyBuffer, 0, keySize*sizeof(char));
