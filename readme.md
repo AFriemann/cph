@@ -40,7 +40,7 @@ key to stdout:
 
 ```pysafe my_profile_name 12```
 
-will do the same es the call above but will pipe the key to your primary X
+will do the same as the call above but will pipe the key to your primary X
 selection and remove it after 10 seconds.
 
 
