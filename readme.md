@@ -70,8 +70,8 @@ Todo
 
 - better key algorithm (bits & bytes ftw!)
 - windows compatibility (maybe use pyperclip for wrapper)
-- not-in-shell mode for password
------ bullshit
+- not-in-shell mode for password   
+---- bullshit
 - config wizard
 - file reading and handling
 - more input strings 
