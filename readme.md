@@ -13,7 +13,7 @@ To install psafe, simply run the install script like so:
 ./install   
 ```
 
-The tests cann be compiled with
+The tests can be compiled with
 
 ```
 ./install test
@@ -31,7 +31,7 @@ profile should be an easy to remember name for your password, the key size is op
 
 A typical call would look like this:   
 
-```psafe --print-key my_profile_name 12```   
+```psafe my_profile_name 12```   
 
 This call would ask the user for a password and print it out on console. The
 same profile, password and key length will always result in the same key.   
@@ -42,7 +42,7 @@ Key Algorithm
 Currently the profile name and password get converted to int arrays like so:
 
 ```
-profile=foobar, keySize=5   
+profile=foobar, keySize=5
 
 foobar -> 102,111,111,98,97,114 -> [102+114,111,111,98,97]
 ```
