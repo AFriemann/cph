@@ -86,3 +86,5 @@ Todo
 - file reading and handling
 - more input strings 
 
+
+*Copyright (C) 2013 Aljosha Friemann*
