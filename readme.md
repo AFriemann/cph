@@ -74,6 +74,7 @@ hypothetical (but nonsensical) password result ```[1,1,1,1,1]``` the end result 
 Todo
 ====
 
+- repetetive profile & password combinations result in the same output: AAA+BBB = AAAA+BBB etc.
 - better key algorithm (bits & bytes ftw!)
 - windows compatibility (maybe use pyperclip for wrapper)
 - not-in-shell mode for password   
