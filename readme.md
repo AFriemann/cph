@@ -67,7 +67,7 @@ All arithmetic operations are calculated modulo 126 with a minimum value of 33, 
 resulting array would be
 ```[72,34,33,55,107]```
 The two calculated arrays will then be multiplicated and added, so with a
-hypothetical (but nonsical) password result ```[1,1,1,1,1]``` the end result would be:
+hypothetical (but nonsensical) password result ```[1,1,1,1,1]``` the end result would be:
 ```[73,35,34,56,108] -> I#"8l```   
 
 
