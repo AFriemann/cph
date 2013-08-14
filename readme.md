@@ -34,7 +34,7 @@ A typical call would look like this:
 ```psafe my_profile_name 12```   
 
 This call would ask the user for a password and print it out on console. The
-same profile, password and key length will always result in the same key.   
+same profile, password and key length will always result in the same key.
 Please use the included python wrapper, since a call to psafe simply outputs the
 key to stdout:   
 
@@ -70,11 +70,19 @@ The two calculated arrays will then be multiplicated and added, so with a
 hypothetical (but nonsensical) password result ```[1,1,1,1,1]``` the end result would be:
 ```[73,35,34,56,108] -> I#"8l```   
 
+####Issues
+
+* repetetive profile & password combinations result in the same output: 
+  ```AAA+BBB = AAAA+BBB != AAAAA+BBB = AAAAAAA+BBB```
+  For key size 12.   
+  This makes sense: 12/3=4, 12/4=3, 12/5=2.4, 12/7=1.71..
+  Therefore: The current key algorithm is s**t <3
+
+
 
 Todo
 ====
 
-- repetetive profile & password combinations result in the same output: AAA+BBB = AAAA+BBB etc.
 - better key algorithm (bits & bytes ftw!)   
   -> injective or bijective function for encryption.   
   -> encrypt the profile name with password? RSA?   
