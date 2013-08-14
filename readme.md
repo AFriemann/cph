@@ -70,7 +70,7 @@ The two calculated arrays will then be multiplicated and added, so with a
 hypothetical (but nonsensical) password result ```[1,1,1,1,1]``` the end result would be:
 ```[73,35,34,56,108] -> I#"8l```   
 
-####Issues
+#### Issues
 
 * repetetive profile & password combinations result in the same output: 
   ```AAA+BBB = AAAA+BBB != AAAAA+BBB = AAAAAAA+BBB```
