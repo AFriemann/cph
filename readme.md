@@ -76,11 +76,11 @@ Todo
 
 - repetetive profile & password combinations result in the same output: AAA+BBB = AAAA+BBB etc.
 - better key algorithm (bits & bytes ftw!)   
-  -> bijective function for encryption.   
-  -> encrypt the profile name with password?   
+  -> injective or bijective function for encryption.   
+  -> encrypt the profile name with password? RSA?   
 - windows compatibility (maybe use pyperclip for wrapper)
 - not-in-shell mode for password   
-- variable clipboard timeout
+- variable clipboard timeout    
 ---- bullshit
 - config wizard
 - file reading and handling
