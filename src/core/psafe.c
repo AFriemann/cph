@@ -116,15 +116,26 @@ char *getPassword(void) {
   else {
     gtk_init(0, NULL);
 
-    GtkWidget* mainWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    GtkWidget* window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
-    gtk_window_set_default_size(GTK_WINDOW(mainWindow), 400, 300);
-    gtk_window_set_title(GTK_WINDOW(mainWindow), "GTK Simple Example");
-    gtk_window_set_position(GTK_WINDOW(mainWindow), GTK_WIN_POS_CENTER_ALWAYS);
+    gtk_window_set_default_size(GTK_WINDOW(window), 400, 300);
+    gtk_window_set_title(GTK_WINDOW(window), "psafe password prompt");
+    gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER_ALWAYS);
 
-    gtk_signal_connect(GTK_OBJECT(mainWindow), "destroy", G_CALLBACK(gtk_main_quit), NULL);
+    GtkWidget* eventBox = gtk_event_box_new();
+    gtk_container_add (GTK_CONTAINER(window), eventBox);
 
-    gtk_widget_show_all(mainWindow);
+    GtkWidget *password_input = gtk_entry_new();
+    //gtk_entry_set_invisible_char(password_input, 0);
+    gtk_container_add (GTK_CONTAINER (eventBox), password_input);
+
+    gtk_widget_show (password_input);
+
+    //gtk_container_add (GTK_CONTAINER (window_Widget), vBox_Widget);
+
+    gtk_signal_connect(GTK_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
+
+    gtk_widget_show_all(window);
 
     gtk_main();
 
