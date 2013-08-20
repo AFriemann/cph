@@ -83,7 +83,7 @@ int main(int argc, char **argv) {
 
   // allocate space for password and set it
   char* password = (char*)calloc(maxPwdSize, sizeof(char));
-  password = getpass(passwordPrompt);
+  password = getPassword();
 
   // allocate space for key and set it
   char *keyBuffer = (char*)calloc(keySize, sizeof(char));
@@ -103,3 +103,31 @@ int main(int argc, char **argv) {
   return FLAG_ERROR;
 }
 
+int QuitProg(GtkWidget *widget, gpointer gdata){
+
+    gtk_main_quit();
+    return (FALSE);
+
+}
+
+char *getPassword(void) {
+  if (isatty(1))
+    return getpass(passwordPrompt);
+  else {
+    gtk_init(0, NULL);
+
+    GtkWidget* mainWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+
+    gtk_window_set_default_size(GTK_WINDOW(mainWindow), 400, 300);
+    gtk_window_set_title(GTK_WINDOW(mainWindow), "GTK Simple Example");
+    gtk_window_set_position(GTK_WINDOW(mainWindow), GTK_WIN_POS_CENTER_ALWAYS);
+
+    gtk_signal_connect(GTK_OBJECT(mainWindow), "destroy", G_CALLBACK(gtk_main_quit), NULL);
+
+    gtk_widget_show_all(mainWindow);
+
+    gtk_main();
+
+    return "foobar";
+  }
+}

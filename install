@@ -4,7 +4,7 @@ CC=gcc
 CFLAGS="-g -Wall -o"
 LDFLAGS=
 
-LIBS=
+PKGCFG=
 
 MAINFOLDER="src/core"
 TESTFOLDER="src/test"
@@ -19,20 +19,21 @@ BIN=
 SOURCES=
 
 function compile {
-  ($CC $CFLAGS $BIN $SOURCES $LIBS)
+  ($CC $CFLAGS $BIN $SOURCES $PKGCFG)
   return $?
 }
 
 function setMainSources {
   BIN=$MAINBIN
   SOURCES="$MAINSOURCE $SUPPSOURCES"
+  PKGCFG="`pkg-config --cflags --libs gtk+-2.0`"
   return $?   
 }
 
 function setTestSources {
   BIN=$TESTBIN
   SOURCES="$TESTFOLDER/psafeTests.c $TESTFOLDER/psafeKeyTests.c $TESTFOLDER/arrayOperationsTests.c $TESTFOLDER/literalOperationsTests.c $SUPPSOURCES"
-  LIBS="`pkg-config --libs cunit`"
+  PKGCFG="`pkg-config --libs cunit`"
   return 0
 }
 

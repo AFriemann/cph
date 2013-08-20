@@ -44,7 +44,7 @@ int literalMultiplication(const int a, const int b) {
   return result;
 }
 
-void writeStringToIntArray(int* array, const char* string, const int arraySize) {
+void writeStringToIntArray(int* buffer, const char* string, const int arraySize) {
   int stringLength = strlen(string);
  
   int index = 0;
@@ -66,10 +66,10 @@ void writeStringToIntArray(int* array, const char* string, const int arraySize) 
 
     //printf("%i\t%i\t->", index, *array);
 
-    if (*array != 0) {
-      *array = literalAddition(*array , *string); 
+    if (*buffer != 0) {
+      *buffer = literalAddition(*buffer, *string); 
     } else {
-      *array = *string;
+      *buffer = *string;
     }
 
     //printf("\t%c\t%i\n", *string, *array);
@@ -79,12 +79,12 @@ void writeStringToIntArray(int* array, const char* string, const int arraySize) 
       // setze array zurück und erhöhe schleifen abbruch var
       //printf("stringLength - stringIndex > 0 && index == iteration*(arraySize-1)\n");
       //printf("resetting %i-%i > 0 and %i == %i*(%i-1)\n", stringLength, stringIndex, index, iteration, arraySize);
-      array -= arraySize;
+      buffer -= arraySize;
       maxIndex += (stringLength-1) - (stringIndex);
       index--; iteration++;
     }
 
-    string++; array++; stringIndex++; index++;
+    string++; buffer++; stringIndex++; index++;
   }
 }
 

@@ -28,6 +28,7 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include <inttypes.h>
 #include <ctype.h>
 #include <errno.h>
+#include <gtk-2.0/gtk/gtk.h>
 
 #include "psafeKey.h"
 
@@ -55,5 +56,7 @@ static struct option long_options[] = {
 };
 
 int main(int argc, char *argv[]);
+int QuitProg(GtkWidget *widget, gpointer gdata);
+char *getPassword(void);
 
 #endif

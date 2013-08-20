@@ -18,7 +18,7 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 #include "arrayOperations.h"
 
-void addArrayElements(const int* array1, const int* array2, const int arraySize) {
+void addArrayElements(int* array1, const int* array2, const int arraySize) {
   int index = 0;
   while (index++ < arraySize) {
     //printf("\n%i * %i = ", *array1, *array2);
@@ -28,7 +28,7 @@ void addArrayElements(const int* array1, const int* array2, const int arraySize)
   }
 }
 
-void multiplicateArrayElements(const int* array1, const int* array2, const int arraySize) {
+void multiplicateArrayElements(int* array1, const int* array2, const int arraySize) {
   int index = 0;
   while (index++ < arraySize) {
     //printf("\n%i * %i = ", *array1, *array2);
@@ -38,7 +38,7 @@ void multiplicateArrayElements(const int* array1, const int* array2, const int a
   }
 }
 
-void arrayElementIndexMultiplication(const int* array, const int arraySize) {
+void arrayElementIndexMultiplication(int* array, const int arraySize) {
   int index = 0;
   while (index++ < arraySize) {
     //printf("\n%i * %i = ", *array, index);
@@ -48,7 +48,7 @@ void arrayElementIndexMultiplication(const int* array, const int arraySize) {
   }
 }
 
-void reverseArrayElementIndexMultiplication(const int* array, const int arraySize) {
+void reverseArrayElementIndexMultiplication(int* array, const int arraySize) {
   int index = 0;
   while (index++ < arraySize) {
     //printf("\n%i * (%i-%i) = ", *array, arraySize, index);
@@ -58,7 +58,7 @@ void reverseArrayElementIndexMultiplication(const int* array, const int arraySiz
   }
 }
 
-void shiftArrayCentre(const int* array, const int arraySize) {
+void shiftArrayCentre(int* array, const int arraySize) {
   if (arraySize % 2 == 0) {
     // arraySize ist gerade
     int rightSideElement = array[(arraySize/2)+1];
