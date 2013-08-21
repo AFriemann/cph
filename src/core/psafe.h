@@ -28,22 +28,21 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include <inttypes.h>
 #include <ctype.h>
 #include <errno.h>
-#include <gtk-2.0/gtk/gtk.h>
 
 #include "psafeKey.h"
 
 static int FLAG_ERROR = 0;
 
 static char *profile;
+static char *password;
 static int keySize;
 static const int defaultKeySize = 12;
 static const int maxPwdSize = 32;
 
-static const char *passwordPrompt = "Please enter your password: ";
 static const char *errorMsg = "not enough arguments given! Try --help\n";
 static const char *helpMsg = "psafe returns a password for any given profile and password.\n"
                               "profile should be an easy to remember name for your password, the key size is optional; the current default is 12.\n"
-                              "\tusage: psafe <profile> [key size]\n"
+                              "\tusage: psafe <profile> <password> [key size]\n"
                               "\t-h, --help: show this help message\n";
 
 static struct option long_options[] = {
@@ -56,7 +55,5 @@ static struct option long_options[] = {
 };
 
 int main(int argc, char *argv[]);
-int QuitProg(GtkWidget *widget, gpointer gdata);
-char *getPassword(void);
 
 #endif

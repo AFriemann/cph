@@ -5,6 +5,9 @@ from subprocess import Popen, PIPE
 import sys
 import os
 import time
+import getpass
+
+HELP_MSG = "pysafe [options] <profile> [key size]"
 
 def text_to_clipboard(text):
     """Parse text to clipboard."""
@@ -14,28 +17,49 @@ def clear_clipboard():
     """Delete clipboard contents."""
     Popen(['xsel', '-d'])
 
-PSAFE_ARGS = sys.argv[1:] # ignore first argument (namely pysafe)
-PSAFE_CALL = ['./psafe'] + PSAFE_ARGS # regular psafe call syntax! yay!
+def main(argv):
+    """pysafe main method"""
+    argc = len(argv)
+    if argc < 1 or argc > 2:
+        print(HELP_MSG)
+        sys.exit(1)
 
-# run psafe and save output
-PROCESS = Popen(PSAFE_CALL, shell=False, stdout=PIPE,
-    stderr=PIPE)
+    for opt in argv:
+        if opt in ("-h", "--help"):
+            print(HELP_MSG)
+            sys.exit()
 
-OUT, ERR = PROCESS.communicate()
+    profile = argv[0]
+    pwd = getpass.getpass()
+    if argc == 2:
+        key_size = argv[1]
+        psafe_call = ['./psafe', profile, pwd, key_size]
+    else:
+        psafe_call = ['./psafe', profile, pwd]
+      
+    # run psafe and save output
+    process = Popen(psafe_call, shell=False, stdout=PIPE,
+        stderr=PIPE)
 
-# if stderr not empty, exit and print errors
-if not ERR:
-    text_to_clipboard(OUT)
-else:
-    print(ERR.decode("utf-8"))
-    sys.exit(1)
+    out, err = process.communicate()
 
-# now fork and sleep!
-if os.fork():
-    sys.exit()
+    # if stderr not empty, exit and print errors
+    if not err:
+        text_to_clipboard(out)
+    else:
+        print(err.decode("utf-8"))
+        sys.exit(1)
 
-time.sleep(10)
+    # now fork and sleep!
+    if os.fork():
+        sys.exit()
 
-clear_clipboard()
+    time.sleep(10)
 
-sys.exit(0)
+    clear_clipboard()
+
+    sys.exit(0)
+
+
+if  __name__ =='__main__':
+    main(sys.argv[1:])

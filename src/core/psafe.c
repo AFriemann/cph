@@ -61,14 +61,17 @@ int main(int argc, char **argv) {
 
   int remainingParams = argc - optind;
 
-  if (remainingParams > 2){
+  if ( remainingParams > 3 || remainingParams < 2 ){
     fprintf(stderr, "%s", errorMsg);
     return(1);
   }
 
   profile = argv[optind++];
+  password = argv[optind++];
 
-  if (argv[optind] == NULL) {
+  remainingParams -= 2;
+
+  if (remainingParams == 0) {
     keySize = defaultKeySize;
   } else {
     char* tmp;
@@ -81,17 +84,13 @@ int main(int argc, char **argv) {
       keySize = keySizeParam;
   }
 
-  // allocate space for password and set it
-  char* password = (char*)calloc(maxPwdSize, sizeof(char));
-  password = getPassword();
-
   // allocate space for key and set it
   char *keyBuffer = (char*)calloc(keySize, sizeof(char));
   createKey(keyBuffer, profile, password, keySize);
 
   // delete password and free space
-  memset(password, 0, maxPwdSize*sizeof(char));
-  free(password);
+  //memset(password, 0, maxPwdSize*sizeof(char));
+  //free(password);
 
   // output result
   fprintf(stdout, "%s", keyBuffer);
@@ -103,42 +102,4 @@ int main(int argc, char **argv) {
   return FLAG_ERROR;
 }
 
-int QuitProg(GtkWidget *widget, gpointer gdata){
 
-    gtk_main_quit();
-    return (FALSE);
-
-}
-
-char *getPassword(void) {
-  if (isatty(1))
-    return getpass(passwordPrompt);
-  else {
-    gtk_init(0, NULL);
-
-    GtkWidget* window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-
-    gtk_window_set_default_size(GTK_WINDOW(window), 400, 300);
-    gtk_window_set_title(GTK_WINDOW(window), "psafe password prompt");
-    gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER_ALWAYS);
-
-    GtkWidget* eventBox = gtk_event_box_new();
-    gtk_container_add (GTK_CONTAINER(window), eventBox);
-
-    GtkWidget *password_input = gtk_entry_new();
-    //gtk_entry_set_invisible_char(password_input, 0);
-    gtk_container_add (GTK_CONTAINER (eventBox), password_input);
-
-    gtk_widget_show (password_input);
-
-    //gtk_container_add (GTK_CONTAINER (window_Widget), vBox_Widget);
-
-    gtk_signal_connect(GTK_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
-
-    gtk_widget_show_all(window);
-
-    gtk_main();
-
-    return "foobar";
-  }
-}
