@@ -26,7 +26,7 @@ function compile {
 function setMainSources {
   BIN=$MAINBIN
   SOURCES="$MAINSOURCE $SUPPSOURCES"
-  PKGCFG="`pkg-config --cflags --libs gtk+-3.0`"
+  #PKGCFG="`pkg-config --cflags --libs`"
   return $?   
 }
 

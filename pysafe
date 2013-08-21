@@ -2,12 +2,55 @@
 """Wrapper for psafe to pass passwords to the clipboard."""
 
 from subprocess import Popen, PIPE
+from gi.repository import Gtk
 import sys
 import os
 import time
 import getpass
 
 HELP_MSG = "pysafe [options] <profile> [key size]"
+
+class EntryDialog(Gtk.MessageDialog):
+
+    def run(self):
+        result = super(EntryDialog, self).run()
+        if result == Gtk.ResponseType.OK:
+            text = self.entry.get_text()
+        else:
+            text = None
+        Gtk.main_quit()
+        return text
+
+    def __init__(self, *args):
+        '''
+        Creates a new EntryDialog. Takes all the arguments of the usual
+        MessageDialog constructor plus one optional named argument 
+        "default_value" to specify the initial contents of the entry.
+        '''
+        #if 'default_value' in kwargs:
+        #    default_value = kwargs['default_value']
+        #    del kwargs['default_value']
+        #else:
+        #    default_value = ''
+        super(EntryDialog, self).__init__(*args)
+        entry = Gtk.Entry()
+        entry.set_visibility(False)
+        entry.connect("activate", 
+                      lambda ent, dlg, resp: dlg.response(resp), 
+                      self, Gtk.ResponseType.OK)
+        self.vbox.pack_end(entry, True, True, 0)
+        self.vbox.show_all()
+        self.entry = entry
+        #self.entry.connect("activate", self.enter_callback, self.entry)
+        #self.add(self.entry)
+   
+def get_pwd():
+    if sys.stdin.isatty():
+        return getpass.getpass()
+    else:
+        win = EntryDialog()
+        #win.connect("delete-event", Gtk.main_quit)
+        return win.run()
 
 def text_to_clipboard(text):
     """Parse text to clipboard."""
@@ -30,7 +73,13 @@ def main(argv):
             sys.exit()
 
     profile = argv[0]
-    pwd = getpass.getpass()
+
+    pwd = get_pwd()
+
+    if pwd is None:
+        print(HELP_MSG)
+        sys.exit()
+
     if argc == 2:
         key_size = argv[1]
         psafe_call = ['./psafe', profile, pwd, key_size]
@@ -63,3 +112,4 @@ def main(argv):
 
 if  __name__ =='__main__':
     main(sys.argv[1:])
+
