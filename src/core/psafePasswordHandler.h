@@ -8,6 +8,6 @@
 GtkWidget* dialog;
 
 int entry_callback (GtkWidget * widget, GdkEventKey* pKey,gpointer userdata);
-char *getPassword(void);
+const char *getPassword(void);
 
 #endif

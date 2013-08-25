@@ -2,6 +2,7 @@
 """Wrapper for psafe to pass passwords to the clipboard."""
 
 from subprocess import Popen, PIPE
+import subprocess
 from gi.repository import Gtk
 import sys
 import os
@@ -58,28 +59,28 @@ def clear_clipboard():
 
 def main(argv):
     """pysafe main method"""
-    argc = len(argv)
-    if argc < 1 or argc > 2:
-        print(HELP_MSG)
-        sys.exit(1)
+    #argc = len(argv)
+    #if argc < 1 or argc > 2:
+    #    print(HELP_MSG)
+    #    sys.exit(1)
 
-    for opt in argv:
-        if opt in ("-h", "--help"):
-            print(HELP_MSG)
-            sys.exit()
+    #for opt in argv:
+    #    if opt in ("-h", "--help"):
+    #        print(HELP_MSG)
+    #        sys.exit()
 
     profile = argv[0]
-    pwd = get_pwd()
+    #pwd = get_pwd()
 
-    if pwd is None:
-        print(HELP_MSG)
-        sys.exit()
+    #if pwd is None:
+    #    print(HELP_MSG)
+    #    sys.exit()
 
-    if argc == 2:
-        key_size = argv[1]
-        psafe_call = ['./psafe', profile, pwd, key_size]
-    else:
-        psafe_call = ['./psafe', profile, pwd]
+    #if argc == 2:
+    #    key_size = argv[1]
+    #    psafe_call = ['./psafe', profile, pwd, key_size]
+    #else:
+    psafe_call = ['./psafe', profile]
       
     # run psafe and save output
     process = Popen(psafe_call, shell=False, stdout=PIPE,
@@ -88,19 +89,19 @@ def main(argv):
     out, err = process.communicate()
 
     # if stderr not empty, exit and print errors
-    if not err:
-        text_to_clipboard(out)
-    else:
-        print(err.decode("utf-8"))
-        sys.exit(1)
+    #if not err:
+    #    text_to_clipboard(out)
+    #else:
+    #    print(err.decode("utf-8"))
+    #    sys.exit(1)
 
     # now fork and sleep!
-    if os.fork():
-        sys.exit()
+    #if os.fork():
+    #    sys.exit()
 
-    time.sleep(10)
+    #time.sleep(10)
 
-    clear_clipboard()
+    #clear_clipboard()
 
     sys.exit(0)
 
