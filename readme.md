@@ -35,14 +35,6 @@ A typical call would look like this:
 
 This call would ask the user for a password and print it out on console. The
 same profile, password and key length will always result in the same key.
-Please use the included python wrapper, since a call to psafe simply outputs the
-key to stdout:   
-
-```pysafe my_profile_name 12```
-
-will do the same as the call above but will pipe the key to your primary X
-selection and remove it after 10 seconds.
-
 
 Key Algorithm
 =============
@@ -79,7 +71,6 @@ hypothetical (but nonsensical) password result ```[1,1,1,1,1]``` the end result 
   Therefore: The current key algorithm is s**t <3
 
 
-
 Todo
 ====
 
@@ -87,7 +78,7 @@ Todo
   -> injective or bijective function for encryption.   
   -> encrypt the profile name with password? RSA?   
 - windows compatibility (maybe use pyperclip for wrapper)
-- not-in-shell mode for password   
+- not-in-shell mode for password (working, doesn't close though)   
 - variable clipboard timeout    
 ---- bullshit ----
 - config wizard
