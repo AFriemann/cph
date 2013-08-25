@@ -33,8 +33,8 @@ A typical call would look like this:
 
 ```psafe my_profile_name 12```   
 
-This call would ask the user for a password and print it out on console. The
-same profile, password and key length will always result in the same key.
+This call would ask the user for a password and save the result to the primary X
+selection for 10 seconds. The same profile, password and key length will always result in the same key.
 
 Key Algorithm
 =============
