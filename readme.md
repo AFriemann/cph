@@ -76,6 +76,7 @@ Todo
   -> encrypt the profile name with password? RSA?   
 - windows and osx compatibility
 - password creation somehow discards const qualifier   
+- specify alphabet (many services don't accept special characters)
 ---- nice-to-have ----   
 - qt version
 - config file and wizard
