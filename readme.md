@@ -89,9 +89,9 @@ Todo
 Changelog
 =========
 
-#####v0.9rc
-- key algorithm needs rethinking, every change in key generation will change   
-  major version digit for easy version control, current version has some major   
+##### v0.9rc
+- key algorithm needs rethinking, every change in key generation will change
+  major version digit for easy version control, current version has some major
   issues
 - linux flow is working fine (calls through terminal and pipe are working)   
 
