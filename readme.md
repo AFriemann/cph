@@ -41,11 +41,8 @@ Key Algorithm
 
 Currently the profile name and password get converted to int arrays like so:
 
-```
-profile=foobar, keySize=5   
-
-foobar -> 102,111,111,98,97,114 -> [102+114,111,111,98,97] -> [216,111,111,98,97]
-```
+```profile=foobar, keySize=5```   
+```foobar -> 102,111,111,98,97,114 -> [102+114,111,111,98,97] -> [216,111,111,98,97]```
 
 The results then gets warped by multiplicating each element with its index
 ```[216*1,111*2,111*3,98*4,97*5] -> [216,222,333,392,485]```
