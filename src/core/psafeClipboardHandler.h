@@ -4,7 +4,7 @@
 #include <gtk/gtk.h>
 #include <string.h>
 
-void copyStringToClipboard(char *string);
+void copyStringToClipboard(const char *string);
 int clearClipboardAndExit(void);
 
 #endif

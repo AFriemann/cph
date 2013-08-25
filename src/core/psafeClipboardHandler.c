@@ -3,7 +3,7 @@
 #include <gtk/gtk.h>
 #include <string.h>
 
-void copyStrToClipboard(const char *str) {
+void copyStringToClipboard(const char *str) {
   gtk_init (0, NULL);
 
   g_timeout_add(10000, (GSourceFunc) clearClipboardAndExit, NULL);
