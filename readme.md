@@ -77,13 +77,23 @@ Todo
 - better key algorithm (bits & bytes ftw!)   
   -> injective or bijective function for encryption.   
   -> encrypt the profile name with password? RSA?   
-- windows compatibility (maybe use pyperclip for wrapper)
-- not-in-shell mode for password (working, doesn't close though)   
-- variable clipboard timeout    
----- bullshit ----
-- config wizard
+- windows and osx compatibility
+- password creation somehow discards const qualifier   
+---- nice-to-have ----   
+- qt version
+- config file and wizard
+- variable clipboard timeout
 - file reading and handling
 - more input strings 
+
+Changelog
+=========
+
+#####v0.9rc
+- key algorithm needs rethinking, every change in key generation will change   
+  major version digit for easy version control, current version has some major   
+  issues
+- linux flow is working fine (calls through terminal and pipe are working)   
 
 ----
 
