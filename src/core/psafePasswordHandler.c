@@ -1,6 +1,7 @@
 #include "psafePasswordHandler.h"
 
 int entry_callback (GtkWidget * widget, GdkEventKey* pKey,gpointer userdata) {
+  g_signal_emit_by_name(dialog, "destroy");
   gtk_main_quit(); 
   return 0;
 }
