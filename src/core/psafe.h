@@ -30,6 +30,8 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include <errno.h>
 
 #include "psafeKey.h"
+#include "psafePasswordHandler.h"
+#include "psafeClipboardHandler.h"
 
 static int FLAG_ERROR = 0;
 

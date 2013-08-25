@@ -4,6 +4,9 @@
 #include <gtk-3.0/gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+
+GtkWidget* dialog;
+
 int entry_callback (GtkWidget * widget, GdkEventKey* pKey,gpointer userdata);
 char *getPassword(void);
 

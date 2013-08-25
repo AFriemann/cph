@@ -61,19 +61,18 @@ int main(int argc, char **argv) {
 
   int remainingParams = argc - optind;
 
-  if ( remainingParams > 3 || remainingParams < 2 ){
+  if ( remainingParams > 2 ){
     fprintf(stderr, "%s", errorMsg);
     return(1);
   }
 
-  profile = argv[optind++];
-  password = argv[optind++];
-
-  remainingParams -= 2;
+  profile = argv[optind++]; remainingParams--;
+  password = getPassword(); // calls password function
 
   if (remainingParams == 0) {
     keySize = defaultKeySize;
   } else {
+    // read key size from console argument
     char* tmp;
     int keySizeParam = strtol(argv[optind], &tmp, 10);
     // check for possible error 
@@ -88,12 +87,33 @@ int main(int argc, char **argv) {
   char *keyBuffer = (char*)calloc(keySize, sizeof(char));
   createKey(keyBuffer, profile, password, keySize);
 
-  // delete password and free space
-  //memset(password, 0, maxPwdSize*sizeof(char));
-  //free(password);
+  // delete password and profile from memory
+  memset(password, 0, strlen(password)*sizeof(char));
+  memset(profile, 0, strlen(profile)*sizeof(char));
 
-  // output result
-  fprintf(stdout, "%s", keyBuffer);
+  // fork child process 
+  pid_t childPID;
+
+  childPID = fork();
+
+  if(childPID >= 0) { // fork was successful
+    if(childPID == 0) { // child process 
+			/* initialize GTK */
+			gtk_init (0, NULL);
+
+			copyStringToClipboard(keyBuffer);
+	
+			g_timeout_add(10000,(GSourceFunc) clearClipboardAndExit,NULL);
+	
+			gtk_main();
+			exit(0);
+    } else { //Parent process
+      exit(0);
+    }
+  } else { // fork failed
+    printf("\n Fork failed, quitting!\n");
+    return 1;
+  }
 
   // delete key and free space
   memset(keyBuffer, 0, keySize*sizeof(char));

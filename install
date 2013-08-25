@@ -10,7 +10,7 @@ MAINFOLDER="src/core"
 TESTFOLDER="src/test"
 
 MAINSOURCE="$MAINFOLDER/psafe.c"
-SUPPSOURCES="$MAINFOLDER/psafeKey.c $MAINFOLDER/literalOperations.c $MAINFOLDER/arrayOperations.c"
+SUPPSOURCES="$MAINFOLDER/psafeKey.c $MAINFOLDER/literalOperations.c $MAINFOLDER/arrayOperations.c $MAINFOLDER/psafePasswordHandler.c $MAINFOLDER/psafeClipboardHandler.c"
 
 MAINBIN="psafe"
 TESTBIN="test"
@@ -26,7 +26,7 @@ function compile {
 function setMainSources {
   BIN=$MAINBIN
   SOURCES="$MAINSOURCE $SUPPSOURCES"
-  #PKGCFG="`pkg-config --cflags --libs`"
+  PKGCFG="`pkg-config --cflags --libs gtk+-3.0`"
   return $?   
 }
 
