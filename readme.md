@@ -71,6 +71,7 @@ hypothetical (but nonsensical) password result ```[1,1,1,1,1]``` the end result 
 Todo
 ====
 
+- find a suitable name which is not used yet   
 - better key algorithm (bits & bytes ftw!)   
   -> injective or bijective function for encryption.   
   -> encrypt the profile name with password? RSA?   
