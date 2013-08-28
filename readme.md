@@ -62,7 +62,7 @@ hypothetical (but nonsensical) password result ```[1,1,1,1,1]``` the end result 
 #### Issues
 
 * repetetive profile & password combinations result in the same output: 
-  ```AAA+BBB = AAAA+BBB != AAAAA+BBB = AAAAAAA+BBB```
+  ```AAA+p = AAAA+p != AAAAA+p = AAAAAAA+p```
   For key size 12.   
   This makes sense: 12/3=4, 12/4=3, 12/5=2.4, 12/7=1.71..
   Therefore: The current key algorithm is s**t <3
@@ -71,9 +71,11 @@ hypothetical (but nonsensical) password result ```[1,1,1,1,1]``` the end result 
 Todo
 ====
 
-- profile input via gui for users without dmenu-like runner
+- profile input via gui for users without dmenu-like runner   
 - find a suitable name which is not used yet   
 - better key algorithm (bits & bytes ftw!)   
+  -> p_i = p_i + |p|*i in string to int array conversion would fix the
+  repetetive key problem   
   -> injective or bijective function for encryption.   
   -> encrypt the profile name with password? RSA?   
 - windows and osx compatibility
