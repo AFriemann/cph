@@ -71,6 +71,7 @@ hypothetical (but nonsensical) password result ```[1,1,1,1,1]``` the end result 
 Todo
 ====
 
+- profile input via gui for users without dmenu-like runner
 - find a suitable name which is not used yet   
 - better key algorithm (bits & bytes ftw!)   
   -> injective or bijective function for encryption.   
