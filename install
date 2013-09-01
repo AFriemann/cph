@@ -10,7 +10,7 @@ MAINFOLDER="src/core"
 TESTFOLDER="src/test"
 
 MAINSOURCE="$MAINFOLDER/psafe.c"
-SUPPSOURCES="$MAINFOLDER/psafeKey.c $MAINFOLDER/literalOperations.c $MAINFOLDER/arrayOperations.c $MAINFOLDER/psafePasswordHandler.c $MAINFOLDER/psafeClipboardHandler.c"
+SUPPSOURCES="$MAINFOLDER/psafeKey.c $MAINFOLDER/literalOperations.c $MAINFOLDER/arrayOperations.c $MAINFOLDER/psafeInputHandler.c $MAINFOLDER/psafeClipboardHandler.c"
 
 MAINBIN="psafe"
 TESTBIN="test"

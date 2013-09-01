@@ -19,26 +19,24 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 #include "psafe.h"
 
-int main(int argc, char **argv) {
-  if (argc < 2) {
-    fprintf(stderr, "%s", errorMsg);
-    return 1;
-  }
-
+int main(int argc, char **argv) 
+{
   int arg;
 
-  while (1) {
+  while (1) 
+  {
     /* getopt_long stores the option index here. */
     int option_index = 0;
 
-    arg = getopt_long (argc, argv, "h",
+    arg = getopt_long (argc, argv, "hl:",
                     long_options, &option_index);
 
     /* Detect the end of the options. */
     if (arg == -1)
       break;
 
-    switch (arg) {
+    switch (arg) 
+    {
       case 0:
         /* If this option set a flag, do nothing else now. */
         if (long_options[option_index].flag != 0)
@@ -49,6 +47,12 @@ int main(int argc, char **argv) {
       case 'h':
         fprintf(stderr, "%s", helpMsg);
         return 0;
+
+      case 'l':
+        // read key size from console argument
+        //char* tmp;
+        keySize = strtol(argv[optind], NULL/*&tmp*/, 10);
+        break;
 
       case '?':
         /* getopt_long already printed an error message. */
@@ -61,6 +65,7 @@ int main(int argc, char **argv) {
 
   int remainingParams = argc - optind;
 
+  /*
   if ( remainingParams > 2 ){
     fprintf(stderr, "%s", errorMsg);
     return(1);
@@ -82,22 +87,39 @@ int main(int argc, char **argv) {
     } else
       keySize = keySizeParam;
   }
+  */
 
-  // allocate space for key and set it
+  if ( remainingParams == 0 ) 
+  {
+    keySize = (keySize != NULL) ? keySize : defaultKeySize;
+    profile = (profile != NULL) ? profile : getProfile();
+    password = (password != NULL) ? password : getPassword();
+  } 
+  else if ( remainingParams == 1 && !( profile != NULL ) ) 
+  {
+    keySize = (keySize != NULL) ? keySize : defaultKeySize;
+    profile = argv[optind];
+    password = (password != NULL) ? password : getPassword();
+  } 
+  else 
+  {
+    fprintf(stderr, "%s", errorMsg);
+    return(1);
+  }
+
+  // allocate space for key and generate it
   char *keyBuffer = (char*)calloc(keySize, sizeof(char));
   createKey(keyBuffer, profile, password, keySize);
-
-  // delete password and profile from memory
-  memset(password, 0, strlen(password)*sizeof(char));
-  memset(profile, 0, strlen(profile)*sizeof(char));
 
   // fork child process 
   pid_t childPID;
 
   childPID = fork();
 
-  if(childPID >= 0) { // fork was successful
-    if(childPID == 0) { // child process 
+  if(childPID >= 0) 
+  { // fork was successful
+    if(childPID == 0) 
+    { // child process 
 			/* initialize GTK */
 			gtk_init (0, NULL);
 
@@ -107,15 +129,21 @@ int main(int argc, char **argv) {
 	
 			gtk_main();
 			exit(0);
-    } else { //Parent process
+    } 
+    else 
+    { //Parent process
       exit(0);
     }
-  } else { // fork failed
+  } 
+  else 
+  { // fork failed
     printf("\n Fork failed, quitting!\n");
     return 1;
   }
 
-  // delete key and free space
+  // delete password and profile and generated key from memory
+  memset(password, 0, strlen(password)*sizeof(char));
+  memset(profile, 0, strlen(profile)*sizeof(char));
   memset(keyBuffer, 0, keySize*sizeof(char));
   free(keyBuffer);
   

@@ -51,6 +51,7 @@ void createKey(char* buffer, const char *profile, const char *password, const in
 
 
 void generateKey(int *buffer, const int *profile, const int *password, const int keySize) {
+  // copy profile to buffer
   memcpy(buffer,profile,keySize*sizeof(int));
   // calculate key
   multiplicateArrayElements(buffer, password, keySize);

@@ -1,5 +1,5 @@
 /*
-psafe password handler; used to handle password inputs.
+psafe input handler; used to handle user inputs.
 Copyright (C) 2013 Aljosha Friemann
 
 This program is free software: you can redistribute it and/or modify
@@ -16,8 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see [http://www.gnu.org/licenses/].
 */
 
-#ifndef PSAFE_PASSWORD_HANDLER
-#define PSAFE_PASSWORD_HANDLER
+#ifndef PSAFE_INPUT_HANDLER
+#define PSAFE_INPUT_HANDLER
 
 #include <gtk-3.0/gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
@@ -26,6 +26,7 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 GtkWidget* dialog;
 
 int entry_callback (GtkWidget * widget, GdkEventKey* pKey,gpointer userdata);
-const char *getPassword(void);
+char *getPassword(void);
+char *getProfile(void);
 
 #endif
