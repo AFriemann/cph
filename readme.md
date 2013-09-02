@@ -81,7 +81,6 @@ so with a hypothetical (but nonsensical) password result ```[1,1,1,1,1]``` the e
 Todo
 ====
 
-- profile input via gui for users without dmenu-like runner   
 - find a suitable name which is not used yet   
 - better key algorithm (bits & bytes ftw!)    
   -> p_i = p_i + |p|*i in string to int array conversion would fix the
@@ -101,8 +100,13 @@ Changelog
 =========
 
 ##### v0.9
-- key algorithm needs rethinking, every change in key generation will change
-  major version digit for easy version control, current version has some major
+- gui input working
+- cleaned up a a lot of code
+- fixed a bug where literal subtraction could result in negative values
+
+##### v0.8
+- key algorithm needs rethinking, every change in key generation should change
+  second version digit for easy version control, current version has some major
   issues
 - linux flow is working fine (calls through terminal and pipe are working)   
 
