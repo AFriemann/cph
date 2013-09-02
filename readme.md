@@ -105,7 +105,7 @@ Todo
 Changelog
 =========
 
-#### v0.9
+##### v0.9
 - gui input working
 - cleaned up a a lot of code
 - fixed a bug where literal subtraction could result in negative values
