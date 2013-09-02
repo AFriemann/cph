@@ -19,12 +19,15 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 #include "psafe.h"
 
-int main(int argc, char **argv) 
+int 
+main(int argc, char **argv) 
 {
   int arg;
+  profile     = malloc(MAX_INPUT_SIZE*sizeof(char));
+  password    = malloc(MAX_INPUT_SIZE*sizeof(char));
+  key_buffer  = calloc(key_size, sizeof(char));
 
-  while (1) 
-  {
+  while (1) {
     /* getopt_long stores the option index here. */
     int option_index = 0;
 
@@ -34,8 +37,7 @@ int main(int argc, char **argv)
     if (arg == -1)
       break;
 
-    switch (arg) 
-    {
+    switch (arg) {
       case 0:
         /* If this option set a flag, do nothing else now. */
         if (long_options[option_index].flag != 0)
@@ -49,15 +51,14 @@ int main(int argc, char **argv)
 
       case 'l':
         // read key size from console argument
-        //char* tmp;
-        key_size = strtol(argv[optind], NULL/*&tmp*/, 10);
+        key_size = strtol(optarg, NULL/*&tmp*/, 10);
         if (key_size > MAX_KEY_SIZE || key_size < 0)
           key_size = DEFAULT_KEY_SIZE;
         break;
 
       case 'p':
         // read password from console
-        password = argv[optind];
+        strcpy(password, optarg);
         break;
 
       case '?':
@@ -71,32 +72,22 @@ int main(int argc, char **argv)
 
   int remaining_params = argc - optind;
 
-  if (remaining_params > 1)
-  {
+  if (remaining_params > 1) {
     fprintf(stderr, "%s", error_msg);
     return(1);
   }
 
   // set profile if not given
   if (remaining_params > 0) 
-  {
-    profile = argv[optind];
-  }
+    strcpy(profile, argv[optind]);
   else 
-  {
-    profile = (char*)malloc(MAX_INPUT_SIZE*sizeof(char));
     get_input(profile, FALSE);
-  }
 
   // set password
-  if (password == NULL) 
-  {
-    password = (char*)calloc(MAX_INPUT_SIZE, sizeof(char));
+  if (strlen(password) == 0)
     get_input(password, TRUE);
-  }
 
   // allocate space for key and generate it
-  key_buffer = (char*)calloc(key_size, sizeof(char));
   createKey(key_buffer, profile, password, key_size);
 
   // fork child process 
@@ -104,26 +95,25 @@ int main(int argc, char **argv)
 
   childPID = fork();
 
-  if(childPID >= 0) 
-  { // fork was successful
-    if(childPID == 0) 
-    { // child process 
+  if(childPID >= 0) { // fork was successful
+    if(childPID == 0) { // child process 
 			/* initialize GTK */
 			copy_string_to_clipboard(key_buffer);
-      // delete password and profile and generated key from memory
-      memset(password,    0, strlen(password)*sizeof(char));
-      memset(profile,     0, strlen(profile)*sizeof(char));
+      
       memset(key_buffer,  0, key_size*sizeof(char));
       free(key_buffer);
+
 			exit(0);
     } 
-    else 
-    { //Parent process
+    else { //Parent process
+      memset(password,    0, strlen(password)*sizeof(char));
+      memset(profile,     0, strlen(profile)*sizeof(char));
+      free(password);
+      free(profile);
       exit(0);
     }
   } 
-  else 
-  { // fork failed
+  else { // fork failed
     fprintf(stderr, "\n Fork failed, quitting!\n");
     return 1;
   }

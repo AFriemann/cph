@@ -37,8 +37,8 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #define MAX_KEY_SIZE 128
 #define DEFAULT_KEY_SIZE 12
 
-static char *profile = NULL;
-static char *password = NULL;
+static char *profile;
+static char *password;
 static char *key_buffer;
 static int key_size = DEFAULT_KEY_SIZE;
 
