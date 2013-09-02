@@ -23,12 +23,12 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include <stdlib.h>
 #include <string.h>
 
-int literalAddition(const int a, const int b);
-int literalSubtraction(const int a, const int b);
-int literalMultiplication(const int a, const int b);
+int lit_add(const int a, const int b);
+int lit_sub(const int a, const int b);
+int lit_mul(const int a, const int b);
 
-void writeStringToIntArray(int *buffer, const char *string, const int arraySize);
-void writeIntArrayToString(char *buffer, const int *intArray, const int arraySize);
+void str_to_int_array(int *buffer, const char *str, const int array_size);
+void int_array_to_str(char *buffer, const int *array, const int array_size);
 
 #endif
 

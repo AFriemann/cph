@@ -20,7 +20,8 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 #include "literalOperations.h"
 
-int literalAddition(const int a, const int b) {
+int 
+lit_add(const int a, const int b) {
   int result = (a + b) % 126;
   if (result < 33)
     result += 33;
@@ -28,7 +29,8 @@ int literalAddition(const int a, const int b) {
   return result;
 }
 
-int literalSubtraction(const int a, const int b) {
+int 
+lit_sub(const int a, const int b) {
   int result = (a - b) % 126;
   if (result < 33)
     result += 33;
@@ -36,7 +38,8 @@ int literalSubtraction(const int a, const int b) {
   return result;
 }
 
-int literalMultiplication(const int a, const int b) {
+int 
+lit_mul(const int a, const int b) {
   int result = (a * b) % 126;
   if (result < 33)
     result += 33;
@@ -44,55 +47,51 @@ int literalMultiplication(const int a, const int b) {
   return result;
 }
 
-void writeStringToIntArray(int* buffer, const char* string, const int arraySize) {
-  int stringLength = strlen(string);
+void 
+str_to_int_array(int *buffer, const char *str, const int array_size) {
+  int str_length = strlen (str);
  
   int index = 0;
   int iteration = 1;
-  int maxIndex = arraySize;
-  int stringIndex = 0;
+  int max_index = array_size;
+  int str_index = 0;
 
-  while (index < maxIndex) {
-    // string shorter than array
-    if (stringIndex == stringLength) {
+  while (index < max_index) {
+    // str shorter than array
+    if (str_index == str_length) {
       // if in first array round
       if (iteration == 1) {
-        // reset string index 
-        stringIndex = 0;
-        string -= stringLength;
+        // reset str index 
+        str_index = 0;
+        str -= str_length;
       } else
         break;
     }
 
-    //printf("%i\t%i\t->", index, *array);
-
     if (*buffer != 0) {
-      *buffer = literalAddition(*buffer, *string); 
+      *buffer = lit_add(*buffer, *str); 
     } else {
-      *buffer = *string;
+      *buffer = *str;
     }
 
-    //printf("\t%c\t%i\n", *string, *array);
-
-    // ende des arrays erreicht und noch string übrig
-    if (stringLength - stringIndex > 0 && index == iteration*(arraySize-1)) {
+    // ende des arrays erreicht und noch str übrig
+    if (str_length - str_index > 0 && index == iteration * (array_size - 1)) {
       // setze array zurück und erhöhe schleifen abbruch var
-      //printf("stringLength - stringIndex > 0 && index == iteration*(arraySize-1)\n");
-      //printf("resetting %i-%i > 0 and %i == %i*(%i-1)\n", stringLength, stringIndex, index, iteration, arraySize);
-      buffer -= arraySize;
-      maxIndex += (stringLength-1) - (stringIndex);
+      buffer -= array_size;
+      max_index += (str_length-1) - (str_index);
       index--; iteration++;
     }
 
-    string++; buffer++; stringIndex++; index++;
+    str++; buffer++; str_index++; index++;
   }
 }
 
-void writeIntArrayToString(char *string, const int *array, const int arraySize) {
+void 
+int_array_to_str(char *str, const int *array, const int array_size) {
   int index = 0;
 
-  while (index++ < arraySize) {
-    *string++ = *array++;
+  while (index++ < array_size) {
+    *str++ = *array++;
   }
 }
 

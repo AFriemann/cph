@@ -24,7 +24,7 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 #define CLIPBOARD_TIMEOUT 10000
 
-void copy_string_to_clipboard(const char *str);
-int clear_clipboard_and_exit(void);
+void str_to_clipboard(const char *str);
+//int clear_clipboard_and_exit(void);
 
 #endif

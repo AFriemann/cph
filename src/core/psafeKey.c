@@ -19,49 +19,44 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 #include "psafeKey.h"
 
-/*
-int createKey(char* buffer, const char **keyFactors, const int factorCount, const int keySize) {
-  return 0;
-}
-*/
-
-void createKey(char* buffer, const char *profile, const char *password, const int keySize) {
+void 
+create_key(char *buffer, const char *profile, const char *password, const int key_size) {
 
   // create array with size keysize for profile
-  int *intProfile = (int*)calloc(keySize,sizeof(int));
-  createIntArrayFromString(intProfile, profile, keySize);
+  int *profile_int = calloc(key_size, sizeof(int));
+  conv_string_to_ints(profile_int, profile, key_size);
   
   // create array with size keysize for password
-  int *intPassword = (int*)calloc(keySize,sizeof(int));
-  createIntArrayFromString(intPassword, password, keySize);
+  int *password_int = calloc(key_size, sizeof(int));
+  conv_string_to_ints(password_int, password, key_size);
 
   // create buffer array with size keysize for result
-  int *resultBuffer = (int*)calloc(keySize,sizeof(int));
-  generateKey(resultBuffer, intProfile, intPassword, keySize);
+  int *result_buffer = calloc(key_size, sizeof(int));
+  generate_key(result_buffer, profile_int, password_int, key_size);
  
   // write result to buffer String
-  writeIntArrayToString(buffer, resultBuffer, keySize);
+  int_array_to_str(buffer, result_buffer, key_size);
  
-  //printf("foo5\n");
-
-  free(resultBuffer);
-  free(intProfile);
-  free(intPassword);
+  free(result_buffer);
+  free(profile_int);
+  free(password_int);
 }
 
 
-void generateKey(int *buffer, const int *profile, const int *password, const int keySize) {
+void 
+generate_key(int *buffer, const int *profile, const int *password, const int key_size) {
   // copy profile to buffer
-  memcpy(buffer,profile,keySize*sizeof(int));
+  memcpy(buffer, profile, key_size * sizeof (int));
   // calculate key
-  multiplicateArrayElements(buffer, password, keySize);
-  addArrayElements(buffer, password, keySize);
+  mul_array(buffer, password, key_size);
+  add_array(buffer, password, key_size);
 }
 
-void createIntArrayFromString(int *array, const char* string, const int arrayLength) {
-  writeStringToIntArray(array, string, arrayLength);
-  shiftArrayCentre(array, arrayLength);
-  arrayElementIndexMultiplication(array, arrayLength);
-  reverseArrayElementIndexMultiplication(array, arrayLength);
+void 
+conv_string_to_ints(int *array, const char *string, const int arrayLength) {
+  str_to_int_array(array, string, arrayLength);
+  shift_array_centre(array, arrayLength);
+  indmul_array(array, arrayLength);
+  reverse_indmul_array(array, arrayLength);
 }
 

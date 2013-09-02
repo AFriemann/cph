@@ -77,7 +77,7 @@ Todo
 
 - profile input via gui for users without dmenu-like runner   
 - find a suitable name which is not used yet   
-- better key algorithm (bits & bytes ftw!)   
+- better key algorithm (bits & bytes ftw!)    
   -> p_i = p_i + |p|*i in string to int array conversion would fix the
   repetetive key problem   
   -> injective or bijective function for encryption.   
@@ -95,7 +95,7 @@ Todo
 Changelog
 =========
 
-##### v0.9rc
+##### v0.9
 - key algorithm needs rethinking, every change in key generation will change
   major version digit for easy version control, current version has some major
   issues

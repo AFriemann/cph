@@ -16,15 +16,14 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see [http://www.gnu.org/licenses/].
 */
 
-
 #include "psafe.h"
 
 int 
 main(int argc, char **argv) 
 {
   int arg;
-  profile     = malloc(MAX_INPUT_SIZE*sizeof(char));
-  password    = malloc(MAX_INPUT_SIZE*sizeof(char));
+  profile     = malloc(MAX_INPUT_SIZE * sizeof(char));
+  password    = malloc(MAX_INPUT_SIZE * sizeof(char));
   key_buffer  = calloc(key_size, sizeof(char));
 
   while (1) {
@@ -91,8 +90,8 @@ main(int argc, char **argv)
   if (strlen(password) == 0)
     get_input(password, TRUE);
 
-  // allocate space for key and generate it
-  createKey(key_buffer, profile, password, key_size);
+  // generate key
+  create_key(key_buffer, profile, password, key_size);
 
   // fork child process 
   pid_t childPID;
@@ -102,16 +101,16 @@ main(int argc, char **argv)
   if(childPID >= 0) { // fork was successful
     if(childPID == 0) { // child process 
 			/* initialize GTK */
-			copy_string_to_clipboard(key_buffer);
+			str_to_clipboard(key_buffer);
       
-      memset(key_buffer,  0, key_size*sizeof(char));
+      memset(key_buffer, 0, key_size * sizeof(char));
       free(key_buffer);
 
 			exit(0);
     } 
     else { //Parent process
-      memset(password,    0, strlen(password)*sizeof(char));
-      memset(profile,     0, strlen(profile)*sizeof(char));
+      memset(password, 0, strlen (password) * sizeof(char));
+      memset(profile, 0, strlen (profile) * sizeof(char));
       free(password);
       free(profile);
       exit(0);

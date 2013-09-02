@@ -23,10 +23,10 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include <stdio.h>
 #include "literalOperations.h"
 
-void multiplicateArrayElements(int* array1, const int* array2, const int arraySize);
-void arrayElementIndexMultiplication(int* array, const int arraySize);
-void reverseArrayElementIndexMultiplication(int* array, const int arraySize);
-void addArrayElements(int* array1, const int* array2, const int arraySize);
-void shiftArrayCentre(int* array, const int arraySize);
+void mul_array(int *array1, const int *array2, const int array_size);
+void indmul_array(int *array, const int array_size);
+void reverse_indmul_array(int *array, const int array_size);
+void add_array(int *array1, const int *array2, const int array_size);
+void shift_array_centre(int *array, const int array_size);
 
 #endif

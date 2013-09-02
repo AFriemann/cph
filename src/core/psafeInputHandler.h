@@ -23,11 +23,11 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include <gdk/gdkkeysyms.h>
 #include <string.h>
 
-GtkWidget* dialog;
-GtkEntryBuffer* gtk_buffer;
+GtkWidget *dialog;
+GtkEntryBuffer *gtk_buffer;
 
 //int entry_callback (GtkWidget * widget, GdkEventKey* pKey,gpointer userdata);
 //const char* gtk_input(const int is_password);
-void get_input(char* buffer, const int is_password);
+void get_input(char *buffer, const int is_password);
 
 #endif

@@ -22,10 +22,11 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "arrayOperations.h"
 
-void createKey(char* buffer, const char *profile, const char *password, const int keySize);
-void generateKey(int *buffer, const int *profile, const int *password, const int keySize);
-void createIntArrayFromString(int *array, const char* string, const int keySize);
+void create_key(char *buffer, const char *profile, const char *password, const int keySize);
+void generate_key(int *buffer, const int *profile, const int *password, const int keySize);
+void conv_string_to_ints(int *array, const char *string, const int keySize);
 
 #endif

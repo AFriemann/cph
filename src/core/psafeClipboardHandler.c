@@ -18,22 +18,6 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 #include "psafeClipboardHandler.h"
 
-void 
-copy_string_to_clipboard(const char *str) 
-{
-  gtk_init (0, NULL);
-
-  g_timeout_add(CLIPBOARD_TIMEOUT, (GSourceFunc) clear_clipboard_and_exit, NULL);
-
-	GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-	GtkClipboard *primary= gtk_clipboard_get(GDK_SELECTION_PRIMARY);
-	
-	gtk_clipboard_set_text(clipboard, str, strlen(str));
-	gtk_clipboard_set_text(primary, str, strlen(str));
-
-  gtk_main();
-}
-
 int 
 clear_clipboard_and_exit(void) 
 {
@@ -49,5 +33,21 @@ clear_clipboard_and_exit(void)
 	gtk_main_quit();
 
 	return 0;
+}
+
+void 
+str_to_clipboard(const char *str) 
+{
+  gtk_init (0, NULL);
+
+  g_timeout_add(CLIPBOARD_TIMEOUT, (GSourceFunc) clear_clipboard_and_exit, NULL);
+
+	GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+	GtkClipboard *primary= gtk_clipboard_get(GDK_SELECTION_PRIMARY);
+	
+	gtk_clipboard_set_text(clipboard, str, strlen (str));
+	gtk_clipboard_set_text(primary, str, strlen (str));
+
+  gtk_main();
 }
 

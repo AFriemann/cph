@@ -18,13 +18,15 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 #include "psafeInputHandler.h"
 
-int entry_callback (GtkWidget * widget, GdkEventKey* pKey, gpointer userdata) 
+int 
+entry_callback (GtkWidget *widget, GdkEventKey *pKey, gpointer userdata) 
 {
   g_signal_emit_by_name(dialog, "destroy");
   return 0;
 }
 
-const char* gtk_input(const int is_password) 
+const char* 
+gtk_input(const int is_password) 
 {
   gtk_init(0, NULL);
 
@@ -32,7 +34,7 @@ const char* gtk_input(const int is_password)
 
   dialog = gtk_dialog_new();
 
-  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  GtkWidget *content_area = gtk_dialog_get_content_area(GTK_DIALOG (dialog));
   GtkWidget *password_input = gtk_entry_new_with_buffer(gtk_buffer);
 
   if (is_password)
@@ -43,13 +45,14 @@ const char* gtk_input(const int is_password)
     gtk_entry_set_input_purpose(GTK_ENTRY (password_input), GTK_INPUT_PURPOSE_PASSWORD);
   }  
   else
-    gtk_window_set_title(GTK_WINDOW (dialog), "profile");
+  { 
+    gtk_window_set_title(GTK_WINDOW (dialog), "profile"); 
+  }
 
-
-  gtk_container_add (GTK_CONTAINER (content_area), password_input);
+  gtk_container_add(GTK_CONTAINER (content_area), password_input);
 
   g_signal_connect(dialog, "destroy", G_CALLBACK (gtk_main_quit), NULL);
-  g_signal_connect (password_input, "activate", G_CALLBACK (entry_callback), NULL);
+  g_signal_connect(password_input, "activate", G_CALLBACK (entry_callback), NULL);
 
   gtk_widget_show_all(dialog);
 
@@ -58,7 +61,8 @@ const char* gtk_input(const int is_password)
   return gtk_entry_buffer_get_text(GTK_ENTRY_BUFFER (gtk_buffer));
 }
 
-void get_input(char* buffer, const int is_password) {
+void 
+get_input(char* buffer, const int is_password) {
   if (isatty(1))
   {
     if (is_password)
