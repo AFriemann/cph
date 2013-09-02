@@ -22,32 +22,32 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 int 
 lit_add(const int a, const int b) {
-  int result = (a + b) % 126;
-  if (result < 33)
-    result += 33;
+  int result = (a + b) % LITERAL_MAX;
+  if (result < LITERAL_MIN)
+    result += LITERAL_MIN;
   //printf("\t\t%i + %i = %i\n", a, b, result);
   return result;
 }
 
 int 
 lit_sub(const int a, const int b) {
-  int result = (a - b) % 126;
+  int result = (a - b) % LITERAL_MAX;
 
   /* ensure values > 0 */
   if (result < 0)
-    result += 126;
+    result += LITERAL_MAX;
 
-  if (result < 33)
-    result += 33;
+  if (result < LITERAL_MIN)
+    result += LITERAL_MIN;
   //printf("\t\t%i + %i = %i\n", a, b, result);
   return result;
 }
 
 int 
 lit_mul(const int a, const int b) {
-  int result = (a * b) % 126;
-  if (result < 33)
-    result += 33;
+  int result = (a * b) % LITERAL_MAX;
+  if (result < LITERAL_MIN)
+    result += LITERAL_MIN;
   //printf("\t\t%i * %i = %i\n", a, b, result);
   return result;
 }

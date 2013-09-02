@@ -23,6 +23,9 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include <stdlib.h>
 #include <string.h>
 
+#define LITERAL_MIN 33
+#define LITERAL_MAX 126
+
 int lit_add(const int a, const int b);
 int lit_sub(const int a, const int b);
 int lit_mul(const int a, const int b);
