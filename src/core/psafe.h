@@ -17,8 +17,8 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 */
 
 
-#ifndef PSAFE
-#define PSAFE
+#ifndef PSAFE_MAIN
+#define PSAFE_MAIN
 
 #include <stdio.h>
 #include <stdlib.h>

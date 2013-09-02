@@ -16,8 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see [http://www.gnu.org/licenses/].
 */
 
-#ifndef PSAFEKEY
-#define PSAFEKEY
+#ifndef PSAFE_KEY
+#define PSAFE_KEY
 
 #include <stdio.h>
 #include <stdlib.h>
