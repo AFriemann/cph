@@ -100,11 +100,11 @@ Todo
 - config file and wizard
 - variable clipboard timeout
 - file reading and handling
-- more input strings   
+- more input strings
 
 Changelog
 =========
-
+   
 ##### v0.9
 - gui input working
 - cleaned up a a lot of code
