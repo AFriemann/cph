@@ -33,16 +33,17 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include "psafeInputHandler.h"
 #include "psafeClipboardHandler.h"
 
-static int FLAG_ERROR = 0;
+#define MAX_INPUT_SIZE 64
+#define MAX_KEY_SIZE 128
+#define DEFAULT_KEY_SIZE 12
 
-static char *profile;
-static char *password;
-static int keySize;
-static const int defaultKeySize = 12;
-static const int maxPwdSize = 32;
+static char *profile = NULL;
+static char *password = NULL;
+static char *key_buffer;
+static int key_size = DEFAULT_KEY_SIZE;
 
-static const char *errorMsg = "not enough arguments given! Try --help\n";
-static const char *helpMsg = "psafe returns a password for any given profile and password.\n"
+static const char *error_msg = "not enough arguments given! Try --help\n";
+static const char *help_msg = "psafe returns a password for any given profile and password.\n"
                               "profile should be an easy to remember name for your password, the key size is optional; the current default is 12.\n"
                               "\tusage: psafe <profile> <password> [key size]\n"
                               "\t-h, --help: show this help message\n"
@@ -55,6 +56,7 @@ static struct option long_options[] = {
     We distinguish them by their indices. */
   {"help",        no_argument,        0, 'h'},
   {"key-size",    required_argument,  0, 'l'},
+  {"password",    required_argument,  0, 'p'},
   {0, 0, 0, 0}
 };
 

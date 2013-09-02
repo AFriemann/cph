@@ -18,52 +18,57 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 #include "psafeInputHandler.h"
 
-int entry_callback (GtkWidget * widget, GdkEventKey* pKey, gpointer userdata) {
+int entry_callback (GtkWidget * widget, GdkEventKey* pKey, gpointer userdata) 
+{
   g_signal_emit_by_name(dialog, "destroy");
   return 0;
 }
 
-char *getPassword(void) {
-  if (isatty(1))
-    return getpass("Please enter your password: ");
-  else 
-  {
-    gtk_init(0, NULL);
+const char* gtk_input(const int is_password) 
+{
+  gtk_init(0, NULL);
 
-    GtkEntryBuffer *buffer = gtk_entry_buffer_new(NULL, -1);
+  gtk_buffer = gtk_entry_buffer_new(NULL, -1);
 
-    dialog = gtk_dialog_new();
+  dialog = gtk_dialog_new();
 
-    GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  GtkWidget *password_input = gtk_entry_new_with_buffer(gtk_buffer);
 
-    GtkWidget *password_input = gtk_entry_new_with_buffer(buffer);
+  if (is_password)
+  { 
     gtk_entry_set_visibility(GTK_ENTRY (password_input), FALSE);
     //gtk_entry_set_invisible_char(GTK_ENTRY (password_input), 0);
     gtk_entry_set_input_purpose(GTK_ENTRY (password_input), GTK_INPUT_PURPOSE_PASSWORD);
-    gtk_container_add (GTK_CONTAINER (content_area), password_input);
+  }  
 
-    g_signal_connect(dialog, "destroy", G_CALLBACK (gtk_main_quit), NULL);
-    g_signal_connect (password_input, "activate", G_CALLBACK (entry_callback), NULL);
+  gtk_container_add (GTK_CONTAINER (content_area), password_input);
 
-    gtk_widget_show_all(dialog);
+  g_signal_connect(dialog, "destroy", G_CALLBACK (gtk_main_quit), NULL);
+  g_signal_connect (password_input, "activate", G_CALLBACK (entry_callback), NULL);
 
-    gtk_main();
+  gtk_widget_show_all(dialog);
 
-    char *password = gtk_entry_buffer_get_text(GTK_ENTRY_BUFFER (buffer));
+  gtk_main();
 
-    return password;
-  }
+  return gtk_entry_buffer_get_text(GTK_ENTRY_BUFFER (gtk_buffer));
 }
 
-char *getProfile(void) {
+void get_input(char* buffer, const int is_password) {
   if (isatty(1))
   {
-    printf("profile input:\n");
-    return NULL;
+    if (is_password)
+      buffer = getpass("Please enter your password: ");
+    else
+    {
+      fprintf(stdout, "Please enter the profile name: ");
+      scanf("%s", buffer);
+    }
   }
-  else 
+  else
   {
-    return NULL;           
+    strcpy(buffer, gtk_input(is_password));
+    gtk_entry_buffer_delete_text(GTK_ENTRY_BUFFER (gtk_buffer), 0, -1);
   }
 }
 

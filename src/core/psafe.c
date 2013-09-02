@@ -28,8 +28,7 @@ int main(int argc, char **argv)
     /* getopt_long stores the option index here. */
     int option_index = 0;
 
-    arg = getopt_long (argc, argv, "hl:",
-                    long_options, &option_index);
+    arg = getopt_long (argc, argv, "hl:p:", long_options, &option_index);
 
     /* Detect the end of the options. */
     if (arg == -1)
@@ -45,13 +44,20 @@ int main(int argc, char **argv)
         //  break;
 
       case 'h':
-        fprintf(stderr, "%s", helpMsg);
+        fprintf(stderr, "%s", help_msg);
         return 0;
 
       case 'l':
         // read key size from console argument
         //char* tmp;
-        keySize = strtol(argv[optind], NULL/*&tmp*/, 10);
+        key_size = strtol(argv[optind], NULL/*&tmp*/, 10);
+        if (key_size > MAX_KEY_SIZE || key_size < 0)
+          key_size = DEFAULT_KEY_SIZE;
+        break;
+
+      case 'p':
+        // read password from console
+        password = argv[optind];
         break;
 
       case '?':
@@ -63,53 +69,33 @@ int main(int argc, char **argv)
     }
   }
 
-  int remainingParams = argc - optind;
+  int remaining_params = argc - optind;
 
-  /*
-  if ( remainingParams > 2 ){
-    fprintf(stderr, "%s", errorMsg);
+  if (remaining_params > 1)
+  {
+    fprintf(stderr, "%s", error_msg);
     return(1);
   }
 
-  profile = argv[optind++]; remainingParams--;
-  password = getPassword(); // calls password function
-
-  if (remainingParams == 0) {
-    keySize = defaultKeySize;
-  } else {
-    // read key size from console argument
-    char* tmp;
-    int keySizeParam = strtol(argv[optind], &tmp, 10);
-    // check for possible error 
-    if (tmp == argv[optind] || keySizeParam > 1024) {
-      fprintf(stderr, "Invalid input given for key size: %s! Setting to default (%i)\n", argv[optind], defaultKeySize);
-      keySize = defaultKeySize;
-    } else
-      keySize = keySizeParam;
-  }
-  */
-
-  if ( remainingParams == 0 ) 
-  {
-    keySize = (keySize != NULL) ? keySize : defaultKeySize;
-    profile = (profile != NULL) ? profile : getProfile();
-    password = (password != NULL) ? password : getPassword();
-  } 
-  else if ( remainingParams == 1 && !( profile != NULL ) ) 
-  {
-    keySize = (keySize != NULL) ? keySize : defaultKeySize;
+  // set profile if not given
+  if (remaining_params > 0) 
     profile = argv[optind];
-    password = (password != NULL) ? password : getPassword();
-  } 
   else 
   {
-    fprintf(stderr, "%s", errorMsg);
-    return(1);
+    profile = (char*)malloc(MAX_INPUT_SIZE*sizeof(char));
+    get_input(profile, FALSE);
+  }
+
+  // set password
+  if (password == NULL) 
+  {
+    password = (char*)calloc(MAX_INPUT_SIZE, sizeof(char));
+    get_input(password, TRUE);
   }
 
   // allocate space for key and generate it
-  char *keyBuffer = (char*)calloc(keySize, sizeof(char));
-  createKey(keyBuffer, profile, password, keySize);
+  key_buffer = (char*)calloc(key_size, sizeof(char));
+  createKey(key_buffer, profile, password, key_size);
 
   // fork child process 
   pid_t childPID;
@@ -121,13 +107,7 @@ int main(int argc, char **argv)
     if(childPID == 0) 
     { // child process 
 			/* initialize GTK */
-			gtk_init (0, NULL);
-
-			copyStringToClipboard(keyBuffer);
-	
-			g_timeout_add(10000,(GSourceFunc) clearClipboardAndExit,NULL);
-	
-			gtk_main();
+			copy_string_to_clipboard(key_buffer);
 			exit(0);
     } 
     else 
@@ -142,12 +122,13 @@ int main(int argc, char **argv)
   }
 
   // delete password and profile and generated key from memory
-  memset(password, 0, strlen(password)*sizeof(char));
-  memset(profile, 0, strlen(profile)*sizeof(char));
-  memset(keyBuffer, 0, keySize*sizeof(char));
-  free(keyBuffer);
+  memset(password,    0, strlen(password)*sizeof(char));
+  memset(profile,     0, strlen(profile)*sizeof(char));
+  memset(key_buffer,  0, key_size*sizeof(char));
+  free(key_buffer);
+  printf("still foo");
   
-  return FLAG_ERROR;
+  return 0;
 }
 
 
