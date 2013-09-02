@@ -96,7 +96,6 @@ Todo
   -> encrypt the profile name with password? RSA?   
 - windows and osx compatibility
 - specify alphabet (many services don't accept special characters)   
----- nice-to-have ----   
 - qt version
 - config file and wizard
 - variable clipboard timeout
