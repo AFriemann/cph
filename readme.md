@@ -22,6 +22,7 @@ The tests can be compiled with
 Requirements
 ============
 
+- a c compiler (gcc for the install script)
 - gtk3
 - cunit for testing
 
