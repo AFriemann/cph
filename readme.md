@@ -104,10 +104,7 @@ Todo
 
 Changelog
 =========
-   
-
-##### v1.0
-
+##### 
 
 ##### v0.9
 - gui input working
