@@ -91,7 +91,7 @@ main(int argc, char **argv)
   int remaining_params = argc - optind;
 
   if (remaining_params > 1) {
-    fprintf(stderr, "%s", error_msg);
+    fprintf(stderr, "%s\n", error_msg);
     return(1);
   }
 

@@ -51,14 +51,14 @@ static const char *help_msg = "psafe returns a password for any given profile an
                               "profile should be an easy to remember name for your password, can be provided later.\n"
                               "usage: psafe [OPTIONS] [profile]\n"
                               "\t-h, --help: show this help message\n"
-                              "\t-l, --key-size: set key length, default is 12\n"
-                              "\t-p, --password: set password\n"
-                              "\t-c, --license: show license notice\n\n";
+                              "\t-l, --key-size=[N]: set key length to N, default is 12\n"
+                              "\t-p, --password=[x]: set password to x (only for testing purposes!)\n"
+                              "\t-c, --license: show license notice";
 
 static const char *license =  "psafe  Copyright (C) 2013  Aljosha Friemann\n" 
                               "This program comes with ABSOLUTELY NO WARRANTY!\n"
                               "This is free software, and you are welcome to redistribute it\n"
-                              "under certain conditions; please read the provided license file for details.\n";
+                              "under certain conditions; please read the provided license file for details.";
 
 static struct option long_options[] = {
   /* These options set a flag. */
