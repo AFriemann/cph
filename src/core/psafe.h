@@ -44,10 +44,17 @@ static int key_size = DEFAULT_KEY_SIZE;
 
 static const char *error_msg = "not enough arguments given! Try --help\n";
 static const char *help_msg = "psafe returns a password for any given profile and password.\n"
-                              "profile should be an easy to remember name for your password, the key size is optional; the current default is 12.\n"
-                              "\tusage: psafe <profile> <password> [key size]\n"
+                              "profile should be an easy to remember name for your password, can be provided later.\n"
+                              "usage: psafe [OPTIONS] [profile]\n"
                               "\t-h, --help: show this help message\n"
-                              "\t-l, --key-size: set key length";
+                              "\t-l, --key-size: set key length, default is 12\n"
+                              "\t-p, --password: set password\n"
+                              "\t-c, --license: show license notice\n\n";
+
+static const char *license =  "psafe  Copyright (C) 2013  Aljosha Friemann\n" 
+                              "This program comes with ABSOLUTELY NO WARRANTY!\n"
+                              "This is free software, and you are welcome to redistribute it\n"
+                              "under certain conditions; please read the provided license file for details.\n";
 
 static struct option long_options[] = {
   /* These options set a flag. */
@@ -57,6 +64,7 @@ static struct option long_options[] = {
   {"help",        no_argument,        0, 'h'},
   {"key-size",    required_argument,  0, 'l'},
   {"password",    required_argument,  0, 'p'},
+  {"license",     no_argument,        0, 'c'},
   {0, 0, 0, 0}
 };
 
