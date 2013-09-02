@@ -22,7 +22,7 @@ void copy_string_to_clipboard(const char *str)
 {
   gtk_init (0, NULL);
 
-  g_timeout_add(10000, (GSourceFunc) clear_clipboard_and_exit, NULL);
+  g_timeout_add(CLIPBOARD_TIMEOUT, (GSourceFunc) clear_clipboard_and_exit, NULL);
 
 	GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
 	GtkClipboard *primary= gtk_clipboard_get(GDK_SELECTION_PRIMARY);

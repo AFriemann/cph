@@ -74,6 +74,5 @@ void get_input(char* buffer, const int is_password) {
     strcpy(buffer, gtk_input(is_password));
     gtk_entry_buffer_delete_text(GTK_ENTRY_BUFFER (gtk_buffer), 0, -1);
   }
-  printf("input result: %s\n", buffer);
 }
 

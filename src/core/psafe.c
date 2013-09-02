@@ -95,9 +95,6 @@ int main(int argc, char **argv)
     get_input(password, TRUE);
   }
 
-  printf("profile is: %s\n", profile);
-  printf("password is: %s with length: %d\n", password, (int)strlen(password));
-
   // allocate space for key and generate it
   key_buffer = (char*)calloc(key_size, sizeof(char));
   createKey(key_buffer, profile, password, key_size);
@@ -113,6 +110,11 @@ int main(int argc, char **argv)
     { // child process 
 			/* initialize GTK */
 			copy_string_to_clipboard(key_buffer);
+      // delete password and profile and generated key from memory
+      memset(password,    0, strlen(password)*sizeof(char));
+      memset(profile,     0, strlen(profile)*sizeof(char));
+      memset(key_buffer,  0, key_size*sizeof(char));
+      free(key_buffer);
 			exit(0);
     } 
     else 
@@ -122,16 +124,9 @@ int main(int argc, char **argv)
   } 
   else 
   { // fork failed
-    printf("\n Fork failed, quitting!\n");
+    fprintf(stderr, "\n Fork failed, quitting!\n");
     return 1;
   }
-
-  // delete password and profile and generated key from memory
-  memset(password,    0, strlen(password)*sizeof(char));
-  memset(profile,     0, strlen(profile)*sizeof(char));
-  memset(key_buffer,  0, key_size*sizeof(char));
-  free(key_buffer);
-  printf("still foo");
   
   return 0;
 }
