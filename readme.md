@@ -55,8 +55,12 @@ And a centre shift:
 All arithmetic operations are calculated modulo 126 with a minimum value of 33, so the
 resulting array would be
 ```[72,34,33,55,107]```
-The two calculated arrays will then be multiplicated and added, so with a
-hypothetical (but nonsensical) password result ```[1,1,1,1,1]``` the end result would be:
+
+This was basically just for show, so the result "looks" random.
+
+The two calculated arrays will then be multiplicated and added 
+```C = mul(add(profile,password),password)```
+so with a hypothetical (but nonsensical) password result ```[1,1,1,1,1]``` the end result would be:
 ```[73,35,34,56,108] -> I#"8l```   
 
 #### Issues
