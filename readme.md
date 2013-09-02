@@ -19,6 +19,12 @@ The tests can be compiled with
 ./install test
 ```
 
+Requirements
+============
+
+- gtk3
+- cunit for testing
+
 Usage
 =====
 
