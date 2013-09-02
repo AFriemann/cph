@@ -46,48 +46,33 @@ Currently the profile name and password get converted to int arrays like so:
 
 ```
 profile=foobar, keySize=5
-```   
-```
 foobar -> 102,111,111,98,97,114 -> [102+114,111,111,98,97] -> [216,111,111,98,97]
 ```
 
 The results then gets warped by multiplicating each element with its index
-```
-[216*1,111*2,111*3,98*4,97*5] -> [216,222,333,392,485]
-```
+```[216*1,111*2,111*3,98*4,97*5] -> [216,222,333,392,485]```
 
 And the reverse:
-```
-[216*5,222*4,333*3,392*2,485*1] ->  [1080,888,999,784,485]
-```
+```[216*5,222*4,333*3,392*2,485*1] ->  [1080,888,999,784,485]```
 
 And a centre shift:
-```
-[1080,888+784,999+(888*784),784-888,485] -> [1080,1672,697191,-104,485]
-```
+```[1080,888+784,999+(888*784),784-888,485] -> [1080,1672,697191,-104,485]```   
+
 All arithmetic operations are calculated modulo 126 with a minimum value of 33, so the
 resulting array would be
-```
-[72,34,33,55,107]
-```
+```[72,34,33,55,107]```
 
 This was basically just for show, so the result "looks" random.
 
 The two calculated arrays will then be multiplicated and added 
-```
-C = mul(add(profile,password),password)
-```
+```C = mul(add(profile,password),password)```
 so with a hypothetical (but nonsensical) password result ```[1,1,1,1,1]``` the end result would be:
-```
-[73,35,34,56,108] -> I#"8l
-```
+```[73,35,34,56,108] -> I#"8l```
 
 #### Issues
 
 * repetetive profile & password combinations result in the same output: 
-  ```
-  AAA+p = AAAA+p != AAAAA+p = AAAAAAA+p
-  ```
+  ```AAA+p = AAAA+p != AAAAA+p = AAAAAAA+p```   
   For key size 12.   
   This makes sense: 12/3=4, 12/4=3, 12/5=2.4, 12/7=1.71..
   Therefore: The current key algorithm is s**t <3
