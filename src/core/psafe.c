@@ -79,7 +79,9 @@ int main(int argc, char **argv)
 
   // set profile if not given
   if (remaining_params > 0) 
+  {
     profile = argv[optind];
+  }
   else 
   {
     profile = (char*)malloc(MAX_INPUT_SIZE*sizeof(char));
@@ -92,6 +94,9 @@ int main(int argc, char **argv)
     password = (char*)calloc(MAX_INPUT_SIZE, sizeof(char));
     get_input(password, TRUE);
   }
+
+  printf("profile is: %s\n", profile);
+  printf("password is: %s with length: %d\n", password, (int)strlen(password));
 
   // allocate space for key and generate it
   key_buffer = (char*)calloc(key_size, sizeof(char));

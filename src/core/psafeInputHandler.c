@@ -37,10 +37,14 @@ const char* gtk_input(const int is_password)
 
   if (is_password)
   { 
+    gtk_window_set_title(GTK_WINDOW (dialog), "password");
     gtk_entry_set_visibility(GTK_ENTRY (password_input), FALSE);
     //gtk_entry_set_invisible_char(GTK_ENTRY (password_input), 0);
     gtk_entry_set_input_purpose(GTK_ENTRY (password_input), GTK_INPUT_PURPOSE_PASSWORD);
   }  
+  else
+    gtk_window_set_title(GTK_WINDOW (dialog), "profile");
+
 
   gtk_container_add (GTK_CONTAINER (content_area), password_input);
 
@@ -58,10 +62,10 @@ void get_input(char* buffer, const int is_password) {
   if (isatty(1))
   {
     if (is_password)
-      buffer = getpass("Please enter your password: ");
+      strcpy(buffer, getpass("Please enter your password: "));
     else
     {
-      fprintf(stdout, "Please enter the profile name: ");
+      fprintf(stdout, "%s", "Please enter the profile name: ");
       scanf("%s", buffer);
     }
   }
@@ -70,5 +74,6 @@ void get_input(char* buffer, const int is_password) {
     strcpy(buffer, gtk_input(is_password));
     gtk_entry_buffer_delete_text(GTK_ENTRY_BUFFER (gtk_buffer), 0, -1);
   }
+  printf("input result: %s\n", buffer);
 }
 
