@@ -10,17 +10,19 @@
 
 int cleanCreateKeyTest(int (*f)(char **stringBuffer), int bufferCount, int keyLength);
 
-// createKey tests 
+// create_key tests 
 int keyLengthTest(char **stringBuffer);
 void keyLengthTestWrapper(void);
 
-int createKeyDifferentInputTest(char **stringBuffer);
-void createKeyDifferentInputTestWrapper(void);
+int create_keyDifferentInputTest(char **stringBuffer);
+void create_keyDifferentInputTestWrapper(void);
 
-int createKeySameInputTest(char **stringBuffer);
-void createKeySameInputTestWrapper(void);
+int create_keySameInputTest(char **stringBuffer);
+void create_keySameInputTestWrapper(void);
 
 int inputLongerThanOutputTest(char **stringBuffer);
 void inputLongerThanOutputTestWrapper(void);
+
+void conv_string_to_intsTest(void);
 
 #endif

@@ -6,9 +6,9 @@
 
 #include "../core/literalOperations.h"
 
-void literalAdditionTest(void);
-void literalMultiplicationTest(void);
-void writeStringToIntArrayTest(void); 
-void writeIntArrayToStringTest(void); 
+void lit_addTest(void);
+void lit_mulTest(void);
+void str_to_int_arrayTest(void); 
+void int_array_to_strTest(void); 
 
 #endif

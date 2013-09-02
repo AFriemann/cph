@@ -6,8 +6,9 @@
 
 #include "../core/arrayOperations.h"
 
-void addArrayElementsTest(void); 
-void multiplicateArrayElementsTest(void); 
-void arrayElementIndexMultiplicationTest(void); 
+void add_arrayTest(void); 
+void mul_arrayTest(void); 
+void indmul_arrayTest(void); 
+void reverse_indmul_arrayTest(void);
 
 #endif

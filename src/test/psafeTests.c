@@ -20,10 +20,11 @@ int main() {
 
    /* add the tests to the suite */
    /* NOTE - ORDER IS IMPORTANT - MUST TEST fread() AFTER fprintf() */
-   if (   (NULL == CU_add_test(pSuite, "createKey() length should match given argument", keyLengthTestWrapper))
-       || (NULL == CU_add_test(pSuite, "createKey() should return the same key for the same input", createKeySameInputTestWrapper))
-       || (NULL == CU_add_test(pSuite, "createKey() should return different keys for different input", createKeyDifferentInputTestWrapper))
-       || (NULL == CU_add_test(pSuite, "createKey() should work for inputs that are longer than the output key", inputLongerThanOutputTestWrapper)))
+   if (   (NULL == CU_add_test(pSuite, "create_key() length should match given argument", keyLengthTestWrapper))
+       || (NULL == CU_add_test(pSuite, "create_key() should return the same key for the same input", create_keySameInputTestWrapper))
+       || (NULL == CU_add_test(pSuite, "create_key() should return different keys for different input", create_keyDifferentInputTestWrapper))
+       || (NULL == CU_add_test(pSuite, "create_key() should work for inputs that are longer than the output key", inputLongerThanOutputTestWrapper))
+       || (NULL == CU_add_test(pSuite, "conv_string_to_ints() should produce the correct int array", conv_string_to_intsTest)) )
    {
       CU_cleanup_registry();
       return CU_get_error();
@@ -37,10 +38,10 @@ int main() {
 
    /* add the tests to the suite */
    /* NOTE - ORDER IS IMPORTANT - MUST TEST fread() AFTER fprintf() */
-   if (   (NULL == CU_add_test(pSuite, "literalAddition() should return a value between 33 and 126", literalAdditionTest))
-       || (NULL == CU_add_test(pSuite, "literalMultiplication() should return a value between 33 and 126", literalMultiplicationTest))
-       || (NULL == CU_add_test(pSuite, "writeStringToIntArray() should return the correct array", writeStringToIntArrayTest))
-       || (NULL == CU_add_test(pSuite, "writeIntArrayToString should return the correct string", writeIntArrayToStringTest)))
+   if (   (NULL == CU_add_test(pSuite, "lit_add() should return a value between 33 and 126", lit_addTest))
+       || (NULL == CU_add_test(pSuite, "lit_mul() should return a value between 33 and 126", lit_mulTest))
+       || (NULL == CU_add_test(pSuite, "str_to_int_array() should return the correct array", str_to_int_arrayTest))
+       || (NULL == CU_add_test(pSuite, "int_array_to_str should return the correct string", int_array_to_strTest)) )
    {
       CU_cleanup_registry();
       return CU_get_error();
@@ -54,9 +55,10 @@ int main() {
 
    /* add the tests to the suite */
    /* NOTE - ORDER IS IMPORTANT - MUST TEST fread() AFTER fprintf() */
-   if (   (NULL == CU_add_test(pSuite, "addArrayElements() should return the correct results", addArrayElementsTest))
-       || (NULL == CU_add_test(pSuite, "multiplicateArrayElements should return the correct results", multiplicateArrayElementsTest))
-       || (NULL == CU_add_test(pSuite, "arrayElementIndexMultiplication() should return the correct results", arrayElementIndexMultiplicationTest)) )
+   if (   (NULL == CU_add_test(pSuite, "add_array() should return the correct results", add_arrayTest))
+       || (NULL == CU_add_test(pSuite, "mul_array should return the correct results", mul_arrayTest))
+       || (NULL == CU_add_test(pSuite, "indmul_array() should return the correct results", indmul_arrayTest)) 
+       || (NULL == CU_add_test(pSuite, "reverse_indmul_array() should return the correct results", reverse_indmul_arrayTest)) ) 
    {
       CU_cleanup_registry();
       return CU_get_error();
