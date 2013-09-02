@@ -1,0 +1,16 @@
+#!/bin/sh
+
+if [ $(basename $(pwd)) == "analysis" ]; then
+  cd ..
+fi
+
+logfile=analysis/$(date +'%d-%m-%y').log
+
+echo "Printing $1 generated keys for version: $(./psafe --version)" >> $logfile
+
+for i in `seq 1 $1`;
+do
+  profile=$(pwgen -N1)
+  password=$(pwgen -N1)
+  echo -e "\t$profile $password: $(./psafe --print-key -p $password $profile)" >> $logfile
+done

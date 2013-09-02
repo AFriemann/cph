@@ -18,6 +18,17 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 #include "psafe.h"
 
+void 
+clear_buffers(void) 
+{
+  memset(password, 0, strlen (password) * sizeof(char));
+  memset(profile, 0, strlen (profile) * sizeof(char));
+  memset(key_buffer, 0, key_size * sizeof(char));
+  free(password);
+  free(profile);
+  free(key_buffer);
+}
+
 int 
 main(int argc, char **argv) 
 {
@@ -30,7 +41,7 @@ main(int argc, char **argv)
     /* getopt_long stores the option index here. */
     int option_index = 0;
 
-    arg = getopt_long (argc, argv, "chl:p:", long_options, &option_index);
+    arg = getopt_long (argc, argv, "chl:p:v", long_options, &option_index);
 
     /* Detect the end of the options. */
     if (arg == -1)
@@ -45,11 +56,11 @@ main(int argc, char **argv)
         //  break;
 
       case 'c':
-        fprintf(stdout, "%s", license);
+        fprintf(stdout, "%s\n", license);
         return 0;
 
       case 'h':
-        fprintf(stdout, "%s", help_msg);
+        fprintf(stdout, "%s\n", help_msg);
         return 0;
 
       case 'l':
@@ -63,6 +74,10 @@ main(int argc, char **argv)
         // read password from console
         strcpy(password, optarg);
         break;
+
+      case 'v':
+        fprintf(stdout, "%G\n", VERSION);
+        return 0;
 
       case '?':
         /* getopt_long already printed an error message. */
@@ -92,6 +107,12 @@ main(int argc, char **argv)
 
   // generate key
   create_key(key_buffer, profile, password, key_size);
+
+  if (FLAG_PRINT) {
+    fprintf(stdout, "%s\n", key_buffer); 
+    clear_buffers();
+    return 0;
+  }
 
   // fork child process 
   pid_t childPID;

@@ -33,9 +33,13 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include "psafeInputHandler.h"
 #include "psafeClipboardHandler.h"
 
+#define VERSION 0.9
+
 #define MAX_INPUT_SIZE 64
 #define MAX_KEY_SIZE 128
 #define DEFAULT_KEY_SIZE 12
+
+static int FLAG_PRINT = 0;
 
 static char *profile;
 static char *password;
@@ -58,16 +62,18 @@ static const char *license =  "psafe  Copyright (C) 2013  Aljosha Friemann\n"
 
 static struct option long_options[] = {
   /* These options set a flag. */
-  //{"print-key",       no_argument,  &FLAG_PRINT, 1},
+  {"print-key",   no_argument,  &FLAG_PRINT, 1},
   /* These options don't set a flag.
     We distinguish them by their indices. */
   {"help",        no_argument,        0, 'h'},
   {"key-size",    required_argument,  0, 'l'},
   {"password",    required_argument,  0, 'p'},
   {"license",     no_argument,        0, 'c'},
+  {"version",     no_argument,        0, 'v'},
   {0, 0, 0, 0}
 };
 
+void clear_buffers(void);
 int main(int argc, char *argv[]);
 
 #endif
