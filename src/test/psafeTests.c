@@ -40,6 +40,7 @@ int main() {
    /* NOTE - ORDER IS IMPORTANT - MUST TEST fread() AFTER fprintf() */
    if (   (NULL == CU_add_test(pSuite, "lit_add() should return a value between 33 and 126", lit_addTest))
        || (NULL == CU_add_test(pSuite, "lit_mul() should return a value between 33 and 126", lit_mulTest))
+       || (NULL == CU_add_test(pSuite, "lit_sub() should return a value between 33 and 126", lit_subTest))
        || (NULL == CU_add_test(pSuite, "str_to_int_array() should return the correct array", str_to_int_arrayTest))
        || (NULL == CU_add_test(pSuite, "int_array_to_str should return the correct string", int_array_to_strTest)) )
    {
@@ -67,6 +68,7 @@ int main() {
    /* Run all tests using the CUnit Basic interface */
    CU_basic_set_mode(CU_BRM_VERBOSE);
    CU_basic_run_tests();
+   
    CU_cleanup_registry();
    return CU_get_error();
 }

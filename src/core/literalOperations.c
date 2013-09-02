@@ -32,6 +32,11 @@ lit_add(const int a, const int b) {
 int 
 lit_sub(const int a, const int b) {
   int result = (a - b) % 126;
+
+  /* ensure values > 0 */
+  if (result < 0)
+    result += 126;
+
   if (result < 33)
     result += 33;
   //printf("\t\t%i + %i = %i\n", a, b, result);

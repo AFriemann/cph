@@ -32,6 +32,23 @@ void lit_mulTest(void)
   free(results);
 }
 
+void lit_subTest(void) 
+{
+  int *results = malloc(5 * sizeof(int)); 
+  results[0] = lit_sub(2,3);
+  results[1] = lit_sub(120,133);
+  results[2] = lit_sub(1012,5);
+  results[3] = lit_sub(0,33);
+  results[4] = lit_sub(12,75);
+
+  int i=0;
+  while (i++ < 5)
+  { 
+    CU_ASSERT_TRUE(results[i] <= 126 && results[i] >= 33);
+  }
+  free(results);
+}
+
 void str_to_int_arrayTest(void) 
 {
   char *test_string = "foobar";

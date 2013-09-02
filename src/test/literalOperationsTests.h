@@ -8,6 +8,7 @@
 
 void lit_addTest(void);
 void lit_mulTest(void);
+void lit_subTest(void);
 void str_to_int_arrayTest(void); 
 void int_array_to_strTest(void); 
 
