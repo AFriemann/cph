@@ -24,8 +24,10 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include <string.h>
 #include <gcrypt.h>
 
-#include "arrayOperations.h"
-#include "literalOperations.h"
+#define LITERAL_MAX 126
+#define LITERAL_MIN 33
+
+char literal(const char c);
 
 void generate_key(char *buffer, const char *profile, const char *password, const int keySize);
 

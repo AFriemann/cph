@@ -19,6 +19,19 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 #include "psafeKey.h"
 
+char 
+literal(const char c) {
+  char result = c % LITERAL_MAX;
+
+  if (result < 0)
+    result += LITERAL_MAX;
+  if (result < LITERAL_MIN)
+    result += LITERAL_MIN;
+
+  return result;
+}
+
+
 void 
 generate_key(char *buffer, const char *profile, const char *password, const int key_size) {
   // Version check should be the very first call because it
