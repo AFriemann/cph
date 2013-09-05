@@ -20,43 +20,53 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include "psafeKey.h"
 
 void 
-create_key(char *buffer, const char *profile, const char *password, const int key_size) {
+generate_key(char *buffer, const char *profile, const char *password, const int key_size) {
+  // Version check should be the very first call because it
+  // makes sure that important subsystems are intialized.
+  if (!gcry_check_version (GCRYPT_VERSION))
+    {
+      fputs ("libgcrypt version mismatch\n", stderr);
+      exit (2);
+    }
 
-  // create array with size keysize for profile
-  int *profile_int = calloc(key_size, sizeof(int));
-  conv_string_to_ints(profile_int, profile, key_size);
+  // process input
+  int input_length = ( strlen (profile) ) + ( strlen (password) );
+  char *input = malloc(input_length * sizeof (char));
+  snprintf(input, (input_length + 1) * sizeof (char), "%s%s", profile, password);
+
+  // prepare hash buffer
+  int hash_length = gcry_md_get_algo_dlen( GCRY_MD_WHIRLPOOL );
+  unsigned char* hash = malloc( hash_length * sizeof (unsigned char) );
+
+  /* init libgcrypt */
   
-  // create array with size keysize for password
-  int *password_int = calloc(key_size, sizeof(int));
-  conv_string_to_ints(password_int, password, key_size);
+  // We don't want to see any warnings, e.g. because we have not yet
+  // parsed program options which might be used to suppress such
+  // warnings.
+  gcry_control(GCRYCTL_SUSPEND_SECMEM_WARN);
 
-  // create buffer array with size keysize for result
-  int *result_buffer = calloc(key_size, sizeof(int));
-  generate_key(result_buffer, profile_int, password_int, key_size);
- 
-  // write result to buffer String
-  int_array_to_str(buffer, result_buffer, key_size);
- 
-  free(result_buffer);
-  free(profile_int);
-  free(password_int);
+  // Allocate a pool of 16k secure memory.  This make the secure memory
+  // available and also drops privileges where needed.
+  gcry_control(GCRYCTL_INIT_SECMEM, 16384, 0);
+
+  // It is now okay to let Libgcrypt complain when there was/is
+  // a problem with the secure memory.
+  gcry_control(GCRYCTL_RESUME_SECMEM_WARN);
+
+  // Tell Libgcrypt that initialization has completed.
+  gcry_control(GCRYCTL_INITIALIZATION_FINISHED, 0);
+
+  /* calculate hash and write to hash buffer */
+  gcry_md_hash_buffer( GCRY_MD_WHIRLPOOL, hash, input, input_length );
+
+  int i;
+  for ( i = 0; i < key_size; i++) {
+    snprintf( buffer++, 3, "%c", literal( hash[i] ) );
+  }
+
+  memset(hash, 0, hash_length * sizeof (unsigned char));
+  memset(input, 0, input_length * sizeof (char));
+
+  free(hash);
+  free(input);
 }
-
-
-void 
-generate_key(int *buffer, const int *profile, const int *password, const int key_size) {
-  // copy profile to buffer
-  memcpy(buffer, profile, key_size * sizeof (int));
-  // calculate key
-  mul_array(buffer, password, key_size);
-  add_array(buffer, password, key_size);
-}
-
-void 
-conv_string_to_ints(int *array, const char *string, const int arrayLength) {
-  str_to_int_array(array, string, arrayLength);
-  shift_array_centre(array, arrayLength);
-  indmul_array(array, arrayLength);
-  reverse_indmul_array(array, arrayLength);
-}
-

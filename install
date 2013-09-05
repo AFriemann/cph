@@ -26,13 +26,13 @@ function compile {
 function setMainSources {
   BIN=$MAINBIN
   SOURCES="$MAINSOURCE $SUPPSOURCES"
-  PKGCFG="`pkg-config --cflags --libs gtk+-3.0`"
+  PKGCFG="`pkg-config --cflags --libs gtk+-3.0` `libgcrypt-config --cflags --libs`"
 }
 
 function setTestSources {
   BIN=$TESTBIN
   SOURCES="$TESTFOLDER/psafeTests.c $TESTFOLDER/psafeKeyTests.c $TESTFOLDER/arrayOperationsTests.c $TESTFOLDER/literalOperationsTests.c $SUPPSOURCES"
-  PKGCFG="`pkg-config --cflags --libs cunit gtk+-3.0`"
+  PKGCFG="`pkg-config --cflags --libs cunit gtk+-3.0` `libgcrypt-config --cflags`"
 }
 
 case "$1" in

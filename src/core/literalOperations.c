@@ -20,6 +20,18 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 #include "literalOperations.h"
 
+char
+literal(const char c) {
+  char result = c % LITERAL_MAX;
+
+  if (result < 0)
+    result += LITERAL_MAX;
+  if (result < LITERAL_MIN)
+    result += LITERAL_MIN;
+
+  return result;
+}
+
 int 
 lit_add(const int a, const int b) {
   int result = (a + b) % LITERAL_MAX;
@@ -50,53 +62,5 @@ lit_mul(const int a, const int b) {
     result += LITERAL_MIN;
   //printf("\t\t%i * %i = %i\n", a, b, result);
   return result;
-}
-
-void 
-str_to_int_array(int *buffer, const char *str, const int array_size) {
-  int str_length = strlen (str);
- 
-  int index = 0;
-  int iteration = 1;
-  int max_index = array_size;
-  int str_index = 0;
-
-  while (index < max_index) {
-    // str shorter than array
-    if (str_index == str_length) {
-      // if in first array round
-      if (iteration == 1) {
-        // reset str index 
-        str_index = 0;
-        str -= str_length;
-      } else
-        break;
-    }
-
-    if (*buffer != 0) {
-      *buffer = lit_add(*buffer, *str); 
-    } else {
-      *buffer = *str;
-    }
-
-    // ende des arrays erreicht und noch str übrig
-    if (str_length - str_index > 0 && index == iteration * (array_size - 1)) {
-      // setze array zurück und erhöhe schleifen abbruch var
-      buffer -= array_size;
-      max_index += (str_length-1) - (str_index);
-      index--; iteration++;
-    }
-
-    str++; buffer++; str_index++; index++;
-  }
-}
-
-void 
-int_array_to_str(char *str, const int *array, const int array_size) {
-  int index = 0;
-
-  while (index++ < array_size) {
-    *str++ = *array++;
-  }
 }
 

@@ -106,7 +106,7 @@ main(int argc, char **argv)
     get_input(password, TRUE, INPUT_MAX);
 
   // generate key
-  create_key(key_buffer, profile, password, key_size);
+  generate_key(key_buffer, profile, password, key_size);
 
   if (FLAG_PRINT) {
     fprintf(stdout, "%s\n", key_buffer); 

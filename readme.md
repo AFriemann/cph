@@ -105,6 +105,11 @@ Todo
 Changelog
 =========
 
+##### v1.0
+- switched key algorithm to whirlpool hash function from libgcrypt
+- fixed trailing newline bug in console input
+- tried to implement buffer overflow protection for user input
+
 ##### v0.9
 - gui input working
 - cleaned up a a lot of code

@@ -26,12 +26,11 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #define LITERAL_MIN 33
 #define LITERAL_MAX 126
 
+char literal(const char c);
+
 int lit_add(const int a, const int b);
 int lit_sub(const int a, const int b);
 int lit_mul(const int a, const int b);
-
-void str_to_int_array(int *buffer, const char *str, const int array_size);
-void int_array_to_str(char *buffer, const int *array, const int array_size);
 
 #endif
 

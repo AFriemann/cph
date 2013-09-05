@@ -92,7 +92,7 @@ get_input(char* buffer, const int is_password, const int max_input_length) {
     if (is_password) 
     {  
       const char* temp;
-      while (TRUE)
+      while (1)
       {  
         temp = getpass("Please enter your password: ");
         if (strlen (temp) > max_input_length)
@@ -106,12 +106,16 @@ get_input(char* buffer, const int is_password, const int max_input_length) {
     {
       fprintf(stdout, "%s", "Please enter the profile name: ");
       fgets(buffer, max_input_length, stdin);
+      
+      // remove trailing newline character
+      char* nl=strchr(buffer, '\n');
+      if (nl) *nl = '\0';
     }
   }
   else
   {
     const char* temp; 
-    while (TRUE) 
+    while (1) 
     {
       temp = gtk_input(is_password);
       if (strlen (temp) > max_input_length)
@@ -123,7 +127,7 @@ get_input(char* buffer, const int is_password, const int max_input_length) {
       else
         break;
     }
-    strcpy(buffer, gtk_input(is_password));
+    strcpy(buffer, temp);
     gtk_entry_buffer_delete_text(GTK_ENTRY_BUFFER (gtk_buffer), 0, -1);
   }
 }
