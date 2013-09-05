@@ -25,6 +25,30 @@ entry_callback (GtkWidget *widget, GdkEventKey *pKey, gpointer userdata)
   return 0;
 }
 
+void 
+gtk_error(const char* msg)
+{
+  gtk_init(0, NULL);
+
+  dialog = gtk_dialog_new();
+
+  GtkWidget *content_area = gtk_dialog_get_content_area(GTK_DIALOG (dialog));
+  GtkWidget *action_area  = gtk_dialog_get_action_area(GTK_DIALOG (dialog));
+
+  GtkWidget *label = gtk_label_new(msg);
+  gtk_container_add(GTK_CONTAINER (content_area), label);
+
+  GtkWidget *ok_button = gtk_button_new_from_stock(GTK_STOCK_OK);
+  gtk_container_add(GTK_CONTAINER (action_area), ok_button);
+  
+  g_signal_connect(dialog, "destroy", G_CALLBACK (gtk_main_quit), NULL);
+  g_signal_connect(ok_button, "clicked", G_CALLBACK (entry_callback), NULL);
+    
+  gtk_widget_show_all(dialog);
+
+  gtk_main();
+}
+
 const char* 
 gtk_input(const int is_password) 
 {
@@ -62,19 +86,43 @@ gtk_input(const int is_password)
 }
 
 void 
-get_input(char* buffer, const int is_password) {
+get_input(char* buffer, const int is_password, const int max_input_length) {
   if (isatty(1))
   {
-    if (is_password)
-      strcpy(buffer, getpass("Please enter your password: "));
+    if (is_password) 
+    {  
+      const char* temp;
+      while (TRUE)
+      {  
+        temp = getpass("Please enter your password: ");
+        if (strlen (temp) > max_input_length)
+          fprintf(stderr, "The given password exceeded %i characters! Please try again.\n", max_input_length);
+        else
+          break;
+      }      
+      strcpy(buffer, temp);
+    }    
     else
     {
       fprintf(stdout, "%s", "Please enter the profile name: ");
-      scanf("%s", buffer);
+      fgets(buffer, max_input_length, stdin);
     }
   }
   else
   {
+    const char* temp; 
+    while (TRUE) 
+    {
+      temp = gtk_input(is_password);
+      if (strlen (temp) > max_input_length)
+      {   
+        char msg_buffer[128];
+        snprintf(msg_buffer, sizeof (msg_buffer), "%s %i %s", "The given password exceeded", max_input_length, "characters!");
+        gtk_error(msg_buffer);
+      }      
+      else
+        break;
+    }
     strcpy(buffer, gtk_input(is_password));
     gtk_entry_buffer_delete_text(GTK_ENTRY_BUFFER (gtk_buffer), 0, -1);
   }

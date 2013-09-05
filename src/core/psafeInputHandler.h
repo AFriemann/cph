@@ -28,6 +28,6 @@ GtkEntryBuffer *gtk_buffer;
 
 //int entry_callback (GtkWidget * widget, GdkEventKey* pKey,gpointer userdata);
 //const char* gtk_input(const int is_password);
-void get_input(char *buffer, const int is_password);
+void get_input(char *buffer, const int is_password, const int max_input_length);
 
 #endif

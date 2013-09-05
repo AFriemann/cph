@@ -35,9 +35,11 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 #define VERSION 0.9
 
-#define MAX_INPUT_SIZE 64
-#define MAX_KEY_SIZE 128
+#define INPUT_MAX 64
+#define KEY_MAX 128
 #define DEFAULT_KEY_SIZE 12
+
+extern int max_input_length;
 
 static int FLAG_PRINT = 0;
 

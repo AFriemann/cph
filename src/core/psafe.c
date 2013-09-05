@@ -33,8 +33,8 @@ int
 main(int argc, char **argv) 
 {
   int arg;
-  profile     = malloc(MAX_INPUT_SIZE * sizeof(char));
-  password    = malloc(MAX_INPUT_SIZE * sizeof(char));
+  profile     = malloc(INPUT_MAX * sizeof(char));
+  password    = malloc(INPUT_MAX * sizeof(char));
   key_buffer  = calloc(key_size, sizeof(char));
 
   while (1) {
@@ -66,7 +66,7 @@ main(int argc, char **argv)
       case 'l':
         // read key size from console argument
         key_size = strtol(optarg, NULL/*&tmp*/, 10);
-        if (key_size > MAX_KEY_SIZE || key_size < 0)
+        if (key_size > KEY_MAX || key_size < 0)
           key_size = DEFAULT_KEY_SIZE;
         break;
 
@@ -99,11 +99,11 @@ main(int argc, char **argv)
   if (remaining_params > 0) 
     strcpy(profile, argv[optind]);
   else 
-    get_input(profile, FALSE);
+    get_input(profile, FALSE, INPUT_MAX);
 
   // set password
   if (strlen(password) == 0)
-    get_input(password, TRUE);
+    get_input(password, TRUE, INPUT_MAX);
 
   // generate key
   create_key(key_buffer, profile, password, key_size);
