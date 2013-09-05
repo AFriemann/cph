@@ -105,6 +105,9 @@ Todo
 Changelog
 =========
 
+##### v1.1
+- removed literal and array operations source
+
 ##### v1.0   
 - switched key algorithm to whirlpool hash function from libgcrypt
 - fixed trailing newline bug in console input
