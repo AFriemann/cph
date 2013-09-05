@@ -105,17 +105,17 @@ Todo
 Changelog
 =========
 
-##### v1.0
+##### v1.0   
 - switched key algorithm to whirlpool hash function from libgcrypt
 - fixed trailing newline bug in console input
 - tried to implement buffer overflow protection for user input
 
-##### v0.9
+##### v0.9   
 - gui input working
 - cleaned up a a lot of code
 - fixed a bug where literal subtraction could result in negative values
 
-##### v0.8
+##### v0.8   
 - key algorithm needs rethinking, every change in key generation should change
   second version digit for easy version control, current version has some major
   issues
