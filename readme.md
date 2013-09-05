@@ -51,7 +51,7 @@ Key Algorithm
 
 Version 1.* uses libgcrypts whirlpool algorithm. Currently profile and password
 will be concatenated and encrypted 
-```whirlpool(profile &#8547;  password)```
+```whirlpool(profile \u00B7 password)```
 
 #### Issues
 
