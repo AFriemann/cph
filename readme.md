@@ -78,6 +78,10 @@ Todo
 Changelog
 =========
 
+##### v1.1.1
+- started efforts to increase key security    
+  http://stackoverflow.com/questions/348109/is-double-hashing-a-password-less-secure-than-just-hashing-it-once
+
 ##### v1.1
 - removed literal and array operations source
 
