@@ -67,14 +67,10 @@ Todo
 
 - find a suitable name which is not used yet   
 - better key algorithm (bits & bytes ftw!)    
-  -> p_i = p_i + |p|*i in string to int array conversion would fix the
-  repetetive key problem   
-  -> injective or bijective function for encryption.   
-  -> encrypt the profile name with password? RSA?   
 - windows and osx compatibility
 - specify alphabet (many services don't accept special characters)   
 - qt version
-- config file and wizard
+- config file and wizard?
 - variable clipboard timeout
 - file reading and handling
 - more input strings

@@ -31,7 +31,6 @@ literal(const char c) {
   return result;
 }
 
-
 void 
 generate_key(char *buffer, const char *profile, const char *password, const int key_size) {
   // Version check should be the very first call because it
@@ -44,13 +43,13 @@ generate_key(char *buffer, const char *profile, const char *password, const int 
 
   // process input
   int input_length = ( strlen (profile) ) + ( strlen (password) );
-  char *input = malloc(input_length * sizeof (char));
-  snprintf(input, (input_length + 1) * sizeof (char), "%s%s", profile, password);
+  //char *input = malloc(input_length * sizeof (char));
 
   // prepare hash buffer
   int hash_length = gcry_md_get_algo_dlen( GCRY_MD_WHIRLPOOL );
-  unsigned char* hash = malloc( hash_length * sizeof (unsigned char) );
+  char* hash = malloc( hash_length * sizeof (char) );
 
+  snprintf(hash, (input_length + 1) * sizeof (char), "%s%s", profile, password);
   /* init libgcrypt */
   
   // We don't want to see any warnings, e.g. because we have not yet
@@ -69,8 +68,11 @@ generate_key(char *buffer, const char *profile, const char *password, const int 
   // Tell Libgcrypt that initialization has completed.
   gcry_control(GCRYCTL_INITIALIZATION_FINISHED, 0);
 
+  int ind = 0;
+
   /* calculate hash and write to hash buffer */
-  gcry_md_hash_buffer( GCRY_MD_WHIRLPOOL, hash, input, input_length );
+  while (ind++ < 100000)
+    gcry_md_hash_buffer( GCRY_MD_WHIRLPOOL, hash, hash, input_length );
 
   int i;
   for ( i = 0; i < key_size; i++) {
@@ -78,8 +80,8 @@ generate_key(char *buffer, const char *profile, const char *password, const int 
   }
 
   memset(hash, 0, hash_length * sizeof (unsigned char));
-  memset(input, 0, input_length * sizeof (char));
+  //memset(input, 0, input_length * sizeof (char));
 
   free(hash);
-  free(input);
+  //free(input);
 }
