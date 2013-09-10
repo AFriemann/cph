@@ -29,6 +29,6 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 char literal(const char c);
 
-void generate_key(char *buffer, const char *profile, const char *password, const int keySize);
+void generate_key(char *buffer, const char *profile, const char *password, const int keySize, const unsigned int algorithm);
 
 #endif

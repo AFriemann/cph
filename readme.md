@@ -33,10 +33,12 @@ Usage
 psafe returns a password for any given profile and password.
 profile should be an easy to remember name for your password, can be provided later.
 usage: psafe [OPTIONS] [profile]
-	-h, --help: show this help message
-	-l, --key-size=[N]: set key length to N, default is 12
-	-p, --password=[x]: set password to x (only for testing purposes!)
-	-c, --license: show license notice
+    -a, --algorithm  set hash algorithm, see readme for available options
+    -h, --help       show this help message
+    -l, --key-size   set key length to N, default is 12
+    -p, --password   set password to x (only for testing purposes!)
+    --print-key      print the key to stdout
+    -c, --license    show license notice
 ```
 
 A typical call would look like this:   
@@ -49,9 +51,10 @@ selection and clipboard for 10 seconds. The same profile, password and key lengt
 Key Algorithm
 =============
 
-Version 1.* uses libgcrypts whirlpool algorithm. Currently profile and password
+Version 1.* uses libgcrypts whirlpool as standard algorithm. Currently profile and password
 will be concatenated and encrypted 
 ```whirlpool(profile . password)```
+Other available algorithms are: tiger, tiger1, tiger2, sha256, sha512   
 
 #### Issues
 
@@ -78,9 +81,13 @@ Todo
 Changelog
 =========
 
+##### v1.1.2
+- algorithm is now variable
+
 ##### v1.1.1
 - started efforts to increase key security    
-  http://stackoverflow.com/questions/348109/is-double-hashing-a-password-less-secure-than-just-hashing-it-once
+  http://stackoverflow.com/questions/348109/is-double-hashing-a-password-less-secure-than-just-hashing-it-once   
+  currently the hash algorithm gets repeated
 
 ##### v1.1
 - removed literal and array operations source

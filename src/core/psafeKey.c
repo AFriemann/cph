@@ -31,8 +31,9 @@ literal(const char c) {
   return result;
 }
 
+
 void 
-generate_key(char *buffer, const char *profile, const char *password, const int key_size) {
+generate_key(char *buffer, const char *profile, const char *password, const int key_size, const unsigned int algorithm) {
   // Version check should be the very first call because it
   // makes sure that important subsystems are intialized.
   if (!gcry_check_version (GCRYPT_VERSION))
@@ -46,7 +47,7 @@ generate_key(char *buffer, const char *profile, const char *password, const int 
   //char *input = malloc(input_length * sizeof (char));
 
   // prepare hash buffer
-  int hash_length = gcry_md_get_algo_dlen( GCRY_MD_WHIRLPOOL );
+  int hash_length = gcry_md_get_algo_dlen( algorithm );
   char* hash = malloc( hash_length * sizeof (char) );
 
   snprintf(hash, (input_length + 1) * sizeof (char), "%s%s", profile, password);
@@ -71,8 +72,8 @@ generate_key(char *buffer, const char *profile, const char *password, const int 
   int ind = 0;
 
   /* calculate hash and write to hash buffer */
-  while (ind++ < 100000)
-    gcry_md_hash_buffer( GCRY_MD_WHIRLPOOL, hash, hash, input_length );
+  while (ind++ < 50000)
+    gcry_md_hash_buffer( algorithm, hash, hash, input_length );
 
   int i;
   for ( i = 0; i < key_size; i++) {

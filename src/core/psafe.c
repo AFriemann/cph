@@ -29,6 +29,23 @@ clear_buffers(void)
   free(key_buffer);
 }
 
+enum hash_algorithm
+to_algorithm(char *arg) 
+{
+  if ( strncmp(arg, "tiger", 50) == 0 )
+    return tiger; 
+  else if ( strncmp(arg, "tiger1", 50) == 0 )
+    return tiger1; 
+  else if ( strncmp(arg, "tiger2", 50) == 0 )
+    return tiger2; 
+  else if ( strncmp(arg, "sha256", 50) == 0 )
+    return sha256; 
+  else if ( strncmp(arg, "sha512", 50) == 0 )
+    return sha512; 
+  else
+    return whirlpool; 
+}
+
 int 
 main(int argc, char **argv) 
 {
@@ -41,7 +58,7 @@ main(int argc, char **argv)
     /* getopt_long stores the option index here. */
     int option_index = 0;
 
-    arg = getopt_long (argc, argv, "chl:p:v", long_options, &option_index);
+    arg = getopt_long (argc, argv, "a:chl:p:v", long_options, &option_index);
 
     /* Detect the end of the options. */
     if (arg == -1)
@@ -54,6 +71,10 @@ main(int argc, char **argv)
           break;
         //if (optarg)
         //  break;
+
+      case 'a':
+        h_algo = to_algorithm(optarg);
+        break;
 
       case 'c':
         fprintf(stdout, "%s\n", license);
@@ -76,7 +97,7 @@ main(int argc, char **argv)
         break;
 
       case 'v':
-        fprintf(stdout, "%G\n", VERSION);
+        fprintf(stdout, "v%s\n", VERSION);
         return 0;
 
       case '?':
@@ -106,7 +127,7 @@ main(int argc, char **argv)
     get_input(password, TRUE, INPUT_MAX);
 
   // generate key
-  generate_key(key_buffer, profile, password, key_size);
+  generate_key(key_buffer, profile, password, key_size, h_algo);
 
   if (FLAG_PRINT) {
     fprintf(stdout, "%s\n", key_buffer); 

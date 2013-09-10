@@ -1,0 +1,18 @@
+#!/bin/bash
+# timer.sh -- created 2013-09-10, Aljosha Friemann
+# @Last Change: 24-Dez-2004.
+# @Revision:    0.0
+
+profile="foobar.wwae02"
+password="12345abcdef"
+
+for file in time/*;
+do
+  if [ -f $file ]; then
+    echo "$(basename $file) repetitions with profile=$profile and password=$password"
+    time ./$file -p $password $profile
+    echo -e "\n===================\n"
+  fi
+done
+
+# vi: 

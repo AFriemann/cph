@@ -28,16 +28,26 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include <inttypes.h>
 #include <ctype.h>
 #include <errno.h>
+#include <gcrypt.h>
 
 #include "psafeKey.h"
 #include "psafeInputHandler.h"
 #include "psafeClipboardHandler.h"
 
-#define VERSION 0.9
-
 #define INPUT_MAX 64
 #define KEY_MAX 128
 #define DEFAULT_KEY_SIZE 12
+
+const static char *VERSION = "1.1.1";
+
+enum hash_algorithm {
+  tiger = GCRY_MD_TIGER,
+  tiger1 = GCRY_MD_TIGER1,
+  tiger2 = GCRY_MD_TIGER2,
+  sha256 = GCRY_MD_SHA256,
+  sha512 = GCRY_MD_SHA512,
+  whirlpool = GCRY_MD_WHIRLPOOL,
+};
 
 extern int max_input_length;
 
@@ -47,15 +57,18 @@ static char *profile;
 static char *password;
 static char *key_buffer;
 static int key_size = DEFAULT_KEY_SIZE;
+enum hash_algorithm h_algo = whirlpool;
 
 static const char *error_msg = "not enough arguments given! Try --help\n";
 static const char *help_msg = "psafe returns a password for any given profile and password.\n"
                               "profile should be an easy to remember name for your password, can be provided later.\n"
                               "usage: psafe [OPTIONS] [profile]\n"
-                              "\t-h, --help: show this help message\n"
-                              "\t-l, --key-size=[N]: set key length to N, default is 12\n"
-                              "\t-p, --password=[x]: set password to x (only for testing purposes!)\n"
-                              "\t-c, --license: show license notice";
+                              "\t-a, --algorithm  set hash algorithm, see readme for available options\n"
+                              "\t-h, --help       show this help message\n"
+                              "\t-l, --key-size   set key length to N, default is 12\n"
+                              "\t-p, --password   set password to x (only for testing purposes!)\n"
+                              "\t--print-key      print the key to stdout\n"
+                              "\t-c, --license    show license notice\n";
 
 static const char *license =  "psafe  Copyright (C) 2013  Aljosha Friemann\n" 
                               "This program comes with ABSOLUTELY NO WARRANTY!\n"
@@ -67,6 +80,7 @@ static struct option long_options[] = {
   {"print-key",   no_argument,  &FLAG_PRINT, 1},
   /* These options don't set a flag.
     We distinguish them by their indices. */
+  {"algorithm",   required_argument,  0, 'a'},
   {"help",        no_argument,        0, 'h'},
   {"key-size",    required_argument,  0, 'l'},
   {"password",    required_argument,  0, 'p'},
