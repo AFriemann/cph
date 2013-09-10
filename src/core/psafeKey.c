@@ -33,7 +33,7 @@ literal(const char c) {
 
 
 void 
-generate_key(char *buffer, const char *profile, const char *password, const int key_size, const unsigned int algorithm) {
+generate_key(char *buffer, const char *profile, const char *password, const int key_size, const unsigned int algorithm, const int reps) {
   // Version check should be the very first call because it
   // makes sure that important subsystems are intialized.
   if (!gcry_check_version (GCRYPT_VERSION))
@@ -72,7 +72,7 @@ generate_key(char *buffer, const char *profile, const char *password, const int 
   int ind = 0;
 
   /* calculate hash and write to hash buffer */
-  while (ind++ < 50000)
+  while (ind++ < reps)
     gcry_md_hash_buffer( algorithm, hash, hash, input_length );
 
   int i;

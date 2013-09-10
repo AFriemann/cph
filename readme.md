@@ -33,12 +33,13 @@ Usage
 psafe returns a password for any given profile and password.
 profile should be an easy to remember name for your password, can be provided later.
 usage: psafe [OPTIONS] [profile]
-    -a, --algorithm  set hash algorithm, see readme for available options
-    -h, --help       show this help message
-    -l, --key-size   set key length to N, default is 12
-    -p, --password   set password to x (only for testing purposes!)
-    --print-key      print the key to stdout
-    -c, --license    show license notice
+    -a, --algorithm   set hash algorithm, see readme for available options
+    -c, --license     show license notice
+    -h, --help        show this help message
+    -l, --key-size    set key length to N, default is 12
+    -p, --password    set password to x (only for testing purposes!)
+    --print-key       print the key to stdout
+    -r, --repetitions set number of repetitions; default is 20000
 ```
 
 A typical call would look like this:   
@@ -83,6 +84,7 @@ Changelog
 
 ##### v1.1.2
 - algorithm is now variable
+- variable hash repetitions
 
 ##### v1.1.1
 - started efforts to increase key security    

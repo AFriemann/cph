@@ -37,6 +37,7 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #define INPUT_MAX 64
 #define KEY_MAX 128
 #define DEFAULT_KEY_SIZE 12
+#define REPS_DEFAULT 20000
 
 const static char *VERSION = "1.1.1";
 
@@ -57,18 +58,21 @@ static char *profile;
 static char *password;
 static char *key_buffer;
 static int key_size = DEFAULT_KEY_SIZE;
+
 enum hash_algorithm h_algo = whirlpool;
+static int h_reps = REPS_DEFAULT;
 
 static const char *error_msg = "not enough arguments given! Try --help\n";
 static const char *help_msg = "psafe returns a password for any given profile and password.\n"
                               "profile should be an easy to remember name for your password, can be provided later.\n"
                               "usage: psafe [OPTIONS] [profile]\n"
-                              "\t-a, --algorithm  set hash algorithm, see readme for available options\n"
-                              "\t-h, --help       show this help message\n"
-                              "\t-l, --key-size   set key length to N, default is 12\n"
-                              "\t-p, --password   set password to x (only for testing purposes!)\n"
-                              "\t--print-key      print the key to stdout\n"
-                              "\t-c, --license    show license notice\n";
+                              "\t-a, --algorithm    set hash algorithm, see readme for available options\n"
+                              "\t-c, --license      show license notice\n"
+                              "\t-h, --help         show this help message\n"
+                              "\t-l, --key-size     set key length to N, default is 12\n"
+                              "\t-p, --password     set password to x (only for testing purposes!)\n"
+                              "\t--print-key        print the key to stdout\n"
+                              "\t-r, --repetitions  set number of repetitions; default is 20000";
 
 static const char *license =  "psafe  Copyright (C) 2013  Aljosha Friemann\n" 
                               "This program comes with ABSOLUTELY NO WARRANTY!\n"
@@ -81,10 +85,11 @@ static struct option long_options[] = {
   /* These options don't set a flag.
     We distinguish them by their indices. */
   {"algorithm",   required_argument,  0, 'a'},
+  {"license",     no_argument,        0, 'c'},
   {"help",        no_argument,        0, 'h'},
   {"key-size",    required_argument,  0, 'l'},
   {"password",    required_argument,  0, 'p'},
-  {"license",     no_argument,        0, 'c'},
+  {"repetitions", required_argument,  0, 'r'},
   {"version",     no_argument,        0, 'v'},
   {0, 0, 0, 0}
 };
