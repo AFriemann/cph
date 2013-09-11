@@ -58,7 +58,7 @@ main(int argc, char **argv)
     /* getopt_long stores the option index here. */
     int option_index = 0;
 
-    arg = getopt_long (argc, argv, "a:chl:p:r:v", long_options, &option_index);
+    arg = getopt_long (argc, argv, "a:cehl:p:r:v", long_options, &option_index);
 
     /* Detect the end of the options. */
     if (arg == -1)
@@ -79,6 +79,10 @@ main(int argc, char **argv)
       case 'c':
         fprintf(stdout, "%s\n", license);
         return 0;
+
+      case 'e':
+        FLAG_EXT = 1;
+        break;
 
       case 'h':
         fprintf(stdout, "%s\n", help_msg);
@@ -133,7 +137,7 @@ main(int argc, char **argv)
     get_input(password, TRUE, INPUT_MAX);
 
   // generate key
-  generate_key(key_buffer, profile, password, key_size, h_algo, h_reps);
+  generate_key(key_buffer, profile, password, key_size, h_algo, h_reps, FLAG_EXT);
 
   if (FLAG_PRINT) {
     fprintf(stdout, "%s\n", key_buffer); 

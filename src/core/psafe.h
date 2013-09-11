@@ -53,6 +53,7 @@ enum hash_algorithm {
 extern int max_input_length;
 
 static int FLAG_PRINT = 0;
+static int FLAG_EXT = 0;
 
 static char *profile;
 static char *password;
@@ -68,6 +69,7 @@ static const char *help_msg = "psafe returns a password for any given profile an
                               "usage: psafe [OPTIONS] [profile]\n"
                               "\t-a, --algorithm    set hash algorithm, see readme for available options\n"
                               "\t-c, --license      show license notice\n"
+                              "\t-e, --extended     use extended alphabet\n"
                               "\t-h, --help         show this help message\n"
                               "\t-l, --key-size     set key length to N, default is 12\n"
                               "\t-p, --password     set password to x (only for testing purposes!)\n"
@@ -85,6 +87,7 @@ static struct option long_options[] = {
   /* These options don't set a flag.
     We distinguish them by their indices. */
   {"algorithm",   required_argument,  0, 'a'},
+  {"extended",    required_argument,  0, 'e'},
   {"license",     no_argument,        0, 'c'},
   {"help",        no_argument,        0, 'h'},
   {"key-size",    required_argument,  0, 'l'},
