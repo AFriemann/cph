@@ -83,6 +83,10 @@ Todo
 Changelog
 =========
 
+##### v1.1.3
+- password characters now chosen from hardcoded alphabet, extended characters
+  implemented with -e   
+
 ##### v1.1.2
 - algorithm is now variable
 - variable hash repetitions
