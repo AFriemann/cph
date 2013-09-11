@@ -71,9 +71,8 @@ Todo
 ====
 
 - find a suitable name which is not used yet   
-- better key algorithm (bits & bytes ftw!)    
+- key algorithm    
 - windows and osx compatibility
-- specify alphabet (many services don't accept special characters)   
 - qt version
 - config file and wizard?
 - variable clipboard timeout
