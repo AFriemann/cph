@@ -35,6 +35,7 @@ profile should be an easy to remember name for your password, can be provided la
 usage: psafe [OPTIONS] [profile]
     -a, --algorithm   set hash algorithm, see readme for available options
     -c, --license     show license notice
+    -e, --extended     use extended alphabet
     -h, --help        show this help message
     -l, --key-size    set key length to N, default is 12
     -p, --password    set password to x (only for testing purposes!)
