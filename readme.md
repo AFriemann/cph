@@ -24,6 +24,7 @@ Requirements
 
 - a c compiler (gcc for the install script)
 - gtk3
+- libgcrypt
 - cunit for testing
 
 Usage
