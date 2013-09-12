@@ -61,29 +61,24 @@ Other available algorithms are: tiger, tiger1, tiger2, sha256, sha512
 
 #### Issues
 
-* repetetive profile & password combinations result in the same output: 
-  ```AAA+p = AAAA+p != AAAAA+p = AAAAAAA+p```   
-  For key size 12.   
-  This makes sense: 12/3=4, 12/4=3, 12/5=2.4, 12/7=1.71..
-  Therefore: The current key algorithm is s**t <3
+- hash without seed might be unsecure.
 
 
 Todo
 ====
 
 - find a suitable name which is not used yet   
-- key algorithm    
+- enhance key algorithm    
 - windows and osx compatibility
 - qt version
 - config file and wizard?
 - variable clipboard timeout
-- file reading and handling
-- more input strings
+- more input strings?
 
 Changelog
 =========
 
-##### v1.1.3
+##### v1.2
 - password characters now chosen from hardcoded alphabet, extended characters
   implemented with -e   
 
