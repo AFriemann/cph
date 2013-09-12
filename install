@@ -1,7 +1,7 @@
 #!/bin/sh
 
 CC=gcc
-CFLAGS="-g -Wall -o"
+CFLAGS="-g -Wall -lm -o"
 LDFLAGS=
 
 PKGCFG=
@@ -18,18 +18,18 @@ TESTBIN="test"
 BIN=
 SOURCES=
 
-function compile {
+function compile () {
   ($CC $CFLAGS $BIN $SOURCES $PKGCFG)
   return $?
 }
 
-function setMainSources {
+function setMainSources () {
   BIN=$MAINBIN
   SOURCES="$MAINSOURCE $SUPPSOURCES"
   PKGCFG="`pkg-config --cflags --libs gtk+-3.0` `libgcrypt-config --cflags --libs`"
 }
 
-function setTestSources {
+function setTestSources () {
   BIN=$TESTBIN
   SOURCES="$TESTFOLDER/psafeTests.c $TESTFOLDER/psafeKeyTests.c $TESTFOLDER/arrayOperationsTests.c $TESTFOLDER/literalOperationsTests.c $SUPPSOURCES"
   PKGCFG="`pkg-config --cflags --libs cunit gtk+-3.0` `libgcrypt-config --cflags`"

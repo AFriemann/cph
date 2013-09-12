@@ -19,6 +19,7 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 #include "psafeKey.h"
 
+
 void 
 generate_key(char *buffer, const char *profile, const char *password, const int key_size, const unsigned int algorithm, const int reps, const unsigned int abc) {
   // Version check should be the very first call because it
@@ -40,7 +41,6 @@ generate_key(char *buffer, const char *profile, const char *password, const int 
     default: // lowercase, uppercase, numbers
       alphabet =  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
       break;
-
   }
 
   // process input
@@ -72,13 +72,15 @@ generate_key(char *buffer, const char *profile, const char *password, const int 
   gcry_control(GCRYCTL_INITIALIZATION_FINISHED, 0);
 
   /* calculate hash and write to hash buffer */
+
   int round = 0;
   while (round++ < reps)
+  {  
     gcry_md_hash_buffer( algorithm, hash, hash, input_length );
-
+  }
   int i;
   for ( i = 0; i < key_size; i++) {
-    snprintf( buffer++, 3, "%c", (alphabet[hash[i] % strlen(alphabet)]) );
+    snprintf( buffer++, 3, "%c", (alphabet[(hash[i] % strlen(alphabet)) - 1]) );
   }
 
   memset(hash, 0, hash_length * sizeof (unsigned char));
