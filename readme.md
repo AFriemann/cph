@@ -56,7 +56,7 @@ Key Algorithm
 
 Version 1.* uses libgcrypts whirlpool as standard algorithm. Currently profile and password
 will be concatenated and encrypted 
-```whirlpool(profile . password)```
+```whirlpool(profile . password)```   
 Other available algorithms are: tiger, tiger1, tiger2, sha256, sha512   
 
 #### Issues
