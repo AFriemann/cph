@@ -13,7 +13,7 @@ To install psafe, simply run the install script like so:
 ./install   
 ```
 
-The tests can be compiled with
+The tests can be compiled with, nothings working right now though
 
 ```
 ./install test
@@ -61,7 +61,7 @@ Other available algorithms are: tiger, tiger1, tiger2, sha256, sha512
 
 #### Issues
 
-- hash without seed might be unsecure.
+- hash without seed might be insecure.
 
 
 Todo
