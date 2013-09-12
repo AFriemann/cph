@@ -1,4 +1,0 @@
-cpg
-===
-
-c password generator
