@@ -20,7 +20,7 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include "psafeKey.h"
 
 
-void 
+int
 generate_key(char *buffer, const char *profile, const char *password, const int key_size, const unsigned int algorithm, const int reps, const unsigned int abc) {
   // Version check should be the very first call because it
   // makes sure that important subsystems are intialized.
@@ -45,11 +45,19 @@ generate_key(char *buffer, const char *profile, const char *password, const int 
 
   // process input
   int input_length = strlen(profile) + strlen(password);
-  //char *input = malloc(input_length * sizeof (char));
 
   // prepare hash buffer
-  int hash_length = gcry_md_get_algo_dlen( algorithm );
-  char* hash = malloc( hash_length * sizeof (unsigned char) );
+  int hash_size = gcry_md_get_algo_dlen( algorithm ) * sizeof (unsigned char);
+  char* hash = malloc( hash_size );
+
+  if (hash == NULL)
+    return 0;      
+
+  if (mlock(hash, hash_size))
+  {
+    free(hash);
+    return 0;
+  }
 
   snprintf(hash, (input_length + 1) * sizeof (char), "%s%s", profile, password);
 
@@ -76,14 +84,19 @@ generate_key(char *buffer, const char *profile, const char *password, const int 
   int round = 0;
   while (round++ < reps)
   {  
-    gcry_md_hash_buffer( algorithm, hash, hash, input_length );
+    gcry_md_hash_buffer( algorithm, hash, hash, strlen(hash) );
   }
+
   int i;
   for ( i = 0; i < key_size; i++) {
-    snprintf( buffer++, 3, "%c", (alphabet[(hash[i] % strlen(alphabet)) - 1]) );
+    char c = (alphabet[(((unsigned int) hash[i]) % strlen(alphabet))]);
+    snprintf( buffer++, 3, "%c", c );
   }
 
-  memset(hash, 0, hash_length * sizeof (unsigned char));
+  memset(hash, 0, hash_size);
+  munlock(hash, hash_size);
 
   free(hash);
+
+  return 1;
 }

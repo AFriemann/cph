@@ -123,7 +123,7 @@ main(int argc, char **argv)
 
   if (remaining_params > 1) {
     fprintf(stderr, "%s\n", error_msg);
-    return(1);
+    return 1;
   }
 
   // set profile if not given
@@ -137,7 +137,10 @@ main(int argc, char **argv)
     get_input(password, TRUE, INPUT_MAX);
 
   // generate key
-  generate_key(key_buffer, profile, password, key_size, h_algo, h_reps, FLAG_EXT);
+  if (!generate_key(key_buffer, profile, password, key_size, h_algo, h_reps, FLAG_EXT))
+  {
+    return 1; 
+  }
 
   if (FLAG_PRINT) {
     fprintf(stdout, "%s\n", key_buffer); 
