@@ -19,7 +19,6 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 #include "psafeKey.h"
 
-
 int
 generate_key(char *buffer, const char *profile, const char *password, const int key_size, const unsigned int algorithm, const int reps, const unsigned int abc) {
   // Version check should be the very first call because it
