@@ -67,7 +67,6 @@ Other available algorithms are: tiger, tiger1, tiger2, sha256, sha512
 Todo
 ====
 
-- huge bug in gui input that seems to produce random passwords
 - find a suitable name which is not used yet   
 - enhance key algorithm    
 - windows and osx compatibility
