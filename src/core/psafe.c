@@ -147,7 +147,6 @@ main(int argc, char **argv)
   }
 
   if (FLAG_PRINT) {
-    printf("%hi(%s+%s)=", h_algo, profile, password);
     fprintf(stdout, "%s\n", key_buffer); 
     clear_buffers();
     return 0;

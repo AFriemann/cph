@@ -80,16 +80,15 @@ generate_key(char *buffer, const char *profile, const char *password, const int 
 
   /* calculate hash and write to hash buffer */
 
-  printf("performing %i hash operation %i times on base string \"%s\" with length %i\n", algorithm, reps, hash, (int) strlen(hash));
+  //printf("performing %i hash operation %i times on base string \"%s\" with length %i\n", algorithm, reps, hash, (int) strlen(hash));
 
-  int round = 0;
+  register int round = 0;
   while (round++ < reps)
   {  
     gcry_md_hash_buffer( algorithm, hash, hash, strlen(hash) );
-    printf("%i. round result: \"%s\"\n", round, hash);
   }
 
-  printf("result of hashing operation: \"%s\"\n", hash);
+  //printf("result of hashing operation: \"%s\"\n", hash);
 
   int i;
   for ( i = 0; i < key_size; i++) 
