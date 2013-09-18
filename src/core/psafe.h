@@ -54,6 +54,7 @@ extern int max_input_length;
 
 static int FLAG_PRINT = 0;
 static int FLAG_EXT = 0;
+static int FLAG_GUI = 0;
 
 static char *profile;
 static char *password;
@@ -86,6 +87,7 @@ static struct option long_options[] = {
   {"print-key",   no_argument,  &FLAG_PRINT, 1},
   /* These options don't set a flag.
     We distinguish them by their indices. */
+  {"with-gui",    no_argument,        0, 'g'},
   {"algorithm",   required_argument,  0, 'a'},
   {"extended",    required_argument,  0, 'e'},
   {"license",     no_argument,        0, 'c'},

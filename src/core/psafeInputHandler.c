@@ -86,8 +86,8 @@ gtk_input(const int is_password)
 }
 
 void 
-get_input(char* buffer, const int is_password, const int max_input_length) {
-  if (isatty(1))
+get_input(char* buffer, const int is_password, const int max_input_length, const int with_gui) {
+  if (isatty(1) && !with_gui)
   {
     if (is_password) 
     {  

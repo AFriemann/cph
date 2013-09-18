@@ -58,7 +58,7 @@ main(int argc, char **argv)
     /* getopt_long stores the option index here. */
     int option_index = 0;
 
-    arg = getopt_long (argc, argv, "a:cehl:p:r:v", long_options, &option_index);
+    arg = getopt_long (argc, argv, "a:ceghl:p:r:v", long_options, &option_index);
 
     /* Detect the end of the options. */
     if (arg == -1)
@@ -82,6 +82,10 @@ main(int argc, char **argv)
 
       case 'e':
         FLAG_EXT = 1;
+        break;
+
+      case 'g':
+        FLAG_GUI = 1;
         break;
 
       case 'h':
@@ -130,11 +134,11 @@ main(int argc, char **argv)
   if (remaining_params > 0) 
     strcpy(profile, argv[optind]);
   else 
-    get_input(profile, FALSE, INPUT_MAX);
+    get_input(profile, FALSE, INPUT_MAX, FLAG_GUI);
 
   // set password
   if (strlen(password) == 0)
-    get_input(password, TRUE, INPUT_MAX);
+    get_input(password, TRUE, INPUT_MAX, FLAG_GUI);
 
   // generate key
   if (!generate_key(key_buffer, profile, password, key_size, h_algo, h_reps, FLAG_EXT))
@@ -143,6 +147,7 @@ main(int argc, char **argv)
   }
 
   if (FLAG_PRINT) {
+    printf("%hi(%s+%s)=", h_algo, profile, password);
     fprintf(stdout, "%s\n", key_buffer); 
     clear_buffers();
     return 0;
