@@ -79,6 +79,9 @@ Todo
 Changelog
 =========
 
+##### v1.3
+- fixed major bug that would cause gui input to create random passwords
+
 ##### v1.2
 - password characters now chosen from hardcoded alphabet, extended characters
   implemented with -e   
