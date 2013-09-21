@@ -34,11 +34,11 @@ generate_key(char *buffer, const char *profile, const char *password, const int 
   switch (abc) 
   {
     case 1: // extended
-      alphabet =  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-                  "/|&$%*-_=:+!#~@><.,^";
+      alphabet =  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/$-_"
+                  "|&%*=:!#~@><.,^";
       break;
     default: // lowercase, uppercase, numbers
-      alphabet =  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      alphabet =  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/$-_";
       break;
   }
 
@@ -80,15 +80,11 @@ generate_key(char *buffer, const char *profile, const char *password, const int 
 
   /* calculate hash and write to hash buffer */
 
-  //printf("performing %i hash operation %i times on base string \"%s\" with length %i\n", algorithm, reps, hash, (int) strlen(hash));
-
   register int round = 0;
   while (round++ < reps)
   {  
     gcry_md_hash_buffer( algorithm, hash, hash, strlen(hash) );
   }
-
-  //printf("result of hashing operation: \"%s\"\n", hash);
 
   int i;
   for ( i = 0; i < key_size; i++) 
