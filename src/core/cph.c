@@ -1,5 +1,5 @@
 /*
-psafe main file, please read documentation for further information.
+cph main file, please read documentation for further information.
 Copyright (C) 2013 Aljosha Friemann
 
 This program is free software: you can redistribute it and/or modify
@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see [http://www.gnu.org/licenses/].
 */
 
-#include "psafe.h"
+#include "cph.h"
 
 void 
 clear_buffers(void) 

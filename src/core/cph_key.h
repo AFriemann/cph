@@ -1,5 +1,5 @@
 /*
-psafe key algorithm source, generates keys.
+cph key algorithm source, generates keys.
 Copyright (C) 2013 Aljosha Friemann
 
 This program is free software: you can redistribute it and/or modify
@@ -16,8 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see [http://www.gnu.org/licenses/].
 */
 
-#ifndef PSAFE_KEY
-#define PSAFE_KEY
+#ifndef CPH_KEY
+#define CPH_KEY
 
 #include <stdio.h>
 #include <stdlib.h>

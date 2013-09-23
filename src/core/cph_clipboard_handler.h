@@ -1,5 +1,5 @@
 /*
-psafe clipboard handler; used to handle clipboard requests
+cph clipboard handler; used to handle clipboard requests
 Copyright (C) 2013 Aljosha Friemann
 
 This program is free software: you can redistribute it and/or modify
@@ -16,8 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see [http://www.gnu.org/licenses/].
 */
 
-#ifndef PSAFE_CLIPBOARD_HANDLER
-#define PSAFE_CLIPBOARD_HANDLER
+#ifndef CPH_CLIPBOARD_HANDLER
+#define CPH_CLIPBOARD_HANDLER
 
 #include <gtk/gtk.h>
 #include <string.h>

@@ -1,5 +1,5 @@
 /*
-psafe main file, please read documentation for further information.
+cph main file, please read documentation for further information.
 Copyright (C) 2013 Aljosha Friemann
 
 This program is free software: you can redistribute it and/or modify
@@ -17,8 +17,8 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 */
 
 
-#ifndef PSAFE_MAIN
-#define PSAFE_MAIN
+#ifndef CPH_MAIN
+#define CPH_MAIN
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,9 +30,9 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include <errno.h>
 #include <gcrypt.h>
 
-#include "psafeKey.h"
-#include "psafeInputHandler.h"
-#include "psafeClipboardHandler.h"
+#include "cph_key.h"
+#include "cph_input_handler.h"
+#include "cph_clipboard_handler.h"
 
 #define INPUT_MAX 64
 #define KEY_MAX 128
@@ -65,9 +65,9 @@ enum hash_algorithm h_algo = whirlpool;
 static int h_reps = REPS_DEFAULT;
 
 static const char *error_msg = "not enough arguments given! Try --help\n";
-static const char *help_msg = "psafe returns a password for any given profile and password.\n"
+static const char *help_msg = "cph returns a password for any given profile and password.\n"
                               "profile should be an easy to remember name for your password, can be provided later.\n"
-                              "usage: psafe [OPTIONS] [profile]\n"
+                              "usage: cph [OPTIONS] [profile]\n"
                               "\t-a, --algorithm    set hash algorithm, see readme for available options\n"
                               "\t-c, --license      show license notice\n"
                               "\t-e, --extended     use extended alphabet\n"
@@ -77,7 +77,7 @@ static const char *help_msg = "psafe returns a password for any given profile an
                               "\t--print-key        print the key to stdout\n"
                               "\t-r, --repetitions  set number of repetitions; default is 20000";
 
-static const char *license =  "psafe  Copyright (C) 2013  Aljosha Friemann\n" 
+static const char *license =  "cph  Copyright (C) 2013  Aljosha Friemann\n" 
                               "This program comes with ABSOLUTELY NO WARRANTY!\n"
                               "This is free software, and you are welcome to redistribute it\n"
                               "under certain conditions; please read the provided license file for details.";

@@ -1,13 +1,13 @@
-PSAFE - working title
-=====================
+CPH - C Password Hasher
+=======================
 
-psafe calculates passwords from given strings and prints them or writes them to
+cph calculates passwords from given strings and prints them or writes them to
 the clipboard for a specefied amount of time.   
 
 Installation
 ============
 
-To install psafe, simply run the install script like so:   
+To install cph, simply run the install script like so:   
 
 ```
 ./install   
@@ -31,9 +31,9 @@ Usage
 =====
 
 ```
-psafe returns a password for any given profile and password.
+cph returns a password for any given profile and password.
 profile should be an easy to remember name for your password, can be provided later.
-usage: psafe [OPTIONS] [profile]
+usage: cph [OPTIONS] [profile]
     -a, --algorithm   set hash algorithm, see readme for available options
     -c, --license     show license notice
     -e, --extended     use extended alphabet
@@ -46,7 +46,7 @@ usage: psafe [OPTIONS] [profile]
 
 A typical call would look like this:   
 
-```psafe my_profile_name```   
+```cph my_profile_name```   
 
 This call would ask the user for a password and save the result to the primary X
 selection and clipboard for 10 seconds. The same profile, password and key length will always result in the same key.
@@ -75,8 +75,18 @@ Todo
 - variable clipboard timeout
 - more input strings?
 
+Similar Projects
+================
+
+- The wonderful [PwdHash](https://www.pwdhash.com/) used in several browser
+  plugins
+
+
 Changelog
 =========
+
+##### v1.3.1
+- changed name to cph - c password hasher; for this is what it does
 
 ##### v1.3
 - fixed major bug that would cause gui input to create random passwords
@@ -91,7 +101,7 @@ Changelog
 
 ##### v1.1.1
 - started efforts to increase key security    
-  http://stackoverflow.com/questions/348109/is-double-hashing-a-password-less-secure-than-just-hashing-it-once   
+  [related stackoverflow post](http://stackoverflow.com/questions/348109/is-double-hashing-a-password-less-secure-than-just-hashing-it-once)   
   currently the hash algorithm gets repeated
 
 ##### v1.1

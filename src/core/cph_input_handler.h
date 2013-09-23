@@ -1,5 +1,5 @@
 /*
-psafe input handler; used to handle user inputs.
+cph input handler; used to handle user inputs.
 Copyright (C) 2013 Aljosha Friemann
 
 This program is free software: you can redistribute it and/or modify
@@ -16,8 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see [http://www.gnu.org/licenses/].
 */
 
-#ifndef PSAFE_INPUT_HANDLER
-#define PSAFE_INPUT_HANDLER
+#ifndef CPH_INPUT_HANDLER
+#define CPH_INPUT_HANDLER
 
 #include <gtk-3.0/gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>

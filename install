@@ -9,10 +9,10 @@ PKGCFG=
 MAINFOLDER="src/core"
 TESTFOLDER="src/test"
 
-MAINSOURCE="$MAINFOLDER/psafe.c"
-SUPPSOURCES="$MAINFOLDER/psafeKey.c $MAINFOLDER/psafeInputHandler.c $MAINFOLDER/psafeClipboardHandler.c"
+MAINSOURCE="$MAINFOLDER/cph.c"
+SUPPSOURCES="$MAINFOLDER/cph_key.c $MAINFOLDER/cph_input_handler.c $MAINFOLDER/cph_clipboard_handler.c"
 
-MAINBIN="psafe"
+MAINBIN="cph"
 TESTBIN="test"
 
 BIN=
@@ -31,7 +31,7 @@ function setMainSources () {
 
 function setTestSources () {
   BIN=$TESTBIN
-  SOURCES="$TESTFOLDER/psafeTests.c $TESTFOLDER/psafeKeyTests.c $TESTFOLDER/arrayOperationsTests.c $TESTFOLDER/literalOperationsTests.c $SUPPSOURCES"
+  SOURCES="$TESTFOLDER/cphTests.c $TESTFOLDER/cphKeyTests.c $SUPPSOURCES"
   PKGCFG="`pkg-config --cflags --libs cunit gtk+-3.0` `libgcrypt-config --cflags`"
 }
 

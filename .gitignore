@@ -1,5 +1,5 @@
 *.o
-/psafe
+/cph
 /test
 /*/log
 analysis/
