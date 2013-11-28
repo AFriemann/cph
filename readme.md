@@ -59,10 +59,13 @@ Version 1.* uses libgcrypts whirlpool as standard algorithm. Currently profile a
 will be concatenated and encrypted 
 ```whirlpool(profile . password)```
 Other available algorithms are: tiger, tiger1, tiger2, sha256, sha512   
+The included analysis scripts are rather useless. However, if you would like to test the runtime difference between different
+counts of hash calculation rounds, or you would simply like to see what calculated keys typically look like, they should provide a 
+reasonable starting point.
 
 #### Issues
 
-- hash without seed might be insecure.
+- hash without seed might be too insecure
 - repeated hash calculation might actually decrease security by increasing the risk for collisions
 
 Todo

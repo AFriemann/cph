@@ -39,7 +39,7 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #define DEFAULT_KEY_SIZE 12
 #define REPS_DEFAULT 20000
 
-const static char *VERSION = "1.1.1";
+const static char *VERSION = "1.3.1";
 
 enum hash_algorithm {
   tiger = GCRY_MD_TIGER,
