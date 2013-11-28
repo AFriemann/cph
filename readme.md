@@ -1,19 +1,20 @@
 CPH - C Password Hasher
 =======================
 
-cph calculates passwords from given strings and prints them or writes them to
+cph calculates passwords from given strings and prints them to stdout or writes them to
 the clipboard for a specefied amount of time.   
 
 Installation
 ============
 
-To install cph, simply run the install script like so:   
+To install cph, simply run the install script like this:   
 
 ```
 ./install   
 ```
+And copy the binary wherever you like (e.g. /usr/bin/cph)
 
-The tests can be compiled with, nothings working right now though
+The tests can be compiled with (not working right now!)
 
 ```
 ./install test
@@ -46,7 +47,7 @@ usage: cph [OPTIONS] [profile]
 
 A typical call would look like this:   
 
-```cph my_profile_name```   
+```cph my_profile_name```
 
 This call would ask the user for a password and save the result to the primary X
 selection and clipboard for 10 seconds. The same profile, password and key length will always result in the same key.
@@ -56,31 +57,30 @@ Key Algorithm
 
 Version 1.* uses libgcrypts whirlpool as standard algorithm. Currently profile and password
 will be concatenated and encrypted 
-```whirlpool(profile . password)```   
+```whirlpool(profile . password)```
 Other available algorithms are: tiger, tiger1, tiger2, sha256, sha512   
 
 #### Issues
 
 - hash without seed might be insecure.
-
+- repeated hash calculation might actually decrease security by increasing the risk for collisions
 
 Todo
 ====
 
-- find a suitable name which is not used yet   
-- enhance key algorithm    
 - windows and osx compatibility
 - qt version
+- enhance key algorithm?
 - config file and wizard?
 - variable clipboard timeout
 - more input strings?
+- write Makefile
 
 Similar Projects
 ================
 
 - The wonderful [PwdHash](https://www.pwdhash.com/) used in several browser
   plugins
-
 
 Changelog
 =========

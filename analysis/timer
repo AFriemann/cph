@@ -1,0 +1,36 @@
+#!/bin/bash
+# timer.sh -- created 2013-09-10, Aljosha Friemann
+# @Last Change: 24-Dez-2004.
+# @Revision:    0.0
+
+profile="foobar.wwae02"
+password="12345abcdef"
+
+binary="../cph"
+installer="../install"
+
+if ! [ -e "./timer" ]; then
+  echo "Please change directory to script path!"
+  exit 1
+fi
+
+if ! [ -e "$binary" ]; then
+  echo "Compiling cph, please stand by.."
+  ./"$installer" 
+fi
+
+steps=("1 100 1000 10000 50000 100000 500000 1000000")
+
+log_file="time_results/$(date +"%H-%M-%S")-timer.log"
+
+if ! [ -e "$log_file" ]; then
+  touch "$log_file"
+fi
+
+for step in $steps; do
+  echo "running cph with $step repetition(s):"
+  time ./"$binary" -r "$step" -p "$password" --print-key "$profile" >/dev/null
+  echo ""
+done
+
+# vi: 

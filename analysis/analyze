@@ -1,0 +1,20 @@
+#!/bin/sh
+
+logfile="analysis_results/$(date +'%d%m%y-%H%M%S').log"
+
+count="$1"
+
+if [ -z $count ]; then
+  count=100
+fi
+
+echo -e "Printing $count generated keys for version: $(../cph --version)\n" >> $logfile
+echo -e "PROFILE PASSWORD     RESULT" >> $logfile
+echo -e "==============================" >> $logfile
+
+for i in `seq 1 $count`;
+do
+  profile=$(pwgen -N1 7)
+  password=$(pwgen -N1 8)
+  echo -e "$profile $password: $(../cph --print-key -p $password $profile)" >> $logfile
+done
