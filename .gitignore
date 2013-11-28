@@ -1,6 +1,5 @@
 *.o
 /cph
 /test
-/*/log
-analysis/
-time/
+*.log
+analysis_results
