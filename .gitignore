@@ -1,5 +1,7 @@
 *.o
 /cph
 /test
+/obj
+/bin
 *.log
 analysis_results
