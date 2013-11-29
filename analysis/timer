@@ -1,5 +1,5 @@
 #!/bin/bash
-# timer.sh -- created 2013-09-10, Aljosha Friemann
+# timer -- created 2013-09-10, Aljosha Friemann
 # @Last Change: 24-Dez-2004.
 # @Revision:    0.0
 
@@ -19,13 +19,12 @@ if ! [ -e "$binary" ]; then
   ./"$installer" 
 fi
 
-steps=("1 100 1000 10000 50000 100000 500000 1000000")
+steps=("1 100 1000 10000 20000 50000 100000 500000 1000000")
 
-log_file="time_results/$(date +"%H-%M-%S")-timer.log"
-
-if ! [ -e "$log_file" ]; then
-  touch "$log_file"
-fi
+#log_file="time_results/$(date +"%H-%M-%S")-timer.log"
+# if ! [ -e "$log_file" ]; then
+#   touch "$log_file"
+# fi
 
 for step in $steps; do
   echo "running cph with $step repetition(s):"

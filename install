@@ -38,8 +38,6 @@ setTestSources () {
 case "$1" in
   test )
     setTestSources
-    compile
-    exit $?
     ;;
   clean )
     rm -f $MAINBIN $TESTBIN
@@ -47,8 +45,8 @@ case "$1" in
     ;;
   * )
     setMainSources
-    compile
-    exit $?
     ;;
 esac
 
+compile
+exit $?
