@@ -57,7 +57,6 @@ parser.add_argument(
 parser.add_argument(
     '--selection',
     choices=['primary', 'secondary'],
-    #default='primary',
     help='store password in given selection')
 
 parser.add_argument(
@@ -67,9 +66,9 @@ parser.add_argument(
     help='print license')
 
 parser.add_argument(
-    '--version',
+    '-v', '--version',
     action='version',
-    version='%(prog)s 0.1')
+    version='%(prog)s 0.6')
 
 parser.add_argument(
     '--gui',
@@ -159,12 +158,6 @@ def gui_input(prompt):
 def cli_input(prompt):
     return getpass(prompt)
 
-def get_input(prompt, gui):
-    if gui:
-        return gui_input(prompt)
-    else:
-        return cli_input(prompt)
-
 def encrypt(word, salt, length, algorithm, alphabet):
     hash_func = getattr(CRYPT_LIB,algorithm)()
     hash_func.update(word.encode('utf-8') + salt.encode('utf-8'))
@@ -185,11 +178,11 @@ def to_selection(cipher, timeout):
 def main(args, log):
     try:
         cipher = encrypt(
-                args.word or get_input('word: ', args.gui),
-                args.salt or get_input('salt: ', args.gui),
-                args.length,
-                args.algorithm,
-                (args.extended and ABC_EXT) or ABC)
+                word = args.word or gui_input('word') if args.gui else cli_input('word: '),
+                salt = args.salt or gui_input('salt') if args.gui else cli_input('salt: '),
+                length = args.length,
+                algorithm = args.algorithm,
+                alphabet = (args.extended and ABC_EXT) or ABC)
 
         if cipher is None:
             raise Exception("Cipher was None")
@@ -199,7 +192,6 @@ def main(args, log):
 
         if args.selection is not None:
             to_selection(cipher, args.timeout)
-
     except:
         log.exception("")
         exit(1)
