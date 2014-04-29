@@ -9,6 +9,7 @@ under certain conditions; please read the provided license file for details."""
 import logging
 
 from sys import exit
+from time import sleep
 from getpass import getpass
 from argparse import ArgumentParser,Action,SUPPRESS
 
@@ -113,7 +114,7 @@ parser.add_argument(
 class GUI(tk.Tk):
     __WIDTH  = 120
     __HEIGHT = 1
-    def __init__(self, prompt, timeout):
+    def __init__(self, prompt):
         tk.Tk.__init__(self)
 
         # set basics
@@ -131,8 +132,7 @@ class GUI(tk.Tk):
         self.entry.bind('<Return>', self.callback)
         self.entry.pack(side=tk.BOTTOM)
 
-        # self destruct
-        self.after(int(timeout * 1000), self.destruct)
+        self.after(10000, self.destruct)
 
         self.entry.focus_set()
         self.bell()
@@ -153,18 +153,17 @@ class GUI(tk.Tk):
         self.data = None
         self.destroy()
 
-def gui_input(prompt, timeout):
-    return GUI(prompt, timeout).get_content()
+def gui_input(prompt):
+    return GUI(prompt).get_content()
 
-def cli_input(prompt, timeout):
-    # TODO: timeout
+def cli_input(prompt):
     return getpass(prompt)
 
-def get_input(prompt, gui, timeout):
+def get_input(prompt, gui):
     if gui:
-        return gui_input(prompt, timeout)
+        return gui_input(prompt)
     else:
-        return cli_input(prompt, timeout)
+        return cli_input(prompt)
 
 def encrypt(word, salt, length, algorithm, alphabet):
     hash_func = getattr(CRYPT_LIB,algorithm)()
@@ -174,11 +173,20 @@ def encrypt(word, salt, length, algorithm, alphabet):
     # TODO: what happens if length > len(digest)?
     return reduce(lambda s, c: s + alphabet[(ord(c) % len(alphabet)) - 1], hash_func.digest(),"")[:length].strip()
 
+def to_selection(cipher, timeout):
+    from subprocess import Popen,PIPE
+    try:
+        Popen(['xsel', '--'+args.selection], stdin=PIPE).communicate(cipher)
+        # TODO: fork
+        sleep(args.timeout)
+    finally:
+        Popen(['xsel', '--'+args.selection, '--clear'], stdin=PIPE).communicate()
+
 def main(args, log):
     try:
         cipher = encrypt(
-                args.word or get_input('word: ', args.gui, args.timeout),
-                args.salt or get_input('salt: ', args.gui, args.timeout),
+                args.word or get_input('word: ', args.gui),
+                args.salt or get_input('salt: ', args.gui),
                 args.length,
                 args.algorithm,
                 (args.extended and ABC_EXT) or ABC)
@@ -190,8 +198,7 @@ def main(args, log):
             print(cipher)
 
         if args.selection is not None:
-            # TODO: clipboard
-            pass
+            to_selection(cipher, args.timeout)
 
     except:
         log.exception("")
