@@ -1,7 +1,7 @@
-*.o
-/cph
-/test
-/obj
-/bin
-*.log
-analysis_results
+bin/*
+analysis/*
+src/test/*
+CMakeFiles/*
+
+CMakeCache.txt
+cmake_install.cmake
