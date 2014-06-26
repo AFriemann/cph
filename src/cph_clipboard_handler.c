@@ -18,36 +18,33 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 #include "cph_clipboard_handler.h"
 
-int 
-clear_clipboard_and_exit(void) 
+int clear_clipboard_and_exit(void)
 {
-	GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-	GtkClipboard *primary = gtk_clipboard_get(GDK_SELECTION_PRIMARY);
+    GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+    GtkClipboard *primary = gtk_clipboard_get(GDK_SELECTION_PRIMARY);
 
-	gtk_clipboard_clear(clipboard);
-	gtk_clipboard_clear(primary);
+    gtk_clipboard_clear(clipboard);
+    gtk_clipboard_clear(primary);
 
-	gtk_clipboard_set_text(clipboard, "", 0);
-	gtk_clipboard_set_text(primary, "", 0);
-	
-	gtk_main_quit();
+    gtk_clipboard_set_text(clipboard, "", 0);
+    gtk_clipboard_set_text(primary, "", 0);
 
-	return 0;
+    gtk_main_quit();
+
+    return 0;
 }
 
-void 
-str_to_clipboard(const char *str) 
+void str_to_clipboard(const char *str)
 {
-  gtk_init (0, NULL);
+    gtk_init (0, NULL);
 
-  g_timeout_add(CLIPBOARD_TIMEOUT, (GSourceFunc) clear_clipboard_and_exit, NULL);
+    g_timeout_add(CLIPBOARD_TIMEOUT, (GSourceFunc) clear_clipboard_and_exit, NULL);
 
-	GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-	GtkClipboard *primary= gtk_clipboard_get(GDK_SELECTION_PRIMARY);
-	
-	gtk_clipboard_set_text(clipboard, str, strlen (str));
-	gtk_clipboard_set_text(primary, str, strlen (str));
+    GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+    GtkClipboard *primary= gtk_clipboard_get(GDK_SELECTION_PRIMARY);
 
-  gtk_main();
+    gtk_clipboard_set_text(clipboard, str, strlen (str));
+    gtk_clipboard_set_text(primary, str, strlen (str));
+
+    gtk_main();
 }
-

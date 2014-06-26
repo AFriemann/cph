@@ -16,171 +16,62 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see [http://www.gnu.org/licenses/].
 */
 
-#include "cph.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <inttypes.h>
+#include <ctype.h>
+#include <errno.h>
+#include <pthread.h>
 
-void 
-clear_buffers(void) 
+#include "argparse.h"
+#include "cph_key.h"
+#include "cph_input_handler.h"
+#include "cph_clipboard_handler.h"
+
+unsigned int RETVAL = 0;
+
+static char *word;
+static char *salt;
+static char *key_buffer;
+
+void init_buffers(void)
 {
-  memset(password, 0, strlen (password) * sizeof(char));
-  memset(profile, 0, strlen (profile) * sizeof(char));
-  memset(key_buffer, 0, key_size * sizeof(char));
-  free(password);
-  free(profile);
-  free(key_buffer);
+    word = malloc(INPUT_MAX * sizeof(char));
+    salt = malloc(INPUT_MAX * sizeof(char));
+    key_buffer = calloc(OUTPUT_MAX, sizeof(char));
 }
 
-enum hash_algorithm
-to_algorithm(char *arg) 
+void clear_buffers(void)
 {
-  if ( strncmp(arg, "tiger", 50) == 0 )
-    return tiger; 
-  else if ( strncmp(arg, "tiger1", 50) == 0 )
-    return tiger1; 
-  else if ( strncmp(arg, "tiger2", 50) == 0 )
-    return tiger2; 
-  else if ( strncmp(arg, "sha256", 50) == 0 )
-    return sha256; 
-  else if ( strncmp(arg, "sha512", 50) == 0 )
-    return sha512; 
-  else
-    return whirlpool; 
+    memset(word, 0, strlen (word) * sizeof(char));
+    memset(salt, 0, strlen (salt) * sizeof(char));
+    memset(key_buffer, 0, strlen (key_buffer) * sizeof(char));
+    free(word);
+    free(salt);
+    free(key_buffer);
 }
 
-int 
-main(int argc, char **argv) 
+int main(int argc, char **argv)
 {
-  int arg;
-  profile     = malloc(INPUT_MAX * sizeof(char));
-  password    = malloc(INPUT_MAX * sizeof(char));
-  key_buffer  = calloc(key_size, sizeof(char));
+    init_buffers();
+    Namespace namespace = parse_args(argc, argv, word, salt);
 
-  while (1) {
-    /* getopt_long stores the option index here. */
-    int option_index = 0;
+    if (strlen(word) == 0) { get_input(word, "word", INPUT_MAX, namespace.GUI); }
+    if (strlen(salt) == 0) { get_input(salt, "salt", INPUT_MAX, namespace.GUI); }
 
-    arg = getopt_long (argc, argv, "a:ceghl:p:r:v", long_options, &option_index);
-
-    /* Detect the end of the options. */
-    if (arg == -1)
-      break;
-
-    switch (arg) {
-      case 0:
-        /* If this option set a flag, do nothing else now. */
-        if (long_options[option_index].flag != 0)
-          break;
-        //if (optarg)
-        //  break;
-
-      case 'a':
-        h_algo = to_algorithm(optarg);
-        break;
-
-      case 'c':
-        fprintf(stdout, "%s\n", license);
-        return 0;
-
-      case 'e':
-        FLAG_EXT = 1;
-        break;
-
-      case 'g':
-        FLAG_GUI = 1;
-        break;
-
-      case 'h':
-        fprintf(stdout, "%s\n", help_msg);
-        return 0;
-
-      case 'l':
-        // read key size from console argument
-        key_size = strtol(optarg, NULL/*&tmp*/, 10);
-        if (key_size > KEY_MAX || key_size < 0)
-          key_size = DEFAULT_KEY_SIZE;
-        break;
-
-      case 'p':
-        // read password from console
-        strcpy(password, optarg);
-        break;
-
-      case 'r':
-        h_reps = strtol(optarg, NULL, 10);
-        if (h_reps < 0)
-          h_reps = REPS_DEFAULT;
-        break;
-
-      case 'v':
-        fprintf(stdout, "v%s\n", VERSION);
-        return 0;
-
-      case '?':
-        /* getopt_long already printed an error message. */
-        break;
-
-      default:
-        abort(); 
+    if (!generate_key(key_buffer, word, salt, namespace.LENGTH, namespace.ALGORITHM, namespace.EXTENDED)) {
+        RETVAL = 1;
     }
-  }
+    else if (isatty(1) && !namespace.GUI) {
+        // print password if in tty and GUI option not set; TODO: working in terminal detection
+        fprintf(stdout, "%s\n", key_buffer);
+    }
+    else {
+        str_to_clipboard(key_buffer);
+    }
 
-  int remaining_params = argc - optind;
-
-  if (remaining_params > 1) {
-    fprintf(stderr, "%s\n", error_msg);
-    return 1;
-  }
-
-  // set profile if not given
-  if (remaining_params > 0) 
-    strcpy(profile, argv[optind]);
-  else 
-    get_input(profile, FALSE, INPUT_MAX, FLAG_GUI);
-
-  // set password
-  if (strlen(password) == 0)
-    get_input(password, TRUE, INPUT_MAX, FLAG_GUI);
-
-  // generate key
-  if (!generate_key(key_buffer, profile, password, key_size, h_algo, h_reps, FLAG_EXT))
-  {
-    return 1; 
-  }
-
-  if (FLAG_PRINT) {
-    fprintf(stdout, "%s\n", key_buffer); 
     clear_buffers();
-    return 0;
-  }
-
-  // fork child process 
-  pid_t childPID;
-
-  childPID = fork();
-
-  if(childPID >= 0) { // fork was successful
-    if(childPID == 0) { // child process 
-			/* initialize GTK */
-			str_to_clipboard(key_buffer);
-      
-      memset(key_buffer, 0, key_size * sizeof(char));
-      free(key_buffer);
-
-			exit(0);
-    } 
-    else { //Parent process
-      memset(password, 0, strlen (password) * sizeof(char));
-      memset(profile, 0, strlen (profile) * sizeof(char));
-      free(password);
-      free(profile);
-      exit(0);
-    }
-  } 
-  else { // fork failed
-    fprintf(stderr, "\n Fork failed, quitting!\n");
-    return 1;
-  }
-  
-  return 0;
+    return RETVAL;
 }
-
-
