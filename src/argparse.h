@@ -24,8 +24,8 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include <stdio.h>
 
 #define INPUT_MAX 64
-#define OUTPUT_MAX 128
-#define DEFAULT_LENGTH 12
+#define OUTPUT_MAX 64
+#define DEFAULT_LENGTH 16
 
 #define VERSION "1.3.1"
 

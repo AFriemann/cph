@@ -24,11 +24,6 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include <string.h>
 #include <gcrypt.h>
 
-// linux specific?
-#include <sys/mman.h>
-
-char *alphabet;
-
-int generate_key(char *buffer, const char *profile, const char *password, const int length, const unsigned int algorithm, const unsigned int abc);
+int generate_key(char *buffer, const char *profile, const char *password, const unsigned int length, const unsigned int algorithm, const unsigned int abc);
 
 #endif

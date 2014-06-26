@@ -2,12 +2,12 @@
 
 COUNT=${1:-1000}
 
-LENGTH=${2:-12}
+LENGTH=${2:-16}
 
 for i in `seq 1 $COUNT`;
 do
-    word=$(pwgen -N1 7)
-    salt=$(pwgen -N1 8)
+    word=$(pwgen -N1 77)
+    salt=$(pwgen -N1 22)
     if [ ! -e "../bin/cph" ]
     then
         pushd .. &>/dev/null
@@ -16,7 +16,7 @@ do
         popd &>/dev/null
     fi
 
-    ../bin/cph -w "$word" -s "$salt" -l "$LENGTH"
+    ../bin/cph -w "$word" -s "$salt" -l "$LENGTH" -e
 
     # if [ ! ${#OUTPUT} -eq $LENGTH ]
     # then

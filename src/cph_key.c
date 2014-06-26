@@ -18,7 +18,70 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 #include "cph_key.h"
 
-int generate_key(char *buffer, const char *profile, const char *password, const int length, const unsigned int algorithm, const unsigned int abc)
+char *alphabet;
+
+char encode(char a)
+{
+    int i;
+    for (i = 0; i < strlen (alphabet); i++)
+    {
+        if (a == alphabet[i]) { return a; }
+    }
+
+    return alphabet[(unsigned int) a % strlen(alphabet)];
+}
+
+void str_encode(char *buffer, char* string, const unsigned int string_size)
+{
+    int i;
+    for ( i = 0; i < string_size; i ++)
+    {
+        buffer[i] = encode(string[i]);
+    }
+}
+
+/**
+ * This function splits the digest into equal parts and computes their XOR. Further remaining characters will be stripped:
+ *
+ * "abcdefghijklmnop" has size 16
+ * length 6 will result in a slice size of 8, since 16 % 6 !=0 and 16 % 7 != 0 but 16 % 8 == 0
+ *
+ * now we split the string into pieces [abcdefgh] and [ijklmnop] and XOR them
+ * "abcdefgh" ^ "ijklmnop" = "12345678"
+ *
+ * and strip the remaining characters: "123456"
+ *
+ * That way we retain as much information as possible while keeping the password length variable.
+ */
+void zip_encode(char* buffer, char* string, const unsigned int string_size, const unsigned int length)
+{
+    // find optimal slice length
+    unsigned int slice_size, slice_count;
+    if (length <= string_size / 2) {
+        slice_size = length;
+        while ( ( string_size % slice_size ) != 0 ) { slice_size++; }
+    } else {
+        slice_size = string_size;
+    }
+
+    slice_count = string_size / slice_size;
+
+    int i,j;
+
+    // XOR string slices
+    for ( i = 1; i < slice_count; i++ )
+    {
+        for (j = 0; j < slice_size; j++)
+        {
+            string[j] ^= string[j + (i * slice_size)];
+        }
+    }
+
+    // encode string
+    str_encode(buffer, string, length);
+}
+
+int generate_key(char *buffer, const char *profile, const char *password, const unsigned int length, const unsigned int algorithm, const unsigned int abc)
 {
     // Version check should be the very first call because it
     // makes sure that important subsystems are intialized.
@@ -27,8 +90,6 @@ int generate_key(char *buffer, const char *profile, const char *password, const 
         fputs ("libgcrypt version mismatch\n", stderr);
         return 2;
     }
-
-    char *alphabet;
 
     switch (abc)
     {
@@ -50,12 +111,6 @@ int generate_key(char *buffer, const char *profile, const char *password, const 
 
     if (hash == NULL)
         return 0;
-
-    if (mlock(hash, hash_size))
-    {
-        free(hash);
-        return 0;
-    }
 
     snprintf(hash, (input_length + 1) * sizeof (char), "%s%s", profile, password);
 
@@ -81,20 +136,14 @@ int generate_key(char *buffer, const char *profile, const char *password, const 
 
     gcry_md_hash_buffer( algorithm, hash, hash, strlen(hash) );
 
-    // fit length to given
-    int i;
-    for ( i = 0; i < length && i < hash_size; i++) 
-    {
-        char c = (alphabet[(((unsigned int) hash[i]) % strlen(alphabet))]);
-        sprintf( buffer++, "%c", c );
-    }
+    //zip_encode(buffer, hash, hash_size, length);
+    str_encode(buffer, hash, length);
 
     memset(hash, 0, hash_size);
-    munlock(hash, hash_size);
 
     free(hash);
 
     // TODO do we have to do anything with the secure memory after this?
 
-    return 1;
+    return (strlen (buffer) == length);
 }

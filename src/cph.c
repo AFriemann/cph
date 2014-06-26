@@ -25,6 +25,9 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include <errno.h>
 #include <pthread.h>
 
+// mlock: linux specific?
+#include <sys/mman.h>
+
 #include "argparse.h"
 #include "cph_key.h"
 #include "cph_input_handler.h"
@@ -55,23 +58,29 @@ void clear_buffers(void)
 
 int main(int argc, char **argv)
 {
-    init_buffers();
-    Namespace namespace = parse_args(argc, argv, word, salt);
+    if (mlockall(MCL_FUTURE) == 0) {
+        init_buffers();
+        Namespace namespace = parse_args(argc, argv, word, salt);
 
-    if (strlen(word) == 0) { get_input(word, "word", INPUT_MAX, namespace.GUI); }
-    if (strlen(salt) == 0) { get_input(salt, "salt", INPUT_MAX, namespace.GUI); }
+        if (strlen(word) == 0) { get_input(word, "word", INPUT_MAX, namespace.GUI); }
+        if (strlen(salt) == 0) { get_input(salt, "salt", INPUT_MAX, namespace.GUI); }
 
-    if (!generate_key(key_buffer, word, salt, namespace.LENGTH, namespace.ALGORITHM, namespace.EXTENDED)) {
+        if (!generate_key(key_buffer, word, salt, namespace.LENGTH, namespace.ALGORITHM, namespace.EXTENDED)) {
+            RETVAL = 2;
+        }
+        else if (isatty(1) && !namespace.GUI) {
+            // print password if in tty and GUI option not set; TODO: working in terminal detection
+            fprintf(stdout, "%s\n", key_buffer);
+        }
+        else {
+            str_to_clipboard(key_buffer);
+        }
+
+        clear_buffers();
+        munlockall();
+    } else {
         RETVAL = 1;
     }
-    else if (isatty(1) && !namespace.GUI) {
-        // print password if in tty and GUI option not set; TODO: working in terminal detection
-        fprintf(stdout, "%s\n", key_buffer);
-    }
-    else {
-        str_to_clipboard(key_buffer);
-    }
 
-    clear_buffers();
-    return RETVAL;
+    exit(RETVAL);
 }

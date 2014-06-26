@@ -51,7 +51,7 @@ Namespace parse_args(int argc, char *argv[], char *word, char *salt)
     Namespace result = DEFAULT_NAMESPACE;
 
     char arg;
-    int length_input;
+    unsigned int length_input;
     while (1)
     {
         /* getopt_long stores the option index here. */
@@ -100,7 +100,7 @@ Namespace parse_args(int argc, char *argv[], char *word, char *salt)
             case 'l':
                 // read key length from console argument
                 length_input = strtol(optarg, NULL/*&tmp*/, 10); // TODO?
-                if (length_input > 0 && length_input < OUTPUT_MAX)
+                if (length_input > 0 && length_input <= OUTPUT_MAX)
                 {
                     result.LENGTH = length_input;
                 }

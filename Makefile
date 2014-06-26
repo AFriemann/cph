@@ -114,6 +114,30 @@ cph/fast:
 	$(MAKE) -f CMakeFiles/cph.dir/build.make CMakeFiles/cph.dir/build
 .PHONY : cph/fast
 
+src/argparse.o: src/argparse.c.o
+.PHONY : src/argparse.o
+
+# target to build an object file
+src/argparse.c.o:
+	$(MAKE) -f CMakeFiles/cph.dir/build.make CMakeFiles/cph.dir/src/argparse.c.o
+.PHONY : src/argparse.c.o
+
+src/argparse.i: src/argparse.c.i
+.PHONY : src/argparse.i
+
+# target to preprocess a source file
+src/argparse.c.i:
+	$(MAKE) -f CMakeFiles/cph.dir/build.make CMakeFiles/cph.dir/src/argparse.c.i
+.PHONY : src/argparse.c.i
+
+src/argparse.s: src/argparse.c.s
+.PHONY : src/argparse.s
+
+# target to generate assembly for a file
+src/argparse.c.s:
+	$(MAKE) -f CMakeFiles/cph.dir/build.make CMakeFiles/cph.dir/src/argparse.c.s
+.PHONY : src/argparse.c.s
+
 src/cph.o: src/cph.c.o
 .PHONY : src/cph.o
 
@@ -219,6 +243,9 @@ help:
 	@echo "... cph"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... src/argparse.o"
+	@echo "... src/argparse.i"
+	@echo "... src/argparse.s"
 	@echo "... src/cph.o"
 	@echo "... src/cph.i"
 	@echo "... src/cph.s"
