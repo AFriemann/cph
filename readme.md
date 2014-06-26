@@ -43,7 +43,7 @@ The same word, salt and key length will always result in the same key.
 Key Algorithm
 =============
 
-Version 1.* uses libgcrypts whirlpool as standard algorithm. Currently profile and password
+Version 1.* uses libgcrypts sha512 as standard algorithm. Currently profile and password
 will be concatenated and hased 
 ```sha512(word + salt)```
 Other available algorithms are: tiger, tiger1, tiger2, sha256, whirlpool   
