@@ -44,7 +44,7 @@ Key Algorithm
 =============
 
 Version 1.* uses libgcrypts sha512 as standard algorithm. Currently profile and password
-will be concatenated and hased 
+will be concatenated and hashed 
 ```sha512(word + salt)```
 Other available algorithms are: tiger, tiger1, tiger2, sha256, whirlpool   
 The included analysis scripts are rather useless. However, if you would simply like to see what calculated keys typically look like,
