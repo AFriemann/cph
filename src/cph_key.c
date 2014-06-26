@@ -33,12 +33,12 @@ int generate_key(char *buffer, const char *profile, const char *password, const 
     switch (abc)
     {
         case 1: // extended
-        alphabet =  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/$-_"
-                    "|&%*=:!#~@><.,^";
-        break;
+            alphabet =  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/$-_"
+                        "|&%*=:!#~@><.,^";
+            break;
         default: // lowercase, uppercase, numbers
-        alphabet =  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/$-_";
-        break;
+            alphabet =  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/$-_";
+            break;
     }
 
     // process input
@@ -83,7 +83,7 @@ int generate_key(char *buffer, const char *profile, const char *password, const 
 
     // fit length to given
     int i;
-    for ( i = 0; i < length && i < strlen (hash); i++) 
+    for ( i = 0; i < length && i < hash_size; i++) 
     {
         char c = (alphabet[(((unsigned int) hash[i]) % strlen(alphabet))]);
         sprintf( buffer++, "%c", c );

@@ -1,20 +1,28 @@
 #!/bin/sh
 
-logfile="analysis/$(date +'%d%m%y-%H%M%S').log"
+COUNT=${1:-1000}
 
-count="$1"
+LENGTH=${2:-12}
 
-if [ -z $count ]; then
-  count=100
-fi
-
-echo -e "Printing $count generated keys for version: $(../cph --version)\n" >> $logfile
-echo -e "PROFILE PASSWORD     RESULT" >> $logfile
-echo -e "==============================" >> $logfile
-
-for i in `seq 1 $count`;
+for i in `seq 1 $COUNT`;
 do
-  profile=$(pwgen -N1 7)
-  password=$(pwgen -N1 8)
-  echo -e "$profile $password: $(../cph --print-key -p $password $profile)" >> $logfile
+    word=$(pwgen -N1 7)
+    salt=$(pwgen -N1 8)
+    if [ ! -e "../bin/cph" ]
+    then
+        pushd .. &>/dev/null
+        make clean
+        make
+        popd &>/dev/null
+    fi
+
+    ../bin/cph -w "$word" -s "$salt" -l "$LENGTH"
+
+    # if [ ! ${#OUTPUT} -eq $LENGTH ]
+    # then
+    #     echo "cph -w $word -s $salt -l $LENGTH"
+    #     echo "$OUTPUT"
+    # else
+    #     echo "${#OUTPUT}"
+    # fi
 done
