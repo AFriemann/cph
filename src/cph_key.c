@@ -16,7 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see [http://www.gnu.org/licenses/].
 */
 
-
 #include "cph_key.h"
 
 int generate_key(char *buffer, const char *profile, const char *password, const int length, const unsigned int algorithm, const unsigned int abc)
