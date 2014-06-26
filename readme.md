@@ -1,72 +1,58 @@
 CPH - C Password Hasher
 =======================
 
-cph calculates passwords from given strings and prints them to stdout or writes them to
+CPH computes passwords from given strings and prints them to stdout or writes them to
 the clipboard for a specefied amount of time.   
 
 Installation
 ============
 
-To install cph, simply run the install script like this:   
-
-```
-./install   
-```
-And copy the binary wherever you like (e.g. /usr/bin/cph)
-
-The tests can be compiled with (not working right now!)
-
-```
-./install test
-```
+Use cmake to create a Makefile and compile as usual with make.
+An option to compile without X/GTK will eventually be added.
 
 Requirements
 ============
 
 - a c compiler (gcc for the install script)
+- cmake/make
 - gtk3
 - libgcrypt
-- cunit for testing
 
 Usage
 =====
 
 ```
-cph returns a password for any given profile and password.
-profile should be an easy to remember name for your password, can be provided later.
-usage: cph [OPTIONS] [profile]
-    -a, --algorithm   set hash algorithm, see readme for available options
-    -c, --license     show license notice
+cph returns a password for any given profile and password.\n
+profile should be an easy to remember name for your password, can be provided later.\n
+usage: cph [OPTIONS]
+    -h, --help         show this help message
+    -c, --license      show license notice
+    -v, --version      show version
+    -a, --algorithm X  set hash algorithm, see readme for available options
     -e, --extended     use extended alphabet
-    -h, --help        show this help message
-    -l, --key-size    set key length to N, default is 12
-    -p, --password    set password to x (only for testing purposes!)
-    --print-key       print the key to stdout
-    -r, --repetitions set number of repetitions; default is 20000
+    -g, --with-gui     use gui input
+    -l, --length N     set password length, default is 12
+
+input switches:
+    -w, --word W
+    -s, --salt S
 ```
 
-A typical call would look like this:   
-
-```cph my_profile_name```
-
-This call would ask the user for a password and save the result to the primary X
-selection and clipboard for 10 seconds. The same profile, password and key length will always result in the same key.
+The same word, salt and key length will always result in the same key.
 
 Key Algorithm
 =============
 
 Version 1.* uses libgcrypts whirlpool as standard algorithm. Currently profile and password
-will be concatenated and encrypted 
-```whirlpool(profile . password)```
-Other available algorithms are: tiger, tiger1, tiger2, sha256, sha512   
-The included analysis scripts are rather useless. However, if you would like to test the runtime difference between different
-counts of hash calculation rounds, or you would simply like to see what calculated keys typically look like, they should provide a 
-reasonable starting point.
+will be concatenated and hased 
+```sha512(word + salt)```
+Other available algorithms are: tiger, tiger1, tiger2, sha256, whirlpool   
+The included analysis scripts are rather useless. However, if you would simply like to see what calculated keys typically look like,
+they should provide a reasonable starting point.
 
 #### Issues
 
-- hash without seed might be too insecure
-- repeated hash calculation might actually decrease security by increasing the risk for collisions
+- hash without random seed might be too insecure, a piece of static personal information could be saved and used (e.g. birthdate)
 
 Todo
 ====
@@ -77,7 +63,6 @@ Todo
 - config file and wizard?
 - variable clipboard timeout
 - more input strings?
-- write Makefile
 
 Similar Projects
 ================
@@ -87,6 +72,11 @@ Similar Projects
 
 Changelog
 =========
+
+##### v1.4.1
+- removed clipboard handling from command line to make way for X free version
+- moved argument parsing to seperate file to clean up main file
+- included cmake configuration
 
 ##### v1.3.1
 - changed name to cph - c password hasher; for this is what it does

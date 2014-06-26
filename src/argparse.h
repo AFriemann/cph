@@ -43,18 +43,18 @@ typedef struct
 static const char *error_msg = "not enough arguments given! Try --help\n";
 static const char *help_msg = "cph returns a password for any given profile and password.\n"
                               "profile should be an easy to remember name for your password, can be provided later.\n"
-                              "usage: cph [OPTIONS] [profile]\n"
+                              "usage: cph [OPTIONS]\n"
                               "\t-h, --help         show this help message\n"
                               "\t-c, --license      show license notice\n"
                               "\t-v, --version      show version\n"
-                              "\t-a, --algorithm    set hash algorithm, see readme for available options\n"
+                              "\t-a, --algorithm X  set hash algorithm, see readme for available options\n"
                               "\t-e, --extended     use extended alphabet\n"
                               "\t-g, --with-gui     use gui input\n"
-                              "\t-l, --length       set password length, default is 12\n"
+                              "\t-l, --length N     set password length, default is 12\n"
                               "\n"
                               "input switches:\n"
-                              "\t-w, --word\n"
-                              "\t-s, --salt\n";
+                              "\t-w, --word W\n"
+                              "\t-s, --salt S\n";
 
 static const char *license =  "cph  Copyright (C) 2013  Aljosha Friemann\n" 
                               "This program comes with ABSOLUTELY NO WARRANTY!\n"
