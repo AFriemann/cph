@@ -13,7 +13,7 @@ An option to compile without X/GTK will eventually be added.
 Requirements
 ============
 
-- a c compiler (gcc for the install script)
+- a c compiler
 - cmake/make
 - gtk3
 - libgcrypt
