@@ -53,7 +53,6 @@ they should provide a reasonable starting point.
 #### Issues
 
 - hash without random seed might be too insecure, a piece of static personal information could be saved and used (e.g. birthdate)
-- key length input is not used
 
 Todo
 ====
