@@ -98,9 +98,9 @@ Namespace parse_args(int argc, char *argv[], char *word, char *salt)
                 break;
 
             case 'l':
-                // read key size from console argument
+                // read key length from console argument
                 length_input = strtol(optarg, NULL/*&tmp*/, 10); // TODO?
-                if (length_input > OUTPUT_MAX || length_input < 0)
+                if (length_input > 0 && length_input < OUTPUT_MAX)
                 {
                     result.LENGTH = length_input;
                 }

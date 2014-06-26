@@ -29,6 +29,6 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 char *alphabet;
 
-int generate_key(char *buffer, const char *profile, const char *password, const int keySize, const unsigned int algorithm, const unsigned int abc);
+int generate_key(char *buffer, const char *profile, const char *password, const int length, const unsigned int algorithm, const unsigned int abc);
 
 #endif

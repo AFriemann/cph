@@ -19,7 +19,7 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 #include "cph_key.h"
 
-int generate_key(char *buffer, const char *profile, const char *password, const int key_size, const unsigned int algorithm, const unsigned int abc)
+int generate_key(char *buffer, const char *profile, const char *password, const int length, const unsigned int algorithm, const unsigned int abc)
 {
     // Version check should be the very first call because it
     // makes sure that important subsystems are intialized.
@@ -82,8 +82,9 @@ int generate_key(char *buffer, const char *profile, const char *password, const 
 
     gcry_md_hash_buffer( algorithm, hash, hash, strlen(hash) );
 
+    // fit length to given
     int i;
-    for ( i = 0; i < key_size; i++) 
+    for ( i = 0; i < length && i < strlen (hash); i++) 
     {
         char c = (alphabet[(((unsigned int) hash[i]) % strlen(alphabet))]);
         sprintf( buffer++, "%c", c );
