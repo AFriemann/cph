@@ -1,6 +1,6 @@
 #!/bin/sh
 
-logfile="analysis_results/$(date +'%d%m%y-%H%M%S').log"
+logfile="analysis/$(date +'%d%m%y-%H%M%S').log"
 
 count="$1"
 
