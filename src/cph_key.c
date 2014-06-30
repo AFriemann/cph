@@ -52,6 +52,8 @@ void str_encode(char *buffer, char* string, const unsigned int string_size)
  * and strip the remaining characters: "123456"
  *
  * That way we retain as much information as possible while keeping the password length variable.
+ *
+ * TODO: verify that this actually works and makes sense
  */
 void zip_encode(char* buffer, char* string, const unsigned int string_size, const unsigned int length)
 {
@@ -81,7 +83,7 @@ void zip_encode(char* buffer, char* string, const unsigned int string_size, cons
     str_encode(buffer, string, length);
 }
 
-int generate_key(char *buffer, const char *profile, const char *password, const unsigned int length, const unsigned int algorithm, const unsigned int abc)
+int generate_key(char *buffer, const char *word, const char *salt, const unsigned int length, const unsigned int algorithm, const unsigned int extended)
 {
     // Version check should be the very first call because it
     // makes sure that important subsystems are intialized.
@@ -91,28 +93,28 @@ int generate_key(char *buffer, const char *profile, const char *password, const 
         return 2;
     }
 
-    switch (abc)
-    {
-        case 1: // extended
-            alphabet =  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/$-_"
-                        "|&%*=:!#~@><.,^";
-            break;
-        default: // lowercase, uppercase, numbers
-            alphabet =  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/$-_";
-            break;
+    if (extended) {
+        alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/$-_"
+                   "|&%*=:!#~@><.,^";
+    } else {
+        alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/$-_";
     }
 
     // process input
-    int input_length = strlen(profile) + strlen(password);
+    int input_length = strlen(word) + strlen(salt);
 
     // prepare hash buffer
-    int hash_size = gcry_md_get_algo_dlen( algorithm ) * sizeof (unsigned char);
+    unsigned int hash_size = gcry_md_get_algo_dlen( algorithm ) * sizeof (unsigned char);
     char* hash = calloc( gcry_md_get_algo_dlen( algorithm ), sizeof (unsigned char));
 
-    if (hash == NULL)
-        return 0;
+    if (hash == NULL || mlock(hash, hash_size))
+    {
+        fputs ("could not allocate space for hash computation\n", stderr);
+        return 3;
+    }
 
-    snprintf(hash, (input_length + 1) * sizeof (char), "%s%s", profile, password);
+
+    snprintf(hash, (input_length + 1) * sizeof (char), "%s%s", word, salt);
 
     /* init libgcrypt */
 
@@ -137,13 +139,21 @@ int generate_key(char *buffer, const char *profile, const char *password, const 
     gcry_md_hash_buffer( algorithm, hash, hash, strlen(hash) );
 
     //zip_encode(buffer, hash, hash_size, length);
-    str_encode(buffer, hash, length);
+    if (length > hash_size) {
+        str_encode(buffer, hash, hash_size);
+    }
+    else {
+        str_encode(buffer, hash, length);
+    }
+
+    printf("%i\n", length);
 
     memset(hash, 0, hash_size);
 
     free(hash);
+    munlock(hash, hash_size);
 
     // TODO do we have to do anything with the secure memory after this?
 
-    return (strlen (buffer) == length);
+    return (length - strlen (buffer));
 }

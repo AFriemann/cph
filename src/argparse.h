@@ -29,7 +29,7 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 #define VERSION "1.3.1"
 
-// Namespace struct for parsed arguments
+// Config struct for parsed arguments
 typedef struct
 {
     unsigned int ERR;
@@ -38,7 +38,7 @@ typedef struct
     unsigned int GUI;
     unsigned int LENGTH;
     unsigned int ALGORITHM;
-} Namespace;
+} Config;
 
 static const char *error_msg = "not enough arguments given! Try --help\n";
 static const char *help_msg = "cph returns a password for any given profile and password.\n"
@@ -77,6 +77,6 @@ static struct option long_options[] = {
 };
 
 unsigned int parse_algo(char *arg);
-Namespace parse_args(int argc, char *argv[], char *word, char *salt);
+Config parse_args(int argc, char *argv[], char *word, char *salt);
 
 #endif

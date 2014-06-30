@@ -31,7 +31,7 @@ enum hash_algorithm {
 };
 
 static const unsigned int DEFAULT_ALGORITHM = sha512;
-static const Namespace DEFAULT_NAMESPACE = { 0, 0, 0, 0, DEFAULT_LENGTH, sha512 };
+static const Config DEFAULT_CONFIG = { 0, 0, 0, 0, DEFAULT_LENGTH, sha512 };
 
 unsigned int parse_algo(char *arg)
 {
@@ -46,12 +46,12 @@ unsigned int parse_algo(char *arg)
     return DEFAULT_ALGORITHM;
 }
 
-Namespace parse_args(int argc, char *argv[], char *word, char *salt)
+Config parse_args(int argc, char *argv[], char *word, char *salt)
 {
-    Namespace result = DEFAULT_NAMESPACE;
+    Config result = DEFAULT_CONFIG;
 
     char arg;
-    unsigned int length_input;
+    int length_input;
     while (1)
     {
         /* getopt_long stores the option index here. */
@@ -100,16 +100,15 @@ Namespace parse_args(int argc, char *argv[], char *word, char *salt)
             case 'l':
                 // read key length from console argument
                 length_input = strtol(optarg, NULL/*&tmp*/, 10); // TODO?
-                if (length_input > 0 && length_input <= OUTPUT_MAX)
-                {
+                if (length_input >= 0) {
+                    printf("%i\n", length_input);
                     result.LENGTH = length_input;
                 }
                 break;
 
             case 's':
                 // read password from console
-                if (strlen(optarg) > INPUT_MAX)
-                {
+                if (strlen(optarg) > INPUT_MAX) {
                     printf("salt input length > %d\n", INPUT_MAX);
                     result.ERR = 1;
                 }
@@ -118,8 +117,7 @@ Namespace parse_args(int argc, char *argv[], char *word, char *salt)
 
             case 'w':
                 // read password from console
-                if (strlen(optarg) > INPUT_MAX)
-                {
+                if (strlen(optarg) > INPUT_MAX) {
                     printf("word input length > %d\n", INPUT_MAX);
                     result.ERR = 1;
                 }
