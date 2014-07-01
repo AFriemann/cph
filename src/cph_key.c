@@ -146,8 +146,6 @@ int generate_key(char *buffer, const char *word, const char *salt, const unsigne
         str_encode(buffer, hash, length);
     }
 
-    printf("%i\n", length);
-
     memset(hash, 0, hash_size);
 
     free(hash);

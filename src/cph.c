@@ -77,11 +77,10 @@ int main(int argc, char **argv)
         if (strlen(salt) == 0) { get_input(salt, "salt", INPUT_MAX, config.GUI); }
 
         RETVAL = generate_key(key_buffer, word, salt, config.LENGTH, config.ALGORITHM, config.EXTENDED);
-        printf("%i\n", RETVAL);
 
-        if (isatty(1) && !config.GUI) {
+        if (!config.GUI) {
             // print password if in tty and GUI option not set; TODO: working in terminal detection
-            fprintf(stdout, "%s\n", key_buffer);
+            fprintf(stdout, "%s", key_buffer);
         }
         else {
             str_to_clipboard(key_buffer);

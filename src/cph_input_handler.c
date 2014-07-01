@@ -85,7 +85,7 @@ void get_input(char* buffer, const char *name, const int max_input_length, const
 
     const char* temp;
 
-    if (isatty(1) && !with_gui)
+    if (!with_gui)
     {
         while (1)
         {

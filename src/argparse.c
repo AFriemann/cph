@@ -101,7 +101,6 @@ Config parse_args(int argc, char *argv[], char *word, char *salt)
                 // read key length from console argument
                 length_input = strtol(optarg, NULL/*&tmp*/, 10); // TODO?
                 if (length_input >= 0) {
-                    printf("%i\n", length_input);
                     result.LENGTH = length_input;
                 }
                 break;
