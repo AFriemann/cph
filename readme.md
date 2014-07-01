@@ -21,22 +21,20 @@ Requirements
 Usage
 =====
 
-```
-cph returns a password for any given profile and password.
-profile should be an easy to remember name for your password, can be provided latert.
-usage: cph [OPTIONS]
-    -h, --help         show this help message
-    -c, --license      show license notice
-    -v, --version      show version
-    -a, --algorithm X  set hash algorithm, see readme for available options
-    -e, --extended     use extended alphabet
-    -g, --with-gui     use gui input
-    -l, --length N     set password length, default is 12
-
-input switches:
-    -w, --word W
-    -s, --salt S
-```
+> cph returns a password for any given profile and password.   
+> profile should be an easy to remember name for your password, can be provided latert.   
+> usage: cph [OPTIONS]   
+>     -h, --help         show this help message   
+>     -c, --license      show license notice   
+>     -v, --version      show version   
+>     -a, --algorithm X  set hash algorithm, see readme for available options   
+>     -e, --extended     use extended alphabet   
+>     -g, --with-gui     use gui input   
+>     -l, --length N     set password length, default is 12   
+>   
+> input switches:   
+>     -w, --word W   
+>     -s, --salt S   
 
 The same word, salt and key length will always result in the same key.
 
