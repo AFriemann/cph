@@ -41,8 +41,7 @@ typedef struct
 } Config;
 
 static const char *error_msg = "not enough arguments given! Try --help\n";
-static const char *help_msg = "cph returns a password for any given profile and password.\n"
-                              "profile should be an easy to remember name for your password, can be provided later.\n"
+static const char *help_msg = "cph returns a hash for any given word and salt.\n"
                               "usage: cph [OPTIONS]\n"
                               "\t-h, --help         show this help message\n"
                               "\t-c, --license      show license notice\n"

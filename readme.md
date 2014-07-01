@@ -21,8 +21,7 @@ Requirements
 Usage
 =====
 
-> cph returns a password for any given profile and password.   
-> profile should be an easy to remember name for your password, can be provided latert.   
+> cph returns a hash for any given word and salt.   
 > usage: cph [OPTIONS]   
 >     -h, --help         show this help message   
 >     -c, --license      show license notice   
