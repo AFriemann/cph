@@ -56,19 +56,21 @@ class MyHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.do_HEAD()
 
-    def BAD_INPUT(self):
+    def BAD_INPUT(self, post_data):
         self.send_response(700)
         self.send_header("Content-type", "text/html")
         self.end_headers()
+        self.wfile.write(post_data)
 
     def do_POST(self):
         length = int(self.headers['Content-Length'])
         post_data = urlparse.parse_qs(self.rfile.read(length).decode('utf-8'))
         try:
+            print(post_data)
             out, err = Popen(['cph','-w',post_data['word'][0],'-s',post_data['salt'][0]], stdout=PIPE, stderr=PIPE).communicate()
             self.wfile.write(out)
         except KeyError:
-            self.BAD_INPUT()
+            self.BAD_INPUT(post_data)
 
 def main(namespace):
     try:
