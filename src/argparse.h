@@ -48,7 +48,7 @@ static const char *help_msg = "cph returns a hash for any given word and salt.\n
                               "\t-v, --version      show version\n"
                               "\t-a, --algorithm X  set hash algorithm, see readme for available options\n"
                               "\t-e, --extended     use extended alphabet\n"
-                              "\t-g, --with-gui     use gui input\n"
+                              // "\t-g, --with-gui     use gui input\n"
                               "\t-l, --length N     set password length, default is 12\n"
                               "\n"
                               "input switches:\n"
@@ -68,7 +68,7 @@ static struct option long_options[] = {
     {"version",     no_argument,        0, 'v'},
     {"algorithm",   required_argument,  0, 'a'},
     {"extended",    no_argument,        0, 'e'},
-    {"with-gui",    no_argument,        0, 'g'},
+    // {"with-gui",    no_argument,        0, 'g'},
     {"length",      required_argument,  0, 'l'},
     {"salt",        required_argument,  0, 's'},
     {"word",        required_argument,  0, 'w'},

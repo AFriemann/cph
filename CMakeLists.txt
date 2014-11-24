@@ -9,30 +9,30 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_BINARY_DIR})
 set(SOURCE
     src/cph.c
     src/argparse.c
-    src/cph_clipboard_handler.c
-    src/cph_input_handler.c
+    # src/cph_clipboard_handler.c
+    # src/cph_input_handler.c
     src/cph_key.c)
 
 set(HEADERS
     src/argparse.h
-    src/cph_clipboard_handler.h
-    src/cph_input_handler.h
+    # src/cph_clipboard_handler.h
+    # src/cph_input_handler.h
     src/cph_key.h)
 
 #There are lots of scripts with cmake for finding external libraries.
 #see /usr/local/share/cmake-2.6/Modules/Find*.cmake for more examples
 find_package(Libgcrypt REQUIRED)
 
-# Use the package PkgConfig to detect GTK+ headers/library files
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
-
-# Setup CMake to use GTK+, tell the compiler where to look for headers
-# and to the linker where to look for libraries
-include_directories(${GTK3_INCLUDE_DIRS})
-link_directories(${GTK3_LIBRARY_DIRS})
-# Add other flags to the compiler
-add_definitions(${GTK3_CFLAGS_OTHER})
+# # Use the package PkgConfig to detect GTK+ headers/library files
+# find_package(PkgConfig REQUIRED)
+# pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
+#
+# # Setup CMake to use GTK+, tell the compiler where to look for headers
+# # and to the linker where to look for libraries
+# include_directories(${GTK3_INCLUDE_DIRS})
+# link_directories(${GTK3_LIBRARY_DIRS})
+# # Add other flags to the compiler
+# add_definitions(${GTK3_CFLAGS_OTHER})
 
 add_executable(cph ${SOURCE} ${HEADERS})
 # Link the target to the GTK+ libraries

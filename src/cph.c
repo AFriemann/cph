@@ -20,18 +20,18 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <inttypes.h>
-#include <ctype.h>
-#include <errno.h>
-#include <pthread.h>
+/* #include <inttypes.h> */
+/* #include <ctype.h> */
+/* #include <errno.h> */
+/* #include <pthread.h> */
 
 // mlock: linux specific?
 #include <sys/mman.h>
 
 #include "argparse.h"
 #include "cph_key.h"
-#include "cph_input_handler.h"
-#include "cph_clipboard_handler.h"
+/* #include "cph_input_handler.h" */
+/* #include "cph_clipboard_handler.h" */
 
 #define EXIT_OK 0
 #define EXIT_MEM_ERR 1
@@ -66,6 +66,24 @@ int clear_buffers(void)
     return (munlock(word, input_buffer_size) && munlock(salt, input_buffer_size) && munlock(key_buffer, output_buffer_size));
 }
 
+void get_input(char* buffer, const char *name, const int max_input_length)
+{
+    char prompt[128];
+    snprintf(prompt, sizeof (prompt), "Please enter %s:", name);
+
+    const char* temp;
+
+    while (1)
+    {
+        temp = getpass(prompt);
+        if (strlen (temp) > max_input_length)
+            fprintf(stderr, "The given input exceeded %i characters! Please try again.\n", max_input_length);
+        else
+            break;
+    }
+    strcpy(buffer, temp);
+}
+
 int main(int argc, char **argv)
 {
     int RETVAL = EXIT_OK;
@@ -73,18 +91,12 @@ int main(int argc, char **argv)
     if (!init_buffers()) {
         Config config = parse_args(argc, argv, word, salt);
 
-        if (strlen(word) == 0) { get_input(word, "word", INPUT_MAX, config.GUI); }
-        if (strlen(salt) == 0) { get_input(salt, "salt", INPUT_MAX, config.GUI); }
+        if (strlen(word) == 0) { get_input(word, "word", INPUT_MAX); }
+        if (strlen(salt) == 0) { get_input(salt, "salt", INPUT_MAX); }
 
         RETVAL = generate_key(key_buffer, word, salt, config.LENGTH, config.ALGORITHM, config.EXTENDED);
 
-        if (!config.GUI) {
-            // print password if in tty and GUI option not set; TODO: working in terminal detection
-            fprintf(stdout, "%s", key_buffer);
-        }
-        else {
-            str_to_clipboard(key_buffer);
-        }
+        fprintf(stdout, "%s", key_buffer);
 
         clear_buffers();
         exit(RETVAL);
