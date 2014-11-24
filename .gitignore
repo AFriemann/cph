@@ -1,7 +1,6 @@
+*/CMakeFiles/*
+cmake/bin/*
 bin/*
-analysis/*
-src/test/*
-CMakeFiles/*
 
 CMakeCache.txt
 cmake_install.cmake
