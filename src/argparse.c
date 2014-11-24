@@ -42,7 +42,7 @@ unsigned int parse_algo(char *arg)
     else if ( strncmp(optarg, "sha512", 50) == 0 ) { return sha512; }
     else if ( strncmp(optarg, "whirlpool", 50) == 0 ) { return whirlpool; }
 
-    fprintf(stderr, "algorithm %s not available, using default (%s)\n", optarg, DEFAULT_ALGORITHM);
+    fprintf(stderr, "algorithm %s not available, using default (%u)\n", optarg, DEFAULT_ALGORITHM);
     return DEFAULT_ALGORITHM;
 }
 
