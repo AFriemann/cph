@@ -1,5 +1,5 @@
 /*
-cph key algorithm source, generates keys.
+cph key algorithm header source, generates keys.
 Copyright (C) 2013 Aljosha Friemann
 
 This program is free software: you can redistribute it and/or modify

@@ -1,5 +1,5 @@
 /*
-cph argparse file, please read documentation for further information.
+cph args file, please read documentation for further information.
 Copyright (C) 2013 Aljosha Friemann
 
 This program is free software: you can redistribute it and/or modify
@@ -16,10 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see [http://www.gnu.org/licenses/].
 */
 
-#ifndef ARGPARSE_C_
-#define ARGPARSE_C_
-
-#include "argparse.h"
+#include "cph_args.h"
 
 enum hash_algorithm {
     tiger = GCRY_MD_TIGER,
@@ -31,7 +28,7 @@ enum hash_algorithm {
 };
 
 static const unsigned int DEFAULT_ALGORITHM = sha512;
-static const Config DEFAULT_CONFIG = { 0, 0, 0, 0, DEFAULT_LENGTH, sha512 };
+static const Config DEFAULT_CONFIG = { 0, 0, 0, DEFAULT_LENGTH, sha512 };
 
 unsigned int parse_algo(char *arg)
 {
@@ -93,10 +90,6 @@ Config parse_args(int argc, char *argv[], char *word, char *salt)
                 result.EXTENDED = 1;
                 break;
 
-            case 'g':
-                result.GUI = 1;
-                break;
-
             case 'l':
                 // read key length from console argument
                 length_input = strtol(optarg, NULL/*&tmp*/, 10); // TODO?
@@ -107,8 +100,8 @@ Config parse_args(int argc, char *argv[], char *word, char *salt)
 
             case 's':
                 // read password from console
-                if (strlen(optarg) > INPUT_MAX) {
-                    printf("salt input length > %d\n", INPUT_MAX);
+                if (strlen(optarg) > IO_MAX) {
+                    printf("salt input length > %d\n", IO_MAX);
                     result.ERR = 1;
                 }
                 else { strcpy(salt, optarg); }
@@ -116,8 +109,8 @@ Config parse_args(int argc, char *argv[], char *word, char *salt)
 
             case 'w':
                 // read password from console
-                if (strlen(optarg) > INPUT_MAX) {
-                    printf("word input length > %d\n", INPUT_MAX);
+                if (strlen(optarg) > IO_MAX) {
+                    printf("word input length > %d\n", IO_MAX);
                     result.ERR = 1;
                 }
                 else { strcpy(word, optarg); }
@@ -141,5 +134,3 @@ Config parse_args(int argc, char *argv[], char *word, char *salt)
 
     return result;
 }
-
-#endif

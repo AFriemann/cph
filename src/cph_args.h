@@ -1,5 +1,5 @@
 /*
-cph argparse file, please read documentation for further information.
+cph args header file, please read documentation for further information.
 Copyright (C) 2013 Aljosha Friemann
 
 This program is free software: you can redistribute it and/or modify
@@ -16,16 +16,14 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see [http://www.gnu.org/licenses/].
 */
 
-#ifndef ARGPARSE_H_
-#define ARGPARSE_H_
+#ifndef CPH_ARGS
+#define CPH_ARGS
 
 #include <getopt.h>
 #include <gcrypt.h>
 #include <stdio.h>
 
-#define INPUT_MAX 64
-#define OUTPUT_MAX 64
-#define DEFAULT_LENGTH 16
+#include "cph_io.h"
 
 #define VERSION "1.3.1"
 
@@ -35,7 +33,6 @@ typedef struct
     unsigned int ERR;
     unsigned int PRINT;
     unsigned int EXTENDED;
-    unsigned int GUI;
     unsigned int LENGTH;
     unsigned int ALGORITHM;
 } Config;
@@ -47,8 +44,7 @@ static const char *help_msg = "cph returns a hash for any given word and salt.\n
                               "\t-c, --license      show license notice\n"
                               "\t-v, --version      show version\n"
                               "\t-a, --algorithm X  set hash algorithm, see readme for available options\n"
-                              "\t-e, --extended     use extended alphabet\n"
-                              // "\t-g, --with-gui     use gui input\n"
+                              "\t-e, --extended     use baseE91 instead of base64\n"
                               "\t-l, --length N     set password length, default is 12\n"
                               "\n"
                               "input switches:\n"
@@ -68,7 +64,6 @@ static struct option long_options[] = {
     {"version",     no_argument,        0, 'v'},
     {"algorithm",   required_argument,  0, 'a'},
     {"extended",    no_argument,        0, 'e'},
-    // {"with-gui",    no_argument,        0, 'g'},
     {"length",      required_argument,  0, 'l'},
     {"salt",        required_argument,  0, 's'},
     {"word",        required_argument,  0, 'w'},

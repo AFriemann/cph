@@ -1,5 +1,5 @@
 /*
-cph clipboard handler; used to handle clipboard requests
+cph main header file, please read documentation for further information.
 Copyright (C) 2013 Aljosha Friemann
 
 This program is free software: you can redistribute it and/or modify
@@ -16,15 +16,22 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see [http://www.gnu.org/licenses/].
 */
 
-#ifndef CPH_CLIPBOARD_HANDLER
-#define CPH_CLIPBOARD_HANDLER
+#ifndef CPH
+#define CPH
 
-#include <gtk/gtk.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-#define CLIPBOARD_TIMEOUT 10000
+#include "cph_args.h"
+#include "cph_key.h"
+#include "cph_io.h"
 
-void str_to_clipboard(const char *str);
-//int clear_clipboard_and_exit(void);
+#define EXIT_OK 0
+#define EXIT_MEM_ERR 1
+
+static char *word;
+static char *salt;
+static char *key_buffer;
 
 #endif

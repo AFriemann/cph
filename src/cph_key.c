@@ -18,6 +18,11 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 #include "cph_key.h"
 
+char *base64  = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                "0123456789+/";
+char *baseE91 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                "0123456789!#$%&()*+,./:;<=>?@[]^_`{|}~\"";
+
 char *alphabet;
 
 char encode(char a)
@@ -71,7 +76,7 @@ void zip_encode(char* buffer, char* string, const unsigned int string_size, cons
     int i,j;
 
     // XOR string slices
-    for ( i = 1; i < slice_count; i++ )
+    for (i = 1; i < slice_count; i++)
     {
         for (j = 0; j < slice_size; j++)
         {
@@ -94,14 +99,13 @@ int generate_key(char *buffer, const char *word, const char *salt, const unsigne
     }
 
     if (extended) {
-        alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/$-_"
-                   "|&%*=:!#~@><.,^";
+        alphabet = baseE91;
     } else {
-        alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/$-_";
+        alphabet = base64;
     }
 
     // process input
-    int input_length = strlen(word) + strlen(salt);
+    unsigned int input_length = strlen(word) + strlen(salt);
 
     // prepare hash buffer
     unsigned int hash_size = gcry_md_get_algo_dlen( algorithm ) * sizeof (unsigned char);
@@ -112,7 +116,6 @@ int generate_key(char *buffer, const char *word, const char *salt, const unsigne
         fputs ("could not allocate space for hash computation\n", stderr);
         return 3;
     }
-
 
     snprintf(hash, (input_length + 1) * sizeof (char), "%s%s", word, salt);
 

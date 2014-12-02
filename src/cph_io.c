@@ -1,5 +1,5 @@
 /*
-cph input handler; used to handle user inputs.
+cph input/output file; used to handle user inputs.
 Copyright (C) 2013 Aljosha Friemann
 
 This program is free software: you can redistribute it and/or modify
@@ -16,7 +16,35 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see [http://www.gnu.org/licenses/].
 */
 
-#include "cph_input_handler.h"
+#include "cph_io.h"
+
+#ifdef __linux
+
+int init_buffer(char* buffer, const unsigned int zero)
+{
+    if (zero) {
+        // TODO this is ugly..
+        buffer = calloc(IO_MAX, sizeof(char));
+    } else {
+        buffer = malloc(BUFFER_SIZE);
+    }
+
+    return !mlock(buffer, BUFFER_SIZE);
+}
+
+int clear_buffer(char* buffer)
+{
+    memset(buffer, 0, BUFFER_SIZE);
+    free(buffer);
+
+    return !munlock(buffer, BUFFER_SIZE);
+}
+
+#else
+#error Platform not supported
+#endif
+
+#ifdef GTK
 
 GtkWidget *dialog;
 GtkEntryBuffer *gtk_buffer;
@@ -78,43 +106,97 @@ const char* gtk_input(const char *prompt)
     return gtk_entry_buffer_get_text(GTK_ENTRY_BUFFER (gtk_buffer));
 }
 
-void get_input(char* buffer, const char *name, const int max_input_length, const int with_gui)
+int clear_clipboard_and_exit(void)
+{
+    GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+    GtkClipboard *primary = gtk_clipboard_get(GDK_SELECTION_PRIMARY);
+
+    gtk_clipboard_clear(clipboard);
+    gtk_clipboard_clear(primary);
+
+    gtk_clipboard_set_text(clipboard, "", 0);
+    gtk_clipboard_set_text(primary, "", 0);
+
+    gtk_main_quit();
+
+    return 0;
+}
+
+void str_to_clipboard(const char *str)
+{
+    gtk_init (0, NULL);
+
+    g_timeout_add(CLIPBOARD_TIMEOUT, (GSourceFunc) clear_clipboard_and_exit, NULL);
+
+    GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+    GtkClipboard *primary= gtk_clipboard_get(GDK_SELECTION_PRIMARY);
+
+    gtk_clipboard_set_text(clipboard, str, strlen (str));
+    gtk_clipboard_set_text(primary, str, strlen (str));
+
+    gtk_main();
+}
+
+int input(char* buffer, const char *name)
 {
     char prompt[128];
     snprintf(prompt, sizeof (prompt), "Please enter %s:", name);
 
     const char* temp;
+    while (1)
+    {
+        temp = gtk_input(prompt); // always use password input
+        if (strlen (temp) > IO_MAX)
+        {
+            char msg_buffer[128];
+            snprintf(msg_buffer, sizeof (msg_buffer), "The given input exceeded %i characters! Please try again.", IO_MAX);
+            gtk_error(msg_buffer);
+        }
+        else
+        {
+            break;
+        }
+    }
 
-    if (!with_gui)
-    {
-        while (1)
-        {
-            temp = getpass(prompt);
-            if (strlen (temp) > max_input_length)
-                fprintf(stderr, "The given input exceeded %i characters! Please try again.\n", max_input_length);
-            else
-                break;
-        }
-        strcpy(buffer, temp);
-    }
-    else
-    {
-        while (1)
-        {
-            temp = gtk_input(prompt); // always use password input
-            if (strlen (temp) > max_input_length)
-            {
-                char msg_buffer[128];
-                snprintf(msg_buffer, sizeof (msg_buffer), "The given input exceeded %i characters! Please try again.", max_input_length);
-                gtk_error(msg_buffer);
-            }
-            else
-            {
-                break;
-            }
-        }
-        strcpy(buffer, temp);
-        gtk_entry_buffer_delete_text(GTK_ENTRY_BUFFER (gtk_buffer), 0, -1);
-    }
+    strcpy(buffer, temp);
+    gtk_entry_buffer_delete_text(GTK_ENTRY_BUFFER (gtk_buffer), 0, -1);
 }
 
+void output(const char* buffer)
+{
+    str_to_clipboard(buffer);
+}
+
+#else
+
+int input(char* buffer, const char *name)
+{
+    char prompt[128];
+    char *temp_buffer;
+
+    if (init_buffer(temp_buffer, 1)) {
+      snprintf(prompt, sizeof (prompt), "Please enter %s:", name);
+
+      while (1)
+      {
+          temp_buffer = getpass(prompt);
+          if (strlen (temp_buffer) > IO_MAX)
+              fprintf(stderr, "The given input exceeded %i characters! Please try again.\n", IO_MAX);
+          else
+              break;
+      }
+      strcpy(buffer, temp_buffer);
+      clear_buffer(temp_buffer);
+
+      return 0;
+    }
+
+    return 1;
+}
+
+void output(const char* buffer)
+{
+    fprintf(stdout, "%s", buffer);
+}
+
+#endif
