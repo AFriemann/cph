@@ -7,8 +7,10 @@ the clipboard for a specefied amount of time.
 Installation
 ============
 
-Use cmake to create a Makefile and compile as usual with make.
-An option to compile without X/GTK will eventually be added.
+> cd cmake   
+> cmake [-DGTK=ON] ..   
+> make   
+> cp bin/cph /usr/local/bin/cph   
 
 Requirements
 ============
@@ -44,12 +46,11 @@ Version 1.* uses libgcrypts sha512 as standard algorithm. Currently profile and 
 will be concatenated and hashed 
 ```sha512(word + salt)```
 Other available algorithms are: tiger, tiger1, tiger2, sha256, whirlpool   
-The included analysis scripts are rather useless. However, if you would simply like to see what calculated keys typically look like,
-they should provide a reasonable starting point.
 
 #### Issues
 
 - hash without random seed might be too insecure, a piece of static personal information could be saved and used (e.g. birthdate)
+- long inputs result in core dumps (with or without GTK), this needs fixing.
 
 Todo
 ====
@@ -57,18 +58,22 @@ Todo
 - windows and osx compatibility
 - qt version
 - enhance key algorithm?
-- config file and wizard?
 - variable clipboard timeout
 - more input strings?
+- config file and wizard?
 
 Similar Projects
 ================
 
-- The wonderful [PwdHash](https://www.pwdhash.com/) used in several browser
-  plugins
+- [PwdHash](https://www.pwdhash.com/) used in several browser plugins
 
 Changelog
 =========
+
+##### v1.5.1
+- can now be compiled with or without gtk support
+- removed getpass usage (manually disabling output now)
+- changed extended alphabet to baseE91 and default to base64
 
 ##### v1.4.1
 - removed clipboard handling from command line to make way for X free version

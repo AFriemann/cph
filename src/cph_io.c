@@ -20,24 +20,24 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 #ifdef __linux
 
-int init_buffer(char* buffer, const unsigned int zero)
+int init_buffer(char **buffer, const unsigned int zero)
 {
     if (zero) {
         // TODO this is ugly..
-        buffer = calloc(IO_MAX, sizeof(char));
+        *buffer = calloc(IO_MAX, sizeof(char));
     } else {
-        buffer = malloc(BUFFER_SIZE);
+        *buffer = malloc(BUFFER_SIZE);
     }
 
-    return !mlock(buffer, BUFFER_SIZE);
+    return !mlock(*buffer, BUFFER_SIZE);
 }
 
-int clear_buffer(char* buffer)
+int clear_buffer(char **buffer)
 {
-    memset(buffer, 0, BUFFER_SIZE);
-    free(buffer);
+    memset(*buffer, 0, BUFFER_SIZE);
+    free(*buffer);
 
-    return !munlock(buffer, BUFFER_SIZE);
+    return !munlock(*buffer, BUFFER_SIZE);
 }
 
 #else
@@ -67,7 +67,8 @@ void gtk_error(const char* msg)
     GtkWidget *label = gtk_label_new(msg);
     gtk_container_add(GTK_CONTAINER (content_area), label);
 
-    GtkWidget *ok_button = gtk_button_new_from_stock(GTK_STOCK_OK);
+    /* GtkWidget *ok_button = gtk_button_new_from_stock(GTK_STOCK_OK); */
+    GtkWidget *ok_button = gtk_button_new_with_label("ok");
     gtk_container_add(GTK_CONTAINER (action_area), ok_button);
 
     g_signal_connect(dialog, "destroy", G_CALLBACK (gtk_main_quit), NULL);
@@ -142,24 +143,9 @@ int input(char* buffer, const char *name)
     char prompt[128];
     snprintf(prompt, sizeof (prompt), "Please enter %s:", name);
 
-    const char* temp;
-    while (1)
-    {
-        temp = gtk_input(prompt); // always use password input
-        if (strlen (temp) > IO_MAX)
-        {
-            char msg_buffer[128];
-            snprintf(msg_buffer, sizeof (msg_buffer), "The given input exceeded %i characters! Please try again.", IO_MAX);
-            gtk_error(msg_buffer);
-        }
-        else
-        {
-            break;
-        }
-    }
+    strcpy(buffer, gtk_input(prompt));
 
-    strcpy(buffer, temp);
-    gtk_entry_buffer_delete_text(GTK_ENTRY_BUFFER (gtk_buffer), 0, -1);
+    return 0;
 }
 
 void output(const char* buffer)
@@ -171,23 +157,33 @@ void output(const char* buffer)
 
 int input(char* buffer, const char *name)
 {
-    char prompt[128];
-    char *temp_buffer;
+    // disable stdin echo
+    tcgetattr(fileno(stdin), &oflags);
+    nflags = oflags;
+    nflags.c_lflag &= ~ECHO;
+    nflags.c_lflag != ECHONL;
 
-    if (init_buffer(temp_buffer, 1)) {
-      snprintf(prompt, sizeof (prompt), "Please enter %s:", name);
+    if (tcsetattr(fileno(stdin), TCSANOW, &nflags)) {
+      perror("tcsetattr");
+      return 0;
+    }
 
-      while (1)
-      {
-          temp_buffer = getpass(prompt);
-          if (strlen (temp_buffer) > IO_MAX)
-              fprintf(stderr, "The given input exceeded %i characters! Please try again.\n", IO_MAX);
-          else
-              break;
-      }
-      strcpy(buffer, temp_buffer);
-      clear_buffer(temp_buffer);
+    printf("Please enter %s: ", name);
 
+    fgets(buffer, IO_MAX, stdin);
+
+    unsigned int length = strlen(buffer);
+
+    // delete newline char
+    if (buffer[length - 1] == '\n') {
+      buffer[length - 1] = 0;
+    }
+
+    printf("\n");
+
+    // enable stdin echo
+    if (tcsetattr(fileno(stdin), TCSANOW, &oflags)) {
+      perror("tcsetattr");
       return 0;
     }
 

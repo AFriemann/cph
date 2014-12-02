@@ -36,7 +36,7 @@ char encode(char a)
     return alphabet[(unsigned int) a % strlen(alphabet)];
 }
 
-void str_encode(char *buffer, char* string, const unsigned int string_size)
+void str_encode(char *buffer, char *string, const unsigned int string_size)
 {
     int i;
     for ( i = 0; i < string_size; i ++)

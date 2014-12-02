@@ -21,17 +21,17 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 int init_buffers(void)
 {
     return
-      init_buffer(word, 0) &&
-      init_buffer(salt, 0) &&
-      init_buffer(key_buffer, 1);
+      init_buffer(&word, 0) &&
+      init_buffer(&salt, 0) &&
+      init_buffer(&key_buffer, 1);
 }
 
 int clear_buffers(void)
 {
     return
-      clear_buffer(word) &&
-      clear_buffer(salt) &&
-      clear_buffer(key_buffer);
+      clear_buffer(&word) &&
+      clear_buffer(&salt) &&
+      clear_buffer(&key_buffer);
 }
 
 int main(int argc, char **argv)
@@ -41,14 +41,19 @@ int main(int argc, char **argv)
     if (init_buffers()) {
         Config config = parse_args(argc, argv, word, salt);
 
-        if (strlen(word) == 0) { input(word, "word"); }
-        if (strlen(salt) == 0) { input(salt, "salt"); }
+        if (! config.ERR) {
+          if (strlen(word) == 0) { input(word, "word"); }
+          if (strlen(salt) == 0) { input(salt, "salt"); }
 
-        RETVAL = generate_key(key_buffer, word, salt, config.LENGTH, config.ALGORITHM, config.EXTENDED);
+          RETVAL = generate_key(key_buffer, word, salt, config.LENGTH, config.ALGORITHM, config.EXTENDED);
 
-        output(key_buffer);
+          output(key_buffer);
 
-        clear_buffers();
+          clear_buffers();
+        } else {
+          RETVAL = config.ERR;
+        }
+
         exit(RETVAL);
     }
 

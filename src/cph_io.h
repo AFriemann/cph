@@ -32,20 +32,16 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #endif
 
 #ifdef GTK
-
 #include <gtk-3.0/gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
-
 #define CLIPBOARD_TIMEOUT 10000
-
 #else
-
-#include <unistd.h>
-
+#include <termios.h>
+struct termios oflags, nflags;
 #endif
 
-int init_buffer(char* buffer, const unsigned int zero);
-int clear_buffer(char* buffer);
+int init_buffer(char **buffer, const unsigned int zero);
+int clear_buffer(char **buffer);
 
 int input(char *buffer, const char *name);
 void output(const char *buffer);
