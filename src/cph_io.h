@@ -24,26 +24,34 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include <stdlib.h>
 
 #define DEFAULT_LENGTH 16
-#define IO_MAX 64
-#define BUFFER_SIZE IO_MAX * sizeof (char)
+#define IO_MAX 32
+#define BUFFER_SIZE (IO_MAX + 1) * sizeof (char)
 
 #ifdef __linux
 #include <sys/mman.h>
 #endif
 
 #ifdef GTK
+
 #include <gtk-3.0/gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #define CLIPBOARD_TIMEOUT 10000
+
 #else
+
+#ifdef __linux
 #include <termios.h>
 struct termios oflags, nflags;
+#else
+#error Platform not supported
+#endif
+
 #endif
 
 int init_buffer(char **buffer, const unsigned int zero);
 int clear_buffer(char **buffer);
 
-int input(char *buffer, const char *name);
+void input(char *buffer, const char *name);
 void output(const char *buffer);
 
 #endif

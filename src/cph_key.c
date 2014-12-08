@@ -25,6 +25,10 @@ char *baseE91 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 char *alphabet;
 
+/**
+ * This method will return the character if it is available in the chosen
+ * alphabet and otherwise calculates the modulo value.
+ */
 char encode(char a)
 {
     int i;
@@ -36,6 +40,9 @@ char encode(char a)
     return alphabet[(unsigned int) a % strlen(alphabet)];
 }
 
+/**
+ * Will encode the given string and write the result to the given buffer.
+ */
 void buf_encode(char *buffer, char *string, const unsigned int string_size)
 {
     int i;
@@ -88,6 +95,12 @@ void zip_encode(char* buffer, char* string, const unsigned int string_size, cons
     buf_encode(buffer, string, length);
 }
 
+/**
+ * Main key generation function. This fires up libgcrypt, computes the hash of
+ * word+salt and encodes it in either base64 or baseE91. The result will be
+ * written to the given buffer.
+ * It returns 0 if the length of the actual key is equal to given length.
+ */
 int generate_key(char *buffer, const char *word, const char *salt, const unsigned int length, const unsigned int algorithm, const unsigned int extended)
 {
     // Version check should be the very first call because it
@@ -118,8 +131,11 @@ int generate_key(char *buffer, const char *word, const char *salt, const unsigne
     }
 
     // string concatenation
-    // TODO strlen(word+salt) > strlen(hash) = trouble
-    //      temporary solution is hardcoded IO_MAX = 32
+    // TODO strlen(word+salt) > dlen(algorithm) + x = trouble
+    //                                            ^
+    //                      might be due to unsigned char type of hash_size?
+    // temporary solution is hardcoded IO_MAX = 32 since sha512
+    // has dlen of 64
     snprintf(hash, (input_length + 1) * sizeof (char), "%s%s", word, salt);
 
     /* init libgcrypt */

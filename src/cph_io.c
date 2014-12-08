@@ -20,11 +20,15 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 #ifdef __linux
 
+/**
+ * This method will allocate memory (which can be set to 0 if zero != 0) and
+ * lock the buffer in ram.
+ */
 int init_buffer(char **buffer, const unsigned int zero)
 {
     if (zero) {
         // TODO this is ugly..
-        *buffer = calloc(IO_MAX, sizeof(char));
+        *buffer = calloc(IO_MAX + 1, sizeof(char));
     } else {
         *buffer = malloc(BUFFER_SIZE);
     }
@@ -32,6 +36,9 @@ int init_buffer(char **buffer, const unsigned int zero)
     return !mlock(*buffer, BUFFER_SIZE);
 }
 
+/**
+ * This method will set buffer content to 0 and then free and unlock it.
+ */
 int clear_buffer(char **buffer)
 {
     memset(*buffer, 0, BUFFER_SIZE);
@@ -49,12 +56,19 @@ int clear_buffer(char **buffer)
 GtkWidget *dialog;
 GtkEntryBuffer *gtk_buffer;
 
+/**
+ * This method will send a message to their dialog window which can
+ * be caught and used to exit respectively.
+ */
 int entry_callback(GtkWidget *widget, GdkEventKey *pKey, gpointer userdata)
 {
     g_signal_emit_by_name(dialog, "destroy");
     return 0;
 }
 
+/**
+ * Simple gtk error message window
+ */
 void gtk_error(const char* msg)
 {
     gtk_init(0, NULL);
@@ -67,7 +81,6 @@ void gtk_error(const char* msg)
     GtkWidget *label = gtk_label_new(msg);
     gtk_container_add(GTK_CONTAINER (content_area), label);
 
-    /* GtkWidget *ok_button = gtk_button_new_from_stock(GTK_STOCK_OK); */
     GtkWidget *ok_button = gtk_button_new_with_label("ok");
     gtk_container_add(GTK_CONTAINER (action_area), ok_button);
 
@@ -79,10 +92,15 @@ void gtk_error(const char* msg)
     gtk_main();
 }
 
+/**
+ * Simple gtk password input window
+ */
 const char* gtk_input(const char *prompt)
 {
     gtk_init(0, NULL);
 
+    // TODO could we use an external buffer here or does it
+    //      have to be this way?
     gtk_buffer = gtk_entry_buffer_new(NULL, -1);
 
     dialog = gtk_dialog_new();
@@ -94,6 +112,7 @@ const char* gtk_input(const char *prompt)
     gtk_entry_set_visibility(GTK_ENTRY (password_input), FALSE);
     //gtk_entry_set_invisible_char(GTK_ENTRY (password_input), 0);
     gtk_entry_set_input_purpose(GTK_ENTRY (password_input), GTK_INPUT_PURPOSE_PASSWORD);
+    gtk_entry_set_max_length(GTK_ENTRY (password_input), IO_MAX);
 
     gtk_container_add(GTK_CONTAINER (content_area), password_input);
 
@@ -107,6 +126,9 @@ const char* gtk_input(const char *prompt)
     return gtk_entry_buffer_get_text(GTK_ENTRY_BUFFER (gtk_buffer));
 }
 
+/**
+ * Clears the clipboard (sets content to an empty string) and exits gtk
+ */
 int clear_clipboard_and_exit(void)
 {
     GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
@@ -123,6 +145,9 @@ int clear_clipboard_and_exit(void)
     return 0;
 }
 
+/**
+ * Exposes the given string to clipboard using gtk
+ */
 void str_to_clipboard(const char *str)
 {
     gtk_init (0, NULL);
@@ -138,14 +163,16 @@ void str_to_clipboard(const char *str)
     gtk_main();
 }
 
-int input(char* buffer, const char *name)
+/**
+ * Uses gtk_input method to retrieve user input
+ */
+void input(char* buffer, const char *name)
 {
     char prompt[128];
     snprintf(prompt, sizeof (prompt), "Please enter %s:", name);
 
-    strcpy(buffer, gtk_input(prompt));
-
-    return 0;
+    // TODO this does not feel very safe.
+    strncpy(buffer, gtk_input(prompt));
 }
 
 void output(const char* buffer)
@@ -155,7 +182,13 @@ void output(const char* buffer)
 
 #else
 
-int input(char* buffer, const char *name)
+#ifdef __linux
+/**
+ * This method deactivates output of stdin and then reads user input up to
+ * IO_MAX characters. Everything beyond will be silently discarded!
+ * This behaviour is hopefully temporary.
+ */
+void input(char* buffer, const char *name)
 {
     // disable stdin echo
     tcgetattr(fileno(stdin), &oflags);
@@ -165,30 +198,39 @@ int input(char* buffer, const char *name)
 
     if (tcsetattr(fileno(stdin), TCSANOW, &nflags)) {
       perror("tcsetattr");
-      return 0;
     }
 
-    printf("Please enter %s: ", name);
+    printf("Please enter %s: ", name, stdout);
 
-    fgets(buffer, IO_MAX, stdin);
-
-    unsigned int length = strlen(buffer);
-
-    // delete newline char
-    if (buffer[length - 1] == '\n') {
-      buffer[length - 1] = 0;
+    int i = 0;
+    char c;
+    while ((c = getchar()) != '\n' && c != EOF){
+        /**
+         * discard the rest to avoid leaving it in stdin..
+         * TODO failed input should result in a failed execution and not fail
+         * silently as it does right now.
+         *  * the input function could return an untrue int and cph could exit
+         *    appropriately; maybe use longjmp as exception replacement.
+         *  * main could listen to SIGTERM and this method could send the
+         *    signal in case of failed input
+         */
+        if (i < IO_MAX) {
+            buffer[i++] = c;
+        }
     }
 
-    printf("\n");
+    buffer[strlen(buffer)] = '\0';
 
-    // enable stdin echo
+    printf("\n", stdout);
+
+    // re-enable stdin echo
     if (tcsetattr(fileno(stdin), TCSANOW, &oflags)) {
       perror("tcsetattr");
-      return 0;
     }
-
-    return 1;
 }
+#else
+#error Platform not supported
+#endif
 
 void output(const char* buffer)
 {
