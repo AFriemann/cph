@@ -20,12 +20,12 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #define CPH_ARGS
 
 #include <getopt.h>
-#include <gcrypt.h>
 #include <stdio.h>
 
 #include "cph_io.h"
+#include "cph_key.h"
 
-#define VERSION "1.3.1"
+#define VERSION "1.4.3"
 
 // Config struct for parsed arguments
 typedef struct

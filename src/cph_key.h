@@ -24,6 +24,17 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include <string.h>
 #include <gcrypt.h>
 
+enum hash_algorithm {
+    tiger = GCRY_MD_TIGER,
+    tiger1 = GCRY_MD_TIGER1,
+    tiger2 = GCRY_MD_TIGER2,
+    sha256 = GCRY_MD_SHA256,
+    sha512 = GCRY_MD_SHA512,
+    whirlpool = GCRY_MD_WHIRLPOOL,
+};
+
+#define DEFAULT_ALGORITHM sha512
+
 int generate_key(char *buffer, const char *profile, const char *password, const unsigned int length, const unsigned int algorithm, const unsigned int extended);
 
 #endif

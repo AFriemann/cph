@@ -36,7 +36,7 @@ char encode(char a)
     return alphabet[(unsigned int) a % strlen(alphabet)];
 }
 
-void str_encode(char *buffer, char *string, const unsigned int string_size)
+void buf_encode(char *buffer, char *string, const unsigned int string_size)
 {
     int i;
     for ( i = 0; i < string_size; i ++)
@@ -85,7 +85,7 @@ void zip_encode(char* buffer, char* string, const unsigned int string_size, cons
     }
 
     // encode string
-    str_encode(buffer, string, length);
+    buf_encode(buffer, string, length);
 }
 
 int generate_key(char *buffer, const char *word, const char *salt, const unsigned int length, const unsigned int algorithm, const unsigned int extended)
@@ -117,6 +117,9 @@ int generate_key(char *buffer, const char *word, const char *salt, const unsigne
         return 3;
     }
 
+    // string concatenation
+    // TODO strlen(word+salt) > strlen(hash) = trouble
+    //      temporary solution is hardcoded IO_MAX = 32
     snprintf(hash, (input_length + 1) * sizeof (char), "%s%s", word, salt);
 
     /* init libgcrypt */
@@ -138,15 +141,14 @@ int generate_key(char *buffer, const char *word, const char *salt, const unsigne
     gcry_control(GCRYCTL_INITIALIZATION_FINISHED, 0);
 
     /* calculate hash and write to hash buffer */
-
     gcry_md_hash_buffer( algorithm, hash, hash, strlen(hash) );
 
     //zip_encode(buffer, hash, hash_size, length);
     if (length > hash_size) {
-        str_encode(buffer, hash, hash_size);
+        buf_encode(buffer, hash, hash_size);
     }
     else {
-        str_encode(buffer, hash, length);
+        buf_encode(buffer, hash, length);
     }
 
     memset(hash, 0, hash_size);

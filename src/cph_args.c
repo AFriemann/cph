@@ -18,18 +18,12 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 #include "cph_args.h"
 
-enum hash_algorithm {
-    tiger = GCRY_MD_TIGER,
-    tiger1 = GCRY_MD_TIGER1,
-    tiger2 = GCRY_MD_TIGER2,
-    sha256 = GCRY_MD_SHA256,
-    sha512 = GCRY_MD_SHA512,
-    whirlpool = GCRY_MD_WHIRLPOOL,
-};
+static const Config DEFAULT_CONFIG = { 0, 0, 0, DEFAULT_LENGTH, DEFAULT_ALGORITHM };
 
-static const unsigned int DEFAULT_ALGORITHM = sha512;
-static const Config DEFAULT_CONFIG = { 0, 0, 0, DEFAULT_LENGTH, sha512 };
-
+/**
+ * Matches a string to the corresponding hash alrogithm.
+ * Uses DEFAULT_ALGORITHM if no match was found.
+ */
 unsigned int parse_algo(char *arg)
 {
     if ( strncmp(optarg, "tiger", 50)  == 0 ) { return tiger; }
@@ -43,6 +37,11 @@ unsigned int parse_algo(char *arg)
     return DEFAULT_ALGORITHM;
 }
 
+/**
+ * This method is used to parse arguments from command line and will return
+ * a Config struct to be conveniently used by cph.
+ * It has to be called with pre allocated buffers for word/salt.
+ */
 Config parse_args(int argc, char *argv[], char *word, char *salt)
 {
     Config result = DEFAULT_CONFIG;
