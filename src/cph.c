@@ -48,12 +48,11 @@ int main(int argc, char **argv)
           RETVAL = generate_key(key_buffer, word, salt, config.LENGTH, config.ALGORITHM, config.EXTENDED);
 
           output(key_buffer);
-
-          clear_buffers();
         } else {
           RETVAL = config.ERR;
         }
 
+        clear_buffers();
         exit(RETVAL);
     }
 
