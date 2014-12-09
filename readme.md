@@ -30,7 +30,6 @@ Usage
 >     -v, --version      show version   
 >     -a, --algorithm X  set hash algorithm, see readme for available options   
 >     -e, --extended     use extended alphabet   
->     -g, --with-gui     use gui input   
 >     -l, --length N     set password length, default is 12   
 >   
 > input switches:   
@@ -69,6 +68,9 @@ Similar Projects
 
 Changelog
 =========
+
+##### v1.5.2
+- reduced input cap from 64 characters to 32. exceeding characters will be discarded (this will change in the future)
 
 ##### v1.5.1
 - can now be compiled with or without gtk support
