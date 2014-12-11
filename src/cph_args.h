@@ -25,7 +25,7 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include "cph_io.h"
 #include "cph_key.h"
 
-#define VERSION "1.4.3"
+#define VERSION "1.5.3"
 
 // Config struct for parsed arguments
 typedef struct

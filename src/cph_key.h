@@ -24,6 +24,8 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include <string.h>
 #include <gcrypt.h>
 
+#include "cph_io.h"
+
 enum hash_algorithm {
     tiger = GCRY_MD_TIGER,
     tiger1 = GCRY_MD_TIGER1,

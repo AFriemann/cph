@@ -38,6 +38,14 @@ Usage
 
 The same word, salt and key length will always result in the same key.
 
+Exit codes are defined as follows:
+
+> define EXIT_OK 0   
+> define EXIT_MEM_ERR 1   
+> define EXIT_INPUT_ERR 2   
+> define EXIT_LIBGRCYPT_ERR 3   
+> define EXIT_KEY_ERROR 4   
+
 Key Algorithm
 =============
 
@@ -68,6 +76,12 @@ Similar Projects
 
 Changelog
 =========
+
+##### v1.5.3
+- added NULL pointer checks
+- added return value logic to some methods
+  - inputs exceeding INPUT_MAX will now result in termination
+  - cph exit codes should contain a bit more information (see readme)
 
 ##### v1.5.2
 - reduced input cap from 64 characters to 32. exceeding characters will be discarded (this will change in the future)

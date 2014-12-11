@@ -48,10 +48,19 @@ struct termios oflags, nflags;
 
 #endif
 
+#define TRUE 1
+#define FALSE 0
+
+#define EXIT_OK 0
+#define EXIT_MEM_ERR 1
+#define EXIT_INPUT_ERR 2
+#define EXIT_LIBGRCYPT_ERR 3
+#define EXIT_KEY_ERROR 4
+
 int init_buffer(char **buffer, const unsigned int zero);
 int clear_buffer(char **buffer);
 
-void input(char *buffer, const char *name);
-void output(const char *buffer);
+int input(char *buffer, const char *name);
+int output(const char *buffer);
 
 #endif

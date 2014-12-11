@@ -27,9 +27,6 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include "cph_key.h"
 #include "cph_io.h"
 
-#define EXIT_OK 0
-#define EXIT_MEM_ERR 1
-
 static char *word;
 static char *salt;
 static char *key_buffer;

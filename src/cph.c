@@ -36,20 +36,23 @@ int clear_buffers(void)
 
 int main(int argc, char **argv)
 {
+    Config config;
+
     int RETVAL = EXIT_OK;
 
     if (init_buffers()) {
-        Config config = parse_args(argc, argv, word, salt);
+        config = parse_args(argc, argv, word, salt);
 
-        if (! config.ERR) {
-          if (strlen(word) == 0) { input(word, "word"); }
-          if (strlen(salt) == 0) { input(salt, "salt"); }
+        while (!config.ERR) {
+            if (!input(word, "word") || !input(salt, "salt")) {
+                RETVAL = EXIT_INPUT_ERR;
+                break;
+            }
 
-          RETVAL = generate_key(key_buffer, word, salt, config.LENGTH, config.ALGORITHM, config.EXTENDED);
+            RETVAL = generate_key(key_buffer, word, salt, config.LENGTH, config.ALGORITHM, config.EXTENDED);
 
-          output(key_buffer);
-        } else {
-          RETVAL = config.ERR;
+            output(key_buffer);
+            break;
         }
 
         clear_buffers();

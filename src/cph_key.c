@@ -43,13 +43,19 @@ char encode(char a)
 /**
  * Will encode the given string and write the result to the given buffer.
  */
-void buf_encode(char *buffer, char *string, const unsigned int string_size)
+int buf_encode(char *buffer, char *string, const unsigned int string_size)
 {
+    if (buffer == NULL || string == NULL) {
+        return FALSE;
+    }
+
     int i;
     for ( i = 0; i < string_size; i ++)
     {
         buffer[i] = encode(string[i]);
     }
+
+    return TRUE;
 }
 
 /**
@@ -67,8 +73,12 @@ void buf_encode(char *buffer, char *string, const unsigned int string_size)
  *
  * TODO: verify that this actually works and makes sense
  */
-void zip_encode(char* buffer, char* string, const unsigned int string_size, const unsigned int length)
+int zip_encode(char* buffer, char* string, const unsigned int string_size, const unsigned int length)
 {
+    if (buffer == NULL || string == NULL) {
+        return FALSE;
+    }
+
     // find optimal slice length
     unsigned int slice_size, slice_count;
     if (length <= string_size / 2) {
@@ -93,6 +103,8 @@ void zip_encode(char* buffer, char* string, const unsigned int string_size, cons
 
     // encode string
     buf_encode(buffer, string, length);
+
+    return TRUE;
 }
 
 /**
@@ -103,12 +115,19 @@ void zip_encode(char* buffer, char* string, const unsigned int string_size, cons
  */
 int generate_key(char *buffer, const char *word, const char *salt, const unsigned int length, const unsigned int algorithm, const unsigned int extended)
 {
+    if (buffer == NULL || word == NULL || salt == NULL || strlen(word) == 0 || strlen(salt) == 0) {
+        return EXIT_MEM_ERR;
+    }
+
+    unsigned int input_length, hash_size;
+    char* hash;
+
     // Version check should be the very first call because it
     // makes sure that important subsystems are intialized.
     if (!gcry_check_version (GCRYPT_VERSION))
     {
         fputs ("libgcrypt version mismatch\n", stderr);
-        return 2;
+        return EXIT_LIBGRCYPT_ERR;
     }
 
     if (extended) {
@@ -118,16 +137,16 @@ int generate_key(char *buffer, const char *word, const char *salt, const unsigne
     }
 
     // process input
-    unsigned int input_length = strlen(word) + strlen(salt);
+    input_length = strlen(word) + strlen(salt);
 
     // prepare hash buffer
-    unsigned int hash_size = gcry_md_get_algo_dlen( algorithm ) * sizeof (unsigned char);
-    char* hash = calloc( gcry_md_get_algo_dlen( algorithm ), sizeof (unsigned char));
+    hash_size = gcry_md_get_algo_dlen( algorithm ) * sizeof (unsigned char);
+    hash = calloc( gcry_md_get_algo_dlen( algorithm ), sizeof (unsigned char));
 
     if (hash == NULL || mlock(hash, hash_size))
     {
         fputs ("could not allocate space for hash computation\n", stderr);
-        return 3;
+        return EXIT_MEM_ERR;
     }
 
     // string concatenation
@@ -174,5 +193,9 @@ int generate_key(char *buffer, const char *word, const char *salt, const unsigne
 
     // TODO do we have to do anything with the secure memory after this?
 
-    return (length - strlen (buffer));
+    if (length - strlen (buffer) != 0) {
+        return EXIT_KEY_ERROR;
+    }
+
+    return EXIT_OK;
 }

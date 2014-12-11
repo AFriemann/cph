@@ -33,6 +33,7 @@ int init_buffer(char **buffer, const unsigned int zero)
         *buffer = malloc(BUFFER_SIZE);
     }
 
+    // mlock returns zero on success, therefore negated return
     return !mlock(*buffer, BUFFER_SIZE);
 }
 
@@ -41,9 +42,14 @@ int init_buffer(char **buffer, const unsigned int zero)
  */
 int clear_buffer(char **buffer)
 {
+    if (buffer == NULL) {
+        return FALSE;
+    }
+
     memset(*buffer, 0, BUFFER_SIZE);
     free(*buffer);
 
+    // munlock returns zero on success, therefore negated return
     return !munlock(*buffer, BUFFER_SIZE);
 }
 
@@ -63,7 +69,7 @@ GtkEntryBuffer *gtk_buffer;
 int entry_callback(GtkWidget *widget, GdkEventKey *pKey, gpointer userdata)
 {
     g_signal_emit_by_name(dialog, "destroy");
-    return 0;
+    return FALSE;
 }
 
 /**
@@ -142,13 +148,13 @@ int clear_clipboard_and_exit(void)
 
     gtk_main_quit();
 
-    return 0;
+    return FALSE;
 }
 
 /**
  * Exposes the given string to clipboard using gtk
  */
-void str_to_clipboard(const char *str)
+int str_to_clipboard(const char *str)
 {
     gtk_init (0, NULL);
 
@@ -161,23 +167,35 @@ void str_to_clipboard(const char *str)
     gtk_clipboard_set_text(primary, str, strlen (str));
 
     gtk_main();
+
+    return TRUE;
 }
 
 /**
  * Uses gtk_input method to retrieve user input
  */
-void input(char* buffer, const char *name)
+int input(char* buffer, const char *name)
 {
+    if (buffer == NULL || name == NULL) {
+        return FALSE;
+    }
+
+    if (strlen(buffer) != 0) {
+        return TRUE;
+    }
+
     char prompt[128];
     snprintf(prompt, sizeof (prompt), "Please enter %s:", name);
 
     // TODO this does not feel very safe.
     strncpy(buffer, gtk_input(prompt));
+
+    return TRUE;
 }
 
-void output(const char* buffer)
+int output(const char* buffer)
 {
-    str_to_clipboard(buffer);
+    return str_to_clipboard(buffer);
 }
 
 #else
@@ -188,8 +206,19 @@ void output(const char* buffer)
  * IO_MAX characters. Everything beyond will be silently discarded!
  * This behaviour is hopefully temporary.
  */
-void input(char* buffer, const char *name)
+int input(char* buffer, const char *name)
 {
+    if (buffer == NULL || name == NULL) {
+        return FALSE;
+    }
+
+    if (strlen(buffer) != 0) {
+        return TRUE;
+    }
+
+    unsigned int i;
+    char c;
+
     // disable stdin echo
     tcgetattr(fileno(stdin), &oflags);
     nflags = oflags;
@@ -198,12 +227,12 @@ void input(char* buffer, const char *name)
 
     if (tcsetattr(fileno(stdin), TCSANOW, &nflags)) {
       perror("tcsetattr");
+      return FALSE;
     }
 
     printf("Please enter %s: ", name, stdout);
 
-    int i = 0;
-    char c;
+    i = 0;
     while ((c = getchar()) != '\n' && c != EOF){
         /**
          * discard the rest to avoid leaving it in stdin..
@@ -216,6 +245,8 @@ void input(char* buffer, const char *name)
          */
         if (i < IO_MAX) {
             buffer[i++] = c;
+        } else {
+            return FALSE;
         }
     }
 
@@ -226,15 +257,19 @@ void input(char* buffer, const char *name)
     // re-enable stdin echo
     if (tcsetattr(fileno(stdin), TCSANOW, &oflags)) {
       perror("tcsetattr");
+      return FALSE;
     }
+
+    return TRUE;
 }
 #else
 #error Platform not supported
 #endif
 
-void output(const char* buffer)
+int output(const char* buffer)
 {
     fprintf(stdout, "%s", buffer);
+    return TRUE;
 }
 
 #endif

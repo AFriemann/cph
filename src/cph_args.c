@@ -44,14 +44,19 @@ unsigned int parse_algo(char *arg)
  */
 Config parse_args(int argc, char *argv[], char *word, char *salt)
 {
+    char arg;
+    int length_input, remaining_params, option_index;
+
     Config result = DEFAULT_CONFIG;
 
-    char arg;
-    int length_input;
-    while (1)
+    if (word == NULL || salt == NULL) {
+        result.ERR = 1;
+    }
+
+    while (! result.ERR)
     {
         /* getopt_long stores the option index here. */
-        int option_index = 0;
+        option_index = 0;
 
         arg = getopt_long (argc, argv, "a:ceghl:s:vw:", long_options, &option_index);
 
@@ -124,7 +129,7 @@ Config parse_args(int argc, char *argv[], char *word, char *salt)
         }
     }
 
-    int remaining_params = argc - optind;
+    remaining_params = argc - optind;
 
     if (remaining_params > 0) {
         fprintf(stderr, "%s\n", error_msg);
