@@ -73,6 +73,25 @@ int entry_callback(GtkWidget *widget, GdkEventKey *pKey, gpointer userdata)
 }
 
 /**
+ * Clears the clipboard (sets content to an empty string) and exits gtk
+ */
+int clear_clipboard_and_exit(void)
+{
+    GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+    GtkClipboard *primary = gtk_clipboard_get(GDK_SELECTION_PRIMARY);
+
+    gtk_clipboard_clear(clipboard);
+    gtk_clipboard_clear(primary);
+
+    gtk_clipboard_set_text(clipboard, "", 0);
+    gtk_clipboard_set_text(primary, "", 0);
+
+    gtk_main_quit();
+
+    return 0; // gtk convention
+}
+
+/**
  * Simple gtk error message window
  */
 void gtk_error(const char* msg)
@@ -133,49 +152,9 @@ const char* gtk_input(const char *prompt)
 }
 
 /**
- * Clears the clipboard (sets content to an empty string) and exits gtk
- */
-int clear_clipboard_and_exit(void)
-{
-    GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-    GtkClipboard *primary = gtk_clipboard_get(GDK_SELECTION_PRIMARY);
-
-    gtk_clipboard_clear(clipboard);
-    gtk_clipboard_clear(primary);
-
-    gtk_clipboard_set_text(clipboard, "", 0);
-    gtk_clipboard_set_text(primary, "", 0);
-
-    gtk_main_quit();
-
-    return FALSE;
-}
-
-/**
- * Exposes the given string to clipboard using gtk
- */
-int str_to_clipboard(const char *str)
-{
-    gtk_init (0, NULL);
-
-    g_timeout_add(CLIPBOARD_TIMEOUT, (GSourceFunc) clear_clipboard_and_exit, NULL);
-
-    GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-    GtkClipboard *primary= gtk_clipboard_get(GDK_SELECTION_PRIMARY);
-
-    gtk_clipboard_set_text(clipboard, str, strlen (str));
-    gtk_clipboard_set_text(primary, str, strlen (str));
-
-    gtk_main();
-
-    return TRUE;
-}
-
-/**
  * Uses gtk_input method to retrieve user input
  */
-int input(char* buffer, const char *name)
-{
+int input(char* buffer, const char *name) {
     if (buffer == NULL || name == NULL) {
         return FALSE;
     }
@@ -188,23 +167,47 @@ int input(char* buffer, const char *name)
     snprintf(prompt, sizeof (prompt), "Please enter %s:", name);
 
     // TODO this does not feel very safe.
-    strncpy(buffer, gtk_input(prompt));
+    strcpy(buffer, gtk_input(prompt));
 
     return TRUE;
 }
 
+#ifdef __linux
+/**
+ * Exposes the given string to clipboard using gtk
+ */
 int output(const char* buffer)
 {
-    return str_to_clipboard(buffer);
+    if (buffer == NULL) {
+        return FALSE;
+    }
+
+    gtk_init (0, NULL);
+
+    // exit window and clear buffers after timeout
+    g_timeout_add(CLIPBOARD_TIMEOUT, (GSourceFunc) clear_clipboard_and_exit, NULL);
+
+    // write to primary and secondary selection
+    GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+    GtkClipboard *primary= gtk_clipboard_get(GDK_SELECTION_PRIMARY);
+
+    gtk_clipboard_set_text(clipboard, buffer, strlen (buffer));
+    gtk_clipboard_set_text(primary, buffer, strlen (buffer));
+
+    gtk_main();
+
+    return TRUE;
 }
+#else
+#error Platform not supported
+#endif
 
 #else
 
 #ifdef __linux
 /**
  * This method deactivates output of stdin and then reads user input up to
- * IO_MAX characters. Everything beyond will be silently discarded!
- * This behaviour is hopefully temporary.
+ * IO_MAX characters. Exceeding IO_MAX will result in program termination.
  */
 int input(char* buffer, const char *name)
 {
@@ -234,15 +237,6 @@ int input(char* buffer, const char *name)
 
     i = 0;
     while ((c = getchar()) != '\n' && c != EOF){
-        /**
-         * discard the rest to avoid leaving it in stdin..
-         * TODO failed input should result in a failed execution and not fail
-         * silently as it does right now.
-         *  * the input function could return an untrue int and cph could exit
-         *    appropriately; maybe use longjmp as exception replacement.
-         *  * main could listen to SIGTERM and this method could send the
-         *    signal in case of failed input
-         */
         if (i < IO_MAX) {
             buffer[i++] = c;
         } else {

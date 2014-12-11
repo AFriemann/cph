@@ -48,8 +48,13 @@ struct termios oflags, nflags;
 
 #endif
 
-#define TRUE 1
+#ifndef TRUE
 #define FALSE 0
+#endif
+
+#ifndef FALSE
+#define TRUE (!FALSE)
+#endif
 
 #define EXIT_OK 0
 #define EXIT_MEM_ERR 1

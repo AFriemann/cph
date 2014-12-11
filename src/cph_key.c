@@ -111,7 +111,7 @@ int zip_encode(char* buffer, char* string, const unsigned int string_size, const
  * Main key generation function. This fires up libgcrypt, computes the hash of
  * word+salt and encodes it in either base64 or baseE91. The result will be
  * written to the given buffer.
- * It returns 0 if the length of the actual key is equal to given length.
+ * Return values use the main exit coding and will be used as exit values for cph
  */
 int generate_key(char *buffer, const char *word, const char *salt, const unsigned int length, const unsigned int algorithm, const unsigned int extended)
 {
