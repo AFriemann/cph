@@ -43,3 +43,5 @@ endif()
 add_executable(cph ${SOURCE} ${HEADERS})
 # Link the target to the GTK+ libraries
 target_link_libraries(cph ${GTK3_LIBRARIES} ${LIBGCRYPT_LIBS})
+
+install(TARGETS cph DESTINATION bin)
