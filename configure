@@ -8,14 +8,6 @@ case $@ in
     ;;
 esac
 
-pushd cmake &>/dev/null
-
-CWD="$(pwd)"
-
-cmake -DGTK="$GTK" ..
-
-popd &>/dev/null
-
-cp "$CWD"/Makefile ./
+cmake -DGTK="$GTK" .
 
 # vim:
