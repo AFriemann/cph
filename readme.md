@@ -14,7 +14,7 @@ An ebuild is available in my repository at
 
 https://bitbucket.org/afriemann/gentoo
 
-Simply add the file '/etc/profile/repos.conf/afriemann.conf'
+Simply add the file `/etc/profile/repos.conf/afriemann.conf`
 
 ```
 [afriemann]
@@ -43,7 +43,7 @@ Usage
 >     -c, --license      show license notice   
 >     -v, --version      show version   
 >     -a, --algorithm X  set hash algorithm, see readme for available options   
->     -e, --extended     use extended alphabet   
+>     -e, --extended     use baseE91 instead of base64   
 >     -l, --length N     set password length, default is 12   
 >   
 > input switches:   
