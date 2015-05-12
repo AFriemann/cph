@@ -7,10 +7,8 @@ the clipboard for a specefied amount of time.
 Installation
 ============
 
-> cd cmake   
-> cmake [-DGTK=ON] ..   
-> make   
-> cp bin/cph /usr/local/bin/cph   
+> ./configure [--enable-gtk]  
+> make && make install
 
 Requirements
 ============
