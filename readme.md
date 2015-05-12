@@ -31,8 +31,11 @@ Requirements
 
 - a c compiler
 - cmake/make
-- gtk3
 - libgcrypt
+
+Optional: 
+  
+- gtk3
 
 Usage
 =====
