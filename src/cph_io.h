@@ -22,6 +22,7 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #define DEFAULT_LENGTH 16
 #define IO_MAX 32
@@ -46,14 +47,6 @@ struct termios oflags, nflags;
 #error Platform not supported
 #endif
 
-#endif
-
-#ifndef TRUE
-#define FALSE 0
-#endif
-
-#ifndef FALSE
-#define TRUE (!FALSE)
 #endif
 
 #define EXIT_OK 0

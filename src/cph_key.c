@@ -46,7 +46,7 @@ char encode(char a)
 int buf_encode(char *buffer, char *string, const unsigned int string_size)
 {
     if (buffer == NULL || string == NULL) {
-        return FALSE;
+        return false;
     }
 
     int i;
@@ -55,7 +55,7 @@ int buf_encode(char *buffer, char *string, const unsigned int string_size)
         buffer[i] = encode(string[i]);
     }
 
-    return TRUE;
+    return true;
 }
 
 /**
@@ -76,7 +76,7 @@ int buf_encode(char *buffer, char *string, const unsigned int string_size)
 int zip_encode(char* buffer, char* string, const unsigned int string_size, const unsigned int length)
 {
     if (buffer == NULL || string == NULL) {
-        return FALSE;
+        return false;
     }
 
     // find optimal slice length
@@ -104,7 +104,7 @@ int zip_encode(char* buffer, char* string, const unsigned int string_size, const
     // encode string
     buf_encode(buffer, string, length);
 
-    return TRUE;
+    return true;
 }
 
 /**

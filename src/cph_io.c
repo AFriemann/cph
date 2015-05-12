@@ -43,7 +43,7 @@ int init_buffer(char **buffer, const unsigned int zero)
 int clear_buffer(char **buffer)
 {
     if (buffer == NULL) {
-        return FALSE;
+        return false;
     }
 
     memset(*buffer, 0, BUFFER_SIZE);
@@ -69,7 +69,7 @@ GtkEntryBuffer *gtk_buffer;
 int entry_callback(GtkWidget *widget, GdkEventKey *pKey, gpointer userdata)
 {
     g_signal_emit_by_name(dialog, "destroy");
-    return FALSE;
+    return false;
 }
 
 /**
@@ -134,7 +134,7 @@ const char* gtk_input(const char *prompt)
     GtkWidget *password_input = gtk_entry_new_with_buffer(gtk_buffer);
 
     gtk_window_set_title(GTK_WINDOW (dialog), prompt);
-    gtk_entry_set_visibility(GTK_ENTRY (password_input), FALSE);
+    gtk_entry_set_visibility(GTK_ENTRY (password_input), false);
     //gtk_entry_set_invisible_char(GTK_ENTRY (password_input), 0);
     gtk_entry_set_input_purpose(GTK_ENTRY (password_input), GTK_INPUT_PURPOSE_PASSWORD);
     gtk_entry_set_max_length(GTK_ENTRY (password_input), IO_MAX);
@@ -156,11 +156,11 @@ const char* gtk_input(const char *prompt)
  */
 int input(char* buffer, const char *name) {
     if (buffer == NULL || name == NULL) {
-        return FALSE;
+        return false;
     }
 
     if (strlen(buffer) != 0) {
-        return TRUE;
+        return true;
     }
 
     char prompt[128];
@@ -169,7 +169,7 @@ int input(char* buffer, const char *name) {
     // TODO this does not feel very safe.
     strcpy(buffer, gtk_input(prompt));
 
-    return TRUE;
+    return true;
 }
 
 #ifdef __linux
@@ -179,7 +179,7 @@ int input(char* buffer, const char *name) {
 int output(const char* buffer)
 {
     if (buffer == NULL) {
-        return FALSE;
+        return false;
     }
 
     gtk_init (0, NULL);
@@ -196,7 +196,7 @@ int output(const char* buffer)
 
     gtk_main();
 
-    return TRUE;
+    return true;
 }
 #else
 #error Platform not supported
@@ -212,11 +212,11 @@ int output(const char* buffer)
 int input(char* buffer, const char *name)
 {
     if (buffer == NULL || name == NULL) {
-        return FALSE;
+        return false;
     }
 
     if (strlen(buffer) != 0) {
-        return TRUE;
+        return true;
     }
 
     unsigned int i;
@@ -230,7 +230,7 @@ int input(char* buffer, const char *name)
 
     if (tcsetattr(fileno(stdin), TCSANOW, &nflags)) {
       perror("tcsetattr");
-      return FALSE;
+      return false;
     }
 
     printf("Please enter %s: ", name, stdout);
@@ -240,7 +240,7 @@ int input(char* buffer, const char *name)
         if (i < IO_MAX) {
             buffer[i++] = c;
         } else {
-            return FALSE;
+            return false;
         }
     }
 
@@ -251,10 +251,10 @@ int input(char* buffer, const char *name)
     // re-enable stdin echo
     if (tcsetattr(fileno(stdin), TCSANOW, &oflags)) {
       perror("tcsetattr");
-      return FALSE;
+      return false;
     }
 
-    return TRUE;
+    return true;
 }
 #else
 #error Platform not supported
@@ -263,7 +263,7 @@ int input(char* buffer, const char *name)
 int output(const char* buffer)
 {
     fprintf(stdout, "%s", buffer);
-    return TRUE;
+    return true;
 }
 
 #endif

@@ -21,9 +21,9 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 int init_buffers(void)
 {
     return
-      init_buffer(&word, FALSE) &&
-      init_buffer(&salt, FALSE) &&
-      init_buffer(&key_buffer, TRUE);
+      init_buffer(&word, false) &&
+      init_buffer(&salt, false) &&
+      init_buffer(&key_buffer, true);
 }
 
 int clear_buffers(void)
