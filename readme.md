@@ -76,6 +76,8 @@ Other available algorithms are: tiger, tiger1, tiger2, sha256, whirlpool
 Todo
 ====
 
+- **manually closing one of the windows should terminate the entire program**
+- manpage
 - windows and osx compatibility
 - qt version
 - enhance key algorithm?
