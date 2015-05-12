@@ -1,5 +1,5 @@
 *.o
-*/CMakeFiles/*
+CMakeFiles/*
 cmake/bin/*
 bin/*
 

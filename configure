@@ -1,0 +1,21 @@
+#!/bin/sh
+
+GTK="ON"
+
+case $@ in
+  --disable-gtk)
+    GTK="OFF"
+    ;;
+esac
+
+pushd cmake &>/dev/null
+
+CWD="$(pwd)"
+
+cmake -DGTK="$GTK" ..
+
+popd &>/dev/null
+
+cp "$CWD"/Makefile ./
+
+# vim:
