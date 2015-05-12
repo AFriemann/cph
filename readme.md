@@ -14,7 +14,7 @@ An ebuild is available in my repository at
 
 https://bitbucket.org/afriemann/gentoo
 
-Simply add the file /etc/profile/repos.conf/afriemann.conf
+Simply add the file '/etc/profile/repos.conf/afriemann.conf'
 
 ```
 [afriemann]
