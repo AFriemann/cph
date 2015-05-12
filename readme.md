@@ -71,7 +71,7 @@ Other available algorithms are: tiger, tiger1, tiger2, sha256, whirlpool
 #### Issues
 
 - hash without random seed might be too insecure, a piece of static personal information could be saved and used (e.g. birthdate)
-- long inputs result in core dumps (with or without GTK), this needs fixing.
+- long inputs result in core dumps (with or without GTK). Current fix is to "only" allow inputs with length <= 32 characters.
 
 Todo
 ====
