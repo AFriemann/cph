@@ -1,3 +1,4 @@
+*.o
 */CMakeFiles/*
 cmake/bin/*
 bin/*
