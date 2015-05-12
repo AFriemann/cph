@@ -1,0 +1,27 @@
+#!/bin/bash
+
+package_src () {
+  local TMP_DIR="cph-$1"
+
+  rm -rf "$TMP_DIR" && mkdir "$TMP_DIR"
+
+  cp -r src "$TMP_DIR"/
+
+  cp readme.md LICENSE "$TMP_DIR"/
+  cp CMakeLists.txt FindLibgcrypt.cmake configure "$TMP_DIR"/
+
+  tar -czf "$TMP_DIR".tar.gz "$TMP_DIR"
+
+  rm -rf "$TMP_DIR"
+}
+
+VERSION=$1
+TARGET=$2
+
+case $TARGET in
+  src)
+    package_src "$VERSION"
+    ;;
+  *)
+    echo "unknown target: $*"
+esac

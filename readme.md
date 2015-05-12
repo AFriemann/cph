@@ -93,6 +93,9 @@ Similar Projects
 Changelog
 =========
 
+##### v1.5.4
+- using stdbool instead of defines for boolean values
+
 ##### v1.5.3
 - added NULL pointer checks
 - added return value logic to some methods
