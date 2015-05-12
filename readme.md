@@ -10,6 +10,22 @@ Installation
 > ./configure [--enable-gtk]  
 > make && make install
 
+An ebuild is available in my repository at
+
+https://bitbucket.org/afriemann/gentoo
+
+Simply add the file /etc/profile/repos.conf/afriemann.conf
+
+```
+[afriemann]
+location = /usr/local/portage/afriemann
+sync-type = git
+sync-uri = https://bitbucket.org/afriemann/gentoo.git
+auto-sync = yes
+```
+
+and run emerge --sync afriemann
+
 Requirements
 ============
 
