@@ -1,5 +1,12 @@
 #!/bin/bash
 
+help() {
+    cat <<EOF
+usage: package VERSION TARGET
+    TARGET can be one of: package_src
+EOF
+}
+
 package_src () {
   local TMP_DIR="cph-$1"
 
@@ -18,10 +25,12 @@ package_src () {
 VERSION=$1
 TARGET=$2
 
+[ -z "$VERSION" -o -z "$TARGET" ] && help && exit 1
+
 case $TARGET in
   src)
     package_src "$VERSION"
     ;;
   *)
-    echo "unknown target: $*"
+    echo "unknown target: $*" && help && exit 1
 esac
