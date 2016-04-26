@@ -7,7 +7,7 @@ the clipboard for a specefied amount of time.
 Installation
 ============
 
-> ./configure [--enable-gtk]  
+> ./configure [--disable-gtk]  
 > make && make install
 
 An ebuild is available in my repository at
