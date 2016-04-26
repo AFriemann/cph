@@ -1,10 +1,10 @@
 #!/bin/sh
 
-GTK="ON"
+GTK="OFF"
 
 case $@ in
-  --disable-gtk)
-    GTK="OFF"
+  --enable-gtk)
+    GTK="ON"
     ;;
 esac
 
