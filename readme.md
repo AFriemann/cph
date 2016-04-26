@@ -87,6 +87,7 @@ Todo
 - variable clipboard timeout
 - more input strings?
 - config file and wizard?
+- copying to selection might leak passwords
 
 Similar Projects
 ================
@@ -95,6 +96,9 @@ Similar Projects
 
 Changelog
 =========
+
+##### v1.5.5
+- moved buffer initialization functions to cph_memory files
 
 ##### v1.5.4
 - using stdbool instead of defines for boolean values
