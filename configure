@@ -2,11 +2,13 @@
 
 GTK="OFF"
 
-case $@ in
-  --enable-gtk)
-    GTK="ON"
-    ;;
-esac
+for arg in $@; do
+    case $arg in
+      --enable-gtk)
+        GTK="ON"
+        ;;
+    esac
+done
 
 cmake -DGTK="$GTK" .
 
