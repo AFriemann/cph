@@ -28,12 +28,14 @@ set(SOURCE
     src/cph.c
     src/cph_args.c
     src/cph_io.c
+    src/cph_memory.c
     src/cph_key.c)
 
 set(HEADERS
     src/cph.h
     src/cph_args.h
     src/cph_io.h
+    src/cph_memory.h
     src/cph_key.h)
 
 # There are lots of scripts with cmake for finding external libraries.

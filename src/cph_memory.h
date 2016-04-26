@@ -16,42 +16,19 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see [http://www.gnu.org/licenses/].
 */
 
-#ifndef CPH_IO
-#define CPH_IO
+#ifndef CPH_MEMORY
+#define CPH_MEMORY
 
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
+#ifdef __linux
+#include <sys/mman.h>
+#endif
 
-#define DEFAULT_LENGTH 16
+#include "cph_io.h"
+
 #define IO_MAX 32
 #define BUFFER_SIZE (IO_MAX + 1) * sizeof (char)
 
-#ifdef GTK
-
-#include <gtk-3.0/gtk/gtk.h>
-#include <gdk/gdkkeysyms.h>
-#define CLIPBOARD_TIMEOUT 10000
-
-#else
-
-#ifdef __linux
-#include <termios.h>
-struct termios oflags, nflags;
-#else
-#error Platform not supported
-#endif
-
-#endif
-
-#define EXIT_OK 0
-#define EXIT_MEM_ERR 1
-#define EXIT_INPUT_ERR 2
-#define EXIT_LIBGRCYPT_ERR 3
-#define EXIT_KEY_ERROR 4
-
-int input(char *buffer, const char *name);
-int output(const char *buffer);
+int init_buffer(char **buffer, const unsigned int zero);
+int clear_buffer(char **buffer);
 
 #endif

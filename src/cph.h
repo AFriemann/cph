@@ -27,6 +27,7 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 #include "cph_args.h"
 #include "cph_key.h"
 #include "cph_io.h"
+#include "cph_memory.h"
 
 static char *word;
 static char *salt;

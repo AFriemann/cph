@@ -18,45 +18,6 @@ along with this program.  If not, see [http://www.gnu.org/licenses/].
 
 #include "cph_io.h"
 
-#ifdef __linux
-
-/**
- * This method will allocate memory (which can be set to 0 if zero != 0) and
- * lock the buffer in ram.
- */
-int init_buffer(char **buffer, const unsigned int zero)
-{
-    if (zero) {
-        // TODO this is ugly..
-        *buffer = calloc(IO_MAX + 1, sizeof(char));
-    } else {
-        *buffer = malloc(BUFFER_SIZE);
-    }
-
-    // mlock returns zero on success, therefore negated return
-    return !mlock(*buffer, BUFFER_SIZE);
-}
-
-/**
- * This method will set buffer content to 0 and then free and unlock it.
- */
-int clear_buffer(char **buffer)
-{
-    if (buffer == NULL) {
-        return false;
-    }
-
-    memset(*buffer, 0, BUFFER_SIZE);
-    free(*buffer);
-
-    // munlock returns zero on success, therefore negated return
-    return !munlock(*buffer, BUFFER_SIZE);
-}
-
-#else
-#error Platform not supported
-#endif
-
 #ifdef GTK
 
 GtkWidget *dialog;
